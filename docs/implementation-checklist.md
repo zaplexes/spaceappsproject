@@ -102,8 +102,9 @@
 
 ## 8. Security, release, and server management
 
-- [ ] Agree hosting provider, region, ownership, domain, budget, and any deployment authorization.
+- [x] Agree hosting provider, region, ownership, domain, budget, and any deployment authorization.
 - [ ] Separate development, staging, and production configuration; provide example environment variables.
+- [x] Prepare and verify the static GitHub Pages build, repository-relative asset paths, and deployment workflow.
 - [ ] Apply HTTPS, private database access, least privilege, secret management, and restricted cross-origin access.
 - [ ] Validate requests, parameterize SQL, and restrict remotely fetched data sources.
 - [ ] Protect administrative operations and enforce object authorization if shared saved plans are introduced.
@@ -112,7 +113,7 @@
 - [ ] Configure budget/quota monitoring, processing caps, and an upstream-outage demo fallback.
 - [ ] Establish backups, retention, recovery targets, and a tested restore procedure.
 - [ ] Document troubleshooting, data refresh, incident handling, and rollback procedures.
-- [ ] Run relevant automated checks and staging smoke checks before an authorized release.
+- [x] Run relevant automated checks and staging smoke checks before an authorized release.
 - [ ] Verify the deployed version and record remaining limitations if deployment is authorized.
 
 ## 9. Competition submission and handoff
@@ -247,3 +248,15 @@ Initial state: no implementation was verified before the work recorded below. Ex
 - `npm run build`, `npm run lint`, `npm run format:check` passed. `npm test`: **24 passed, 1 intentionally skipped** live-network test. Four new geology interaction checks cover legend/source links, warning/scale, opacity, camera-dependent extent and stop focus, mutually exclusive colour layers, loading/failure/retry, late results and keyboard/mobile/WebGL fallback. Existing 20 checks remain passing. After final categorical texture filtering, the focused geology suite passed again (**4 passed**).
 - `npm run test:live`: **1 passed** with real NASA orbital tiles, both local colour overlays, no uncaught page errors and no mobile horizontal overflow. Refreshed the four existing preview/elevation screenshots and added `docs/geology-desktop.png` / `docs/geology-mobile.png`; visually inspected the new geology captures with the unit legend open. Browser verification remains Chromium/software WebGL; hardware GPU and Firefox remain unverified. Existing Cesium renderer-size warning remains (~4.24 MB minified / 1.15 MB gzip).
 - Updated README, source notes, brief status and `docs/geology-processing.md` with reproducible setup/build/check commands, source limitations and view instructions. DOCX unchanged. No account, credential, cloud service, charges, deployment or push was introduced. Refresh http://127.0.0.1:5174/ and enable “Jezero regional geology”; open “Geological units (14)” for the legend.
+
+
+### 2026-11-11 — GitHub Pages publication preparation and blank-page fix
+
+- User requested GitHub hosting, superseding the earlier no-deployment scope for this static Pages release only. The repository initially returned 404 through the unauthenticated API and the user identified it as private/GitHub Free. A later API check confirmed `zaplexes/spaceappsproject` is now public, default branch `master`, Pages enabled. Repository visibility was not changed by the agent. User screenshots show Source changed to **GitHub Actions**, custom domain empty and default HTTPS URL https://zaplexes.github.io/spaceappsproject/. Standard public-repository Pages hosting is the accepted zero-paid-service scope; no account upgrade, custom domain or backend was introduced.
+- Confirmed the blank-page cause by fetching the existing public HTML: it served the source `index.html` requesting `/src/main.tsx`. The root-branch publishing path did not compile the app and the original root-relative Cesium/photo/overlay URLs were unsuitable for the repository prefix. A “site is live” message alone did not verify a usable application.
+- Added validated `MARTIAN_MAP_BASE_PATH` configuration, default `/`, and a non-secret `.env.example`. Vite bundles and Cesium share the configured base; local stop photographs, geology and elevation resolve through the same prefix without editing scientific manifest asset identities. Local development retains its normal root URL. No science records, source data or scientific constraints changed.
+- Added `.github/workflows/pages.yml`: official action commits verified against their remote tags; read-only build permissions, Pages/OIDC write permissions limited to the dependent deploy job, Node from `.nvmrc`, locked install, lint/format, build, browser hosting smoke check, `dist/` artifact only and one-day retention. It runs on master source pushes or manual dispatch; docs-only changes do not redeploy. No personal token or application secret is used. GitHub Pages uses its service-managed region/HTTPS endpoint; no server-region selection applies to this static scope.
+- Verification: `npm run test:pages` passed (**1 browser smoke check**) with the production build served under `/spaceappsproject/` on port 4175. It loaded the actual globe, all three local photos, elevation, geology and Cesium worker/metadata resources, with no local asset escaping the prefix, HTTP failures or uncaught page errors. NASA tile responses were intercepted; this is path/runtime verification, not remote NASA availability verification.
+- Restored a root build with `npm run build`; it passed. `npm run lint` and `npm run format:check` passed. `npm test`: **25 passed, 1 intentionally skipped** live-network test, including the new hosting smoke check at `/`. Existing 24 checks remain passing. Existing Cesium chunk-size warning remains. Python pipelines were unchanged and not rerun.
+- Added `playwright.pages.config.ts`, hosting check command, README and `docs/github-pages.md` setup/troubleshooting instructions. The source/deployment issue and custom-domain distinction are documented. GitHub account/environment settings remain external prerequisites; the user screenshot confirms the publishing-source change. No suggested Jekyll/Static HTML workflow is needed.
+- Tracker: static hosting choice, bounded Pages preparation and relevant pre-release checks are complete. Full server/security/staging requirements remain unchecked where outside this static scope. **Deployed-version verification remains unchecked until the workflow is pushed, succeeds remotely and the live compiled application is exercised.** The prior blank deployment is not counted as completion.

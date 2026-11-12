@@ -1,3 +1,4 @@
+import { localAssetUrl } from '../data/asset-url';
 import {
   Ellipsoid,
   Rectangle,
@@ -42,7 +43,7 @@ export function createGeologyOverlay(
     const current = ++request;
     status = 'loading';
     report();
-    SingleTileImageryProvider.fromUrl(geology.assetUrl, {
+    SingleTileImageryProvider.fromUrl(localAssetUrl(geology.assetUrl), {
       rectangle: Rectangle.fromDegrees(
         ...(geology.bounds as [number, number, number, number]),
       ),

@@ -18,7 +18,7 @@ npm run build
 npm run preview
 ```
 
-The production preview opens at **http://127.0.0.1:4173**. Cesium worker/static assets are copied locally on install, dev and build into ignored `assets/cesium/`. No application deployment is configured.
+The production preview opens at **http://127.0.0.1:4173**. Cesium worker/static assets are copied locally on install, dev and build into ignored `assets/cesium/`. GitHub Pages publishing is configured in `.github/workflows/pages.yml`; see the hosting instructions below.
 
 ## What is implemented
 
@@ -68,3 +68,9 @@ View the [elevation overlay on desktop](docs/elevation-desktop.png) or [mobile](
 See [stop evidence and position review](docs/stop-evidence.md) for image provenance, the rover-frame versus drill-point distinction, reproducible PDS audit commands and outstanding placement blockers. Surface photos are served locally; orbital imagery still needs internet access.
 
 Enable **Jezero regional geology** for the USGS SIM 3464 interpretation, then open **Geological units (14)**. USGS reports offsets of about 100–200 m from the controlled CTX imagery; alignment remains unverified. Transparent areas are unclassified or withheld. Geology and elevation colours are viewed one at a time. See [geology processing and limitations](docs/geology-processing.md) for source QA, reproduction commands and [desktop](docs/geology-desktop.png)/[mobile](docs/geology-mobile.png) screenshots.
+
+## GitHub Pages
+
+The intended public URL is **https://zaplexes.github.io/spaceappsproject/**. Select **Settings → Pages → Source → GitHub Actions** and leave **Custom domain** empty. The included workflow builds the Vite app and deploys only `dist/`; publishing the source branch root causes a blank page. Remote publication is complete only after the Actions build/deploy jobs and the public-site smoke check succeed.
+
+`npm run test:pages` verifies the `/spaceappsproject/` build, including Cesium, photographs and both local overlays. `MARTIAN_MAP_BASE_PATH` controls the public prefix; `.env.example` contains its non-secret default. Ordinary local development stays at `/`. See [hosting setup and troubleshooting](docs/github-pages.md) for the exact workflow, permissions and verification steps.

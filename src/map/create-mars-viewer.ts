@@ -1,3 +1,4 @@
+import { localAssetUrl } from '../data/asset-url';
 import {
   Cartesian3,
   Color,
@@ -121,7 +122,7 @@ export function createMarsViewer(
     const request = ++elevationRequest;
     elevationStatus = 'loading';
     reportElevation();
-    SingleTileImageryProvider.fromUrl(elevation.assetUrl, {
+    SingleTileImageryProvider.fromUrl(localAssetUrl(elevation.assetUrl), {
       rectangle: Rectangle.fromDegrees(
         ...(elevation.bounds as [number, number, number, number]),
       ),

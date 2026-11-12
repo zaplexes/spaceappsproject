@@ -2,6 +2,7 @@ import { useState } from 'react';
 import images from '../../data/manifests/surface-images.json' with { type: 'json' };
 import review from '../../data/manifests/sample-location-review.json' with { type: 'json' };
 import type { ScienceStop } from '../data/stops';
+import { localAssetUrl } from '../data/asset-url';
 
 export function StopEvidence({ stop }: { stop: ScienceStop }) {
   const [imageState, setImageState] = useState<'loading' | 'ready' | 'error'>(
@@ -29,7 +30,7 @@ export function StopEvidence({ stop }: { stop: ScienceStop }) {
             >
               <img
                 key={attempt}
-                src={`${image.assetUrl}${attempt ? `?retry=${attempt}` : ''}`}
+                src={`${localAssetUrl(image.assetUrl)}${attempt ? `?retry=${attempt}` : ''}`}
                 alt={image.alt}
                 width={image.width}
                 height={image.height}
