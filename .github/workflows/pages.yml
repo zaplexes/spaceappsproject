@@ -34,8 +34,14 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Refresh the official Mars named-feature catalogue
+        run: npm run refresh:catalog
       - run: npm run lint
       - run: npm run format:check
+      - name: Verify retained scientific metadata and display assets
+        run: npm run check:data
+      - name: Verify catalogue import constraints
+        run: python3 -m unittest discover -s tests/catalog -v
       - name: Build for the configured Pages URL
         run: npm run build
         env:

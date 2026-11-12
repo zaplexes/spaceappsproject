@@ -60,10 +60,4 @@ export const stops: readonly ScienceStop[] = [
       'A sedimentary sampling feature in the delta front. NASA links the Shuyak and Mageik rock cores to this feature.',
   },
 ];
-export const initialMission = {
-  goal: null,
-  base: null,
-  mobility: 'walking',
-  vehicleSupport: false,
-  robotSupport: false,
-} as const;
+export { initialMission } from './mission';

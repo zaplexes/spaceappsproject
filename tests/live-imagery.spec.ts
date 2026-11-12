@@ -26,8 +26,38 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
     timeout: 60000,
   });
   expect(tiles.some((url) => url.includes('JEZ_ctx_B_soc_008'))).toBe(true);
+  await expect(page.getByText('Jezero HiRISE imagery: loaded')).toBeVisible({
+    timeout: 60000,
+  });
+  expect(tiles.some((url) => url.includes('JEZ_hirise_soc_006'))).toBe(true);
+  const selectedDetail = page.waitForResponse(
+    (response) =>
+      response.url().includes('/JEZ_hirise_soc_006_') &&
+      response.url().endsWith('.png') &&
+      response.ok(),
+  );
+  const selectedImagery = page.waitForResponse(
+    (response) =>
+      response
+        .url()
+        .includes('/JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0/') &&
+      response.url().endsWith('.png') &&
+      response.ok(),
+  );
   await page.getByRole('button', { name: /Wildcat Ridge/ }).click();
+  await selectedImagery;
+  await selectedDetail;
+  await expect(page.getByText('Jezero HiRISE imagery: loaded')).toBeVisible({
+    timeout: 60000,
+  });
+  await expect(page.getByTestId('candidate-highlight')).toBeVisible();
+  await expect(page.getByTestId('candidate-warning')).toContainText(
+    'Approximate / unverified location',
+  );
   await expect(page.locator('.surface-reference img')).toBeVisible();
+  await page
+    .getByRole('region', { name: 'Jezero map', exact: true })
+    .screenshot({ path: 'docs/candidate-highlight-live.png' });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/preview-desktop.png', fullPage: true });
   await page.getByRole('button', { name: 'Mars globe', exact: true }).click();
@@ -56,10 +86,63 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   await page.setViewportSize({ width: 390, height: 844 });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/geology-mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.getByLabel('Jezero estimated slope', { exact: false }).check();
+  await expect(page.getByTestId('slope-status')).toContainText('loaded');
+  await expect(
+    page.getByLabel('Jezero regional geology', { exact: false }),
+  ).not.toBeChecked();
+  await page.getByRole('button', { name: /Wildcat Ridge/ }).click();
+  await page.screenshot({ path: 'docs/slope-desktop.png', fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: 'docs/slope-mobile.png', fullPage: true });
+  await page
+    .getByRole('region', { name: 'Jezero map', exact: true })
+    .screenshot({ path: 'docs/slope-map-mobile.png' });
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
+  expect(errors).toEqual([]);
+  await expect(page.getByLabel('Scientific goal')).toHaveValue('ancient-water');
+  await page.getByLabel('Exploration mode').selectOption('crewed-vehicle');
+  await expect(page.getByTestId('active-mobility')).toHaveText(
+    'Astronauts in a crew vehicle',
+  );
+  await page
+    .locator('.mission-panel')
+    .screenshot({ path: 'docs/mission-vehicle.png' });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.getByLabel('Exploration mode').selectOption('robotic-rover');
+  await expect(page.getByTestId('active-mobility')).toHaveText(
+    'Robotic ground rover',
+  );
+  await page
+    .locator('.mission-panel')
+    .screenshot({ path: 'docs/mission-rover.png' });
+  await page.getByLabel('Jezero estimated slope', { exact: false }).uncheck();
+  const catalogue = page.getByRole('region', {
+    name: 'Mars feature catalogue',
+  });
+  await catalogue.getByText('Discover Mars features', { exact: true }).click();
+  await catalogue.getByLabel('Search features').fill('Gale');
+  await catalogue.getByRole('button', { name: /^Gale / }).click();
+  const feature = page.getByRole('region', {
+    name: 'Catalogue feature details',
+  });
+  await feature
+    .getByRole('button', { name: 'Add candidate science stop' })
+    .click();
+  await expect(page.getByText('Global MOC imagery: loaded')).toBeVisible({
+    timeout: 60000,
+  });
+  await expect(page.getByTestId('candidate-highlight')).toBeVisible();
+  await expect(page.getByTestId('candidate-warning')).toContainText(
+    'Catalogue centre',
+  );
+  await page
+    .getByRole('region', { name: 'Mars discovery map' })
+    .screenshot({ path: 'docs/catalogue-live.png' });
   expect(errors).toEqual([]);
 });

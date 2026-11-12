@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-test('each list-only stop has an intact NASA image and unresolved position evidence', () => {
+test('each candidate stop has an intact NASA image and unresolved position evidence', () => {
   expect(images.images).toHaveLength(stops.length);
   expect(new Set(images.images.map((image) => image.stopId)).size).toBe(
     stops.length,
@@ -86,7 +86,7 @@ test('each selected stop shows its own photo, credit, capture context and PDS do
     ).toHaveAttribute('href', image.sourceImageUrl);
     await page.getByText('Review position evidence', { exact: true }).click();
     await expect(
-      page.getByText(/These values are not approved for map placement/),
+      page.getByText(/These values are not verified drill positions/),
     ).toBeVisible();
     await expect(
       page.getByRole('link', {

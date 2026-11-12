@@ -14,6 +14,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "lint": "eslint .",
+    "check:data": "python3 pipelines/catalog/check_sources.py",
+    "refresh:catalog": "python3 pipelines/catalog/import_nomenclature.py",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "playwright test",

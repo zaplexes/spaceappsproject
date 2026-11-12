@@ -14,8 +14,8 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-test('science constraints: unknown positions, no goal or assumed base', () => {
-  expect(initialMission.goal).toBeNull();
+test('science constraints: confirmed goal, unknown positions and no assumed base', () => {
+  expect(initialMission.goal).toBe('ancient-water');
   expect(initialMission.base).toBeNull();
   expect(initialMission.mobility).toBe('walking');
   expect(stops).toHaveLength(3);
@@ -31,7 +31,7 @@ test('science constraints: unknown positions, no goal or assumed base', () => {
   ).toBe(619);
 });
 
-test('stop selection, pending mission settings, support and layer controls', async ({
+test('stop selection, confirmed goal, exploration mode and layer controls', async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -56,18 +56,17 @@ test('stop selection, pending mission settings, support and layer controls', asy
       page.getByText('Location not yet verified', { exact: true }),
     ).toBeVisible();
   }
-  await expect(page.getByLabel('Scientific goal')).toHaveValue('');
+  await expect(page.getByLabel('Scientific goal')).toHaveValue('ancient-water');
   await expect(
     page.getByRole('button', { name: 'Compare stops' }),
   ).toBeDisabled();
-  await page.getByLabel('Crew vehicle', { exact: true }).check();
-  await expect(
-    page.getByText(
-      'Interest recorded for this session; capabilities undefined',
-    ),
-  ).toBeVisible();
+  await page.getByLabel('Exploration mode').selectOption('crewed-vehicle');
+  await expect(page.getByTestId('active-mobility')).toHaveText(
+    'Astronauts in a crew vehicle',
+  );
   await page.getByLabel('Global MOC imagery').uncheck();
   await page.getByLabel('Jezero CTX imagery').uncheck();
+  await page.getByLabel('Jezero HiRISE imagery').uncheck();
   await expect(
     page.getByText('Imagery off · smooth reference globe'),
   ).toBeVisible();
@@ -115,8 +114,10 @@ test('narrow layout preserves access to stops, mission settings and sources', as
   await expect(
     page.getByRole('heading', { name: 'Wildcat Ridge', exact: true }),
   ).toBeVisible();
-  await page.getByLabel('Robotic system').check();
-  await expect(page.getByLabel('Robotic system')).toBeChecked();
+  await page.getByLabel('Exploration mode').selectOption('robotic-rover');
+  await expect(page.getByLabel('Exploration mode')).toHaveValue(
+    'robotic-rover',
+  );
   await expect(
     page.getByRole('link', { name: 'NASA media usage guidelines' }),
   ).toBeVisible();
@@ -220,17 +221,12 @@ test('imagery loading is visible before requests finish', async ({ page }) => {
   await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible();
 });
 
-test('left-panel stop selection returns the rendered globe to Jezero, including reselection', async ({
+test('left-panel selection focuses the rendered map on the candidate, including reselection', async ({
   page,
 }) => {
   await page.goto('/');
   await expect(page.locator('canvas')).toBeVisible();
-  await page.getByRole('button', { name: /Skinner Ridge/ }).click();
-  await expect(page.locator('.surface-reference img')).toBeVisible();
-  await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible();
   const canvas = page.locator('canvas');
-  // Inspect the real rendered corner: regional imagery fills it; the globe
-  // leaves space there. This verifies camera movement rather than React state.
   const corner = () =>
     canvas.evaluate((element: HTMLCanvasElement) => {
       const gl = element.getContext('webgl2') ?? element.getContext('webgl');
@@ -239,17 +235,24 @@ test('left-panel stop selection returns the rendered globe to Jezero, including 
       gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, rgba);
       return Array.from(rgba);
     });
-  await expect.poll(corner).not.toEqual([0, 0, 0, 0]);
-  const regionalCorner = await corner();
+  await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible();
+  const initialCorner = await corner();
+  await page.getByRole('button', { name: 'Mars globe', exact: true }).click();
+  await expect.poll(corner).not.toEqual(initialCorner);
+  const globalCorner = await corner();
   for (const stop of [stops[0], stops[1], stops[2], stops[2]]) {
     await page.getByRole('button', { name: 'Mars globe', exact: true }).click();
-    await expect.poll(corner).not.toEqual(regionalCorner);
+    await expect.poll(corner).toEqual(globalCorner);
     const button = page.getByRole('button', { name: new RegExp(stop.name) });
     await button.focus();
     await page.keyboard.press('Enter');
     await expect(button).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.surface-reference img')).toBeVisible();
-    await expect.poll(corner).toEqual(regionalCorner);
+    await expect.poll(corner).not.toEqual(globalCorner);
+    await expect(page.getByTestId('candidate-highlight')).toBeVisible();
+    await expect(page.getByTestId('candidate-warning')).toContainText(
+      stop.name,
+    );
     await expect(
       page.getByText('Location not yet verified', { exact: true }),
     ).toBeVisible();

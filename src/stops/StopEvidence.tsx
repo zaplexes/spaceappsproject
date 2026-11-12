@@ -81,7 +81,9 @@ export function StopEvidence({ stop }: { stop: ScienceStop }) {
         <strong>Location not yet verified</strong>
         <p>
           A sampling site, rover position and exact drill point are different
-          locations. No marker or route is inferred from a rover-frame position.
+          locations. The map highlights the published candidate position as an
+          approximate visual reference. Latitude convention and accuracy remain
+          unverified; no route is inferred.
         </p>
         {position && (
           <details className="location-review">
@@ -89,7 +91,9 @@ export function StopEvidence({ stop }: { stop: ScienceStop }) {
             <p>
               Reported in the sample dossier: {position.reportedLatitudeNorth}°
               N, {position.reportedLongitudeEast}° E. These values are not
-              approved for map placement.
+              verified drill positions. For the approximate highlight, these
+              reported degrees are shown on the shared Mars display sphere
+              without a verified latitude conversion.
             </p>
             <p>{review.reviewSummary}</p>
             <p>

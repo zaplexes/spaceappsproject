@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "reviewDateUtc": "2026-11-12",
+  "checksumScope": "Retained metadata only; live WMTS tile bytes and original source mosaics are not pinned.",
+  "rights": "Retain NASA/JPL/MSSS or NASA/JPL-Caltech/USGS credits as applicable; consult NASA and JPL media policies.",
+  "rightsUrls": [
+    "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "https://www.jpl.nasa.gov/jpl-image-use-policy/"
+  ],
+  "sources": [
+    {
+      "layerId": "global",
+      "productId": "msss_atlas_simp_clon",
+      "sourcePublicationDate": null,
+      "sourceVersion": null,
+      "sourceResolutionMetresPerPixel": null,
+      "resolutionNote": "Source mosaic resolution is not established by the reviewed catalog; its zero Resolution field is not treated as a measurement.",
+      "dateNote": "Catalog data_created_date describes the catalog record, not an image acquisition or source publication date. The description identifies primarily May\u2013June 1999 MOC red images.",
+      "coordinateNote": "Service declares a Mars geographic grid, EPSG:104905. Its catalog lacks a full sphere definition; display uses the shared Mars sphere, not an independently verified MOC analysis CRS.",
+      "snapshots": [
+        {
+          "kind": "capabilities",
+          "url": "https://trek.nasa.gov/tiles/Mars/EQ/msss_atlas_simp_clon/1.0.0/WMTSCapabilities.xml",
+          "path": "data/manifests/imagery-moc-capabilities.xml",
+          "sha256": "88697f6d1bc4961798f70f3eaf4ec2537c65448c9863d576e43b8f2fb6e89987",
+          "bytes": 6641
+        },
+        {
+          "kind": "catalog",
+          "url": "https://trek.nasa.gov/mars/TrekServices/ws/index/eq/searchItems?start=0&rows=1&facetKeys=productLabel&facetValues=msss_atlas_simp_clon",
+          "path": "data/manifests/imagery-moc-catalog.json",
+          "sha256": "7d9d2b62296e680a1c0b9c40d9b7f3ddc24d6344f73f93b74218f621bff2336f",
+          "bytes": 6030
+        }
+      ],
+      "name": "Global MOC imagery",
+      "mission": "Mars Global Surveyor \u00b7 MOC",
+      "credit": "NASA/JPL/MSSS \u00b7 NASA Trek",
+      "maxLevel": 6,
+      "extent": [-179.9999885, -89.9999958, 179.9999862, 89.9999916]
+    },
+    {
+      "layerId": "jezero",
+      "productId": "JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0",
+      "sourcePublicationDate": null,
+      "sourceVersion": null,
+      "sourceResolutionMetresPerPixel": 6,
+      "resolutionNote": "Nominal source resolution approximately 6 metres/pixel, from the catalog description; delivered tile detail depends on zoom.",
+      "dateNote": "Catalog data_created_date is not an image acquisition or source publication date. Individual image dates are not established here.",
+      "coordinateNote": "Catalog defines a 3396190-metre Mars sphere and equirectangular source projection. WMTS uses the Mars geographic display grid, EPSG:104905.",
+      "snapshots": [
+        {
+          "kind": "capabilities",
+          "url": "https://trek.nasa.gov/tiles/Mars/EQ/JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0/1.0.0/WMTSCapabilities.xml",
+          "path": "data/manifests/imagery-ctx-capabilities.xml",
+          "sha256": "bb58f640da78bcc404a9109f613f2b3f0e3e683ff6625e8f48dcb23e602813b8",
+          "bytes": 8810
+        },
+        {
+          "kind": "catalog",
+          "url": "https://trek.nasa.gov/mars/TrekServices/ws/index/eq/searchItems?start=0&rows=1&facetKeys=productLabel&facetValues=JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0",
+          "path": "data/manifests/imagery-ctx-catalog.json",
+          "sha256": "f60688e41bba8ee7acceb19be68303226b22cf7ea16c120e02b5842a989bf69d",
+          "bytes": 7073
+        }
+      ],
+      "name": "Jezero CTX imagery",
+      "mission": "Mars Reconnaissance Orbiter \u00b7 CTX",
+      "credit": "NASA/JPL-Caltech/USGS \u00b7 NASA Trek",
+      "maxLevel": 13,
+      "extent": [77.1604655, 18.2110274, 77.6991776, 18.7211945]
+    },
+    {
+      "layerId": "hirise",
+      "productId": "JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd",
+      "sourcePublicationDate": null,
+      "sourceVersion": null,
+      "sourceResolutionMetresPerPixel": null,
+      "resolutionNote": "Catalog resolution field: 0.0000039 (units not established by this record). Product identifier describes a 25 cm orthomosaic; delivered detail depends on zoom and positioning accuracy remains unverified.",
+      "dateNote": "Catalog data_created_date is not an acquisition or scientific publication date. Individual image dates are not established here.",
+      "coordinateNote": "Catalog defines a geographic sphere of radius 3396190 metres; WMTS declares the Mars geographic display grid EPSG:104905. Independent layer alignment remains unverified.",
+      "name": "Jezero HiRISE imagery",
+      "mission": "Mars Reconnaissance Orbiter \u00b7 HiRISE",
+      "credit": "NASA/JPL-Caltech/University of Arizona/USGS \u00b7 NASA Trek",
+      "maxLevel": 17,
+      "extent": [77.2229331, 18.3067994, 77.583964, 18.669315],
+      "snapshots": [
+        {
+          "kind": "capabilities",
+          "url": "https://trek.nasa.gov/tiles/Mars/EQ/JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd/1.0.0/WMTSCapabilities.xml",
+          "path": "data/manifests/imagery-hirise-capabilities.xml",
+          "sha256": "6a67af4f3e79ed8bf5e625b60d4b9250533f38a8f61e98758410ff8ad9213693",
+          "bytes": 10037
+        },
+        {
+          "kind": "catalog",
+          "url": "https://trek.nasa.gov/mars/TrekServices/ws/index/eq/searchItems?start=0&rows=1&facetKeys=productLabel&facetValues=JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd",
+          "path": "data/manifests/imagery-hirise-catalog.json",
+          "sha256": "136b9db85c57282657b7ddcb0a392ec4bf360676f245c6415732f82186707e79",
+          "bytes": 6386
+        }
+      ],
+      "availabilityProbe": {
+        "checkedDateUtc": "2026-11-12",
+        "url": "https://trek.nasa.gov/tiles/Mars/EQ/JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd/1.0.0/default/default028mm/17/52094/187437.png",
+        "httpStatus": 200,
+        "contentType": "image/png",
+        "corsAllowOrigin": "*",
+        "width": 256,
+        "height": 256,
+        "sha256": "9f1ef6de7e3ab4bc8884483f6d53418cd41bfaec090e669e6b11f8070eb29f1e",
+        "bytes": 39073,
+        "scope": "Point-in-time representative tile; not an archive of the complete mosaic. Tile bytes not retained in Git."
+      }
+    }
+  ]
+}

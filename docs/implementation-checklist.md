@@ -2,11 +2,12 @@
 
 ## How the agent must use this checklist
 
+- Track unanswered team choices in [team-decisions.md](team-decisions.md); keep them distinct from implementation and evidence-verification tasks.
 - Use `[ ]` for unfinished work and `[x]` only for completed, verified work. The existing briefs are proposals, not proof of implementation.
 - Update this file after each completed milestone. Record relevant commands, results, limitations, and changed scope in the progress log below.
 - For blocked items, keep the box unchecked and state the blocker in the progress log. Ask specific questions; do not invent an answer.
 - Complete work in milestone order. Begin with milestone 1 only; later sections describe the full intended scope and do not authorize paid services or deployment.
-- A scientific goal, scoring weights, exact base coordinates, and equipment capabilities remain undecided. Do not choose them silently.
+- The ancient-water investigation is the agreed scientific goal. Scoring weights, exact base coordinates, and equipment capabilities remain undecided. Do not choose them silently.
 - Mark optional items explicitly deferred with the user's agreement; do not mark deferred work complete.
 
 ## 0. Readiness and essential decisions
@@ -23,9 +24,10 @@
 - [x] Scaffold the frontend with reproducible dependencies and a lockfile.
 - [x] Render an interactive Mars globe with the correct planetary geometry and a Jezero initial view.
 - [x] Provide responsive map, layer controls, science-stop list, information panel, and mission settings.
-- [x] Keep the scientific goal null/unselected and ranking unavailable until a goal is defined.
+- [x] Display the explicitly agreed scientific goal and keep ranking unavailable while required mission assumptions and evidence remain undefined.
 - [x] Add source-linked records for Skinner Ridge, Wildcat Ridge, and Amalik from verified sources.
-- [ ] Verify candidate stop coordinates before placing geographic markers; keep unverified stops in a list.
+- [ ] Verify exact stop coordinates before placing definitive geographic markers; keep approximate display references visibly unverified.
+- [x] Highlight the selected stop at its published candidate position with the user-approved approximate/unverified warning and source link; keep verified coordinates separate.
 - [x] Implement selection between the stop list, information panel, and any verified markers.
 - [x] Include clear loading, unavailable-data, imagery-failure, and unsupported-WebGL states.
 - [x] Support keyboard-accessible controls and readable narrow-screen layouts.
@@ -37,23 +39,27 @@
 
 - [x] Identify specific products from multiple NASA missions and record their scientific contribution.
 - [ ] Record product IDs, URLs, citations, rights, dates, versions, checksums, footprints, and resolution.
+- [x] Add a shared registry for the ten current map/reference products, retain reviewed imagery service metadata, expose metadata unknowns, and verify retained files locally and in the Pages build.
 - [ ] Normalize Mars coordinate systems, longitude conventions, latitude definitions, units, and height datums.
 - [ ] Obtain and align appropriate imagery, elevation, and geological/mineralogical evidence.
 - [ ] Check nodata, spatial alignment, coverage, and resolution before combining datasets.
 - [x] Provide functional layer toggles, legends, provenance, and coverage indicators.
 - [x] Add a source-verified USGS regional geology display with unit legend, explicit unknown areas, provenance, and the accepted alignment warning.
-- [ ] Distinguish orbital observations, rover measurements, and derived interpretations.
+- [x] Prioritize controlled HiRISE imagery over CTX where available, with retained metadata, independent toggles, extent, loading/failure states and retry.
+- [x] Add an exploratory DEM slope display with a documented Mars gradient method, degree legend, unknown edges/gaps, provenance and no route-eligibility claim.
+- [x] Distinguish orbital observations, rover measurements, and derived interpretations.
 - [ ] Preserve raw snapshots and reproducible processing manifests; keep bulk assets outside Git.
 - [x] Separate visual terrain assets from analysis rasters and expose their limitations.
 
 ## 3. Scientific mission and local stops
 
-- [ ] Ask the team to select the scientific goal before implementing goal-dependent scoring.
+- [x] Agree the scientific goal with the team before implementing goal-dependent scoring.
 - [ ] Confirm a simulated local base, supported study area, and verified stop locations.
-- [ ] Define a scientific question and proposed observation, measurement, or sampling activity for each stop.
+- [x] Define a scientific question and proposed observation, measurement, or sampling activity for each stop.
 - [x] Attach evidence and appropriate surface reference imagery to each stop.
 - [ ] Agree walking-crew assumptions, carried equipment, work time, travel limits, and return reserve.
 - [ ] Define optional crew-vehicle and robotic support profiles separately with explicit assumptions.
+- [x] Provide separate selectable walking, crewed-vehicle and robotic ground-rover modes, with mode-specific proposed tasks and unconfigured capabilities.
 - [ ] Keep historical rover paths visually and semantically separate from hypothetical crew excursions.
 
 ## 4. Explainable comparison and ranking
@@ -93,9 +99,9 @@
 
 ## 7. Global discovery and optional extensions
 
-- [ ] Add catalog-wide crater discovery with a clearly stated catalog completeness limit.
-- [ ] Support search, viewport queries, marker clustering or tiling, and on-demand details.
-- [ ] Distinguish globally browsable catalog records from regions eligible for detailed analysis.
+- [x] Add catalog-wide named-crater discovery with a clearly stated named-feature completeness limit.
+- [ ] Support search, viewport queries, marker clustering or tiling, and on-demand details. Search, source-region/type filters, pagination and regional details are implemented; viewport queries/clustering remain open.
+- [x] Distinguish globally browsable catalog records from regions eligible for detailed analysis.
 - [ ] Verify camera navigation, longitude-seam behavior, and rendering performance with larger datasets.
 - [ ] Evaluate saved accounts, shared plans, or environmental layers only if requested; otherwise document deferral.
 - [ ] If environmental observations are added, show location and observation time without implying live global conditions.
@@ -112,7 +118,7 @@
 - [ ] Add structured logs and operational metrics without leaking credentials or unnecessary user data.
 - [ ] Configure budget/quota monitoring, processing caps, and an upstream-outage demo fallback.
 - [ ] Establish backups, retention, recovery targets, and a tested restore procedure.
-- [ ] Document troubleshooting, data refresh, incident handling, and rollback procedures.
+- [x] Document troubleshooting, data refresh, incident handling, and rollback procedures.
 - [x] Run relevant automated checks and staging smoke checks before an authorized release.
 - [ ] Verify the deployed version and record remaining limitations if deployment is authorized.
 
@@ -260,3 +266,80 @@ Initial state: no implementation was verified before the work recorded below. Ex
 - Restored a root build with `npm run build`; it passed. `npm run lint` and `npm run format:check` passed. `npm test`: **25 passed, 1 intentionally skipped** live-network test, including the new hosting smoke check at `/`. Existing 24 checks remain passing. Existing Cesium chunk-size warning remains. Python pipelines were unchanged and not rerun.
 - Added `playwright.pages.config.ts`, hosting check command, README and `docs/github-pages.md` setup/troubleshooting instructions. The source/deployment issue and custom-domain distinction are documented. GitHub account/environment settings remain external prerequisites; the user screenshot confirms the publishing-source change. No suggested Jekyll/Static HTML workflow is needed.
 - Tracker: static hosting choice, bounded Pages preparation and relevant pre-release checks are complete. Full server/security/staging requirements remain unchecked where outside this static scope. **Deployed-version verification remains unchecked until the workflow is pushed, succeeds remotely and the live compiled application is exercised.** The prior blank deployment is not counted as completion.
+
+
+### 2026-11-11 — Pages push blocked by Git credential scope
+
+- Created local commit `7d8bcaa` (`Fix GitHub Pages build and repository asset paths`) after local root/prefix browser checks passed. `git fetch origin master` succeeded and confirmed the remote was unchanged before the push.
+- Attempted the user-authorized `git push origin master`. GitHub rejected the ref update: the existing Personal Access Token does not have the `workflow` scope required to create/update `.github/workflows/pages.yml`. The push did not publish any part of this commit. This is a remote credential-permission failure, not a failed build or an automatic tool-approval rejection.
+- Asked the user to update the existing token's workflow scope locally, or choose adding the workflow through GitHub's web editor. No credential or token value was requested, displayed, extracted or changed. GitHub CLI is not installed; no alternate credentials were accessed.
+- Remote Actions API reports no `pages.yml` workflow yet, consistent with the rejected push. Deployed-version verification remains unchecked. Await credential correction or the user's web-editor choice before dependent publishing work; local configuration/tests are complete.
+
+### 2026-11-12 — Stop-coordinate evidence follow-up
+
+- Reviewed the PDS initial reports volume 1, release 2.2, alongside the existing coordinate audit. Its WB1 witness-tube report includes coordinates although WB1 was not placed in the corer (report page 1-2). This shows that coordinates in the report format alone do not establish a drill-hole position; it does not determine the convention, reference point or uncertainty of the three candidate coordinates. Added the source and distinction to `docs/stop-evidence.md`.
+- Stop-coordinate verification remains blocked on those definitions and reliable event-matched positions; stops remain list-only. Scientific goal and excursion assumptions were requested from the team. No marker or coordinate status was changed.
+- The user confirmed that the team does not yet have a scientific goal. Keep it unselected and goal-dependent scoring unavailable until the team decides; this does not complete the goal-selection item.
+
+### 2026-11-12 — Team decision list
+
+- User confirmed that the base, walking crew, equipment, available time and return reserve are also undecided, and requested a file collecting the remaining team decisions.
+- Added `docs/team-decisions.md` with unanswered questions, answer placeholders, dependencies, later scope choices and already-agreed direction. Distinguished team choices from scientific verification and the recorded publication blocker. Linked it from this checklist.
+- Verification: checked the new document's local links and ran `git diff --check`. No application behavior changed or implementation checkbox was completed by this documentation task.
+
+### 2026-11-12 — Shared source registry and integrity gate
+
+- User requested continued work while scientific goal, base, crew, equipment, time and return-reserve decisions remain open. Completed independent source/provenance work; goal-dependent analysis remains pending. Exact stop-coordinate verification is still blocked and no marker placement requirement was relaxed.
+- Retained exact NASA Trek capabilities XML and product-specific catalog JSON for MOC and CTX (four small snapshots). `data/manifests/imagery-review.json` records URLs, hashes, byte counts, reviewed rendering parameters and explicit unknowns. Imagery rendering now consumes the same reviewed IDs, extents and maximum zoom levels as the source registry. Raw catalog snapshots are excluded from formatting to preserve bytes.
+- Added `src/data/sources.ts` and an expandable source review in the app covering seven current products: two orbital imagery services, derived elevation colours, geological interpretation and three rover surface photographs. Records distinguish observation/publication/review dates, spatial envelopes, detail, coordinate/height context, rights, citations and scoped checksums. Source links and limitations remain accessible on mobile and without WebGL. All products remain ineligible for route/ranking analysis.
+- Reviewed MOC metadata does not establish source resolution or a full sphere definition. Neither imagery service establishes a formal source release version or publication date here. Catalog creation dates, zero resolution fields and WMTS protocol versions are not substituted for these unknowns. Metadata hashes do not pin remote image tiles or the original mosaics. The broader all-product registry, aligned analysis grid, mineralogy and raw-snapshot requirements remain unchecked.
+- Added the standard-library `pipelines/catalog/check_sources.py` and `npm run check:data`; the Pages workflow runs it before building. It verifies 15 retained metadata/display files, imagery identity/CRS/bounds/tiling contracts, derived planetary metadata, analysis gates and pixel accounting. It performs no downloads or writes. Existing scientific pipelines and source rasters were unchanged.
+- Verification: `npm run build`, `npm run lint`, `npm run format:check` and `npm run check:data` passed. Python catalog tests: **6 passed**; Ruff lint/format passed. `npm test`: **28 passed, 1 intentionally skipped** live-network check. New checks cover unknown metadata, evidence categories, source links, checksum disclosures, keyboard operation, mobile overflow and WebGL fallback. Fixed a redundant accessible-label collision found by the first browser run; the complete rerun passed.
+- `npm run test:pages`: **1 passed** for the production build under `/spaceappsproject/`. Its first sandboxed server launch failed; the permitted run outside the sandbox passed. Restored the normal root build afterward. Existing Cesium bundle-size warning remains. Live orbital rendering, hardware GPU and Firefox were not newly verified; test tiles were intercepted.
+- Added `docs/source-registry.md`, setup/check/refresh notes and desktop/mobile source-review screenshots; visually inspected both captures. No new dependency, backend, paid service, account, push or remote deployment was introduced. The recorded credential/publication blocker remains unresolved.
+
+### 2026-11-12 — Selected candidate highlights approved and implemented
+
+- User requested a map highlight when selecting a candidate science stop and explicitly chose “Use approximate highlights with a visible warning.” This supersedes the list-only display restriction for approximate visual references; exact-coordinate verification remains incomplete. Recorded the decision in `team-decisions.md` and the dossier review's display policy.
+- Added `src/data/candidate-locations.ts`, reading each primary sample's published dossier values into separate display-only fields. Verified `ScienceStop.coordinates` remain null and coordinate status remains pending. Reported N/E degrees are plotted on the shared Mars display sphere without a verified latitude conversion; the source latitude convention, point definition and accuracy remain unresolved. No localization row, terrain height or neighbouring sample is substituted.
+- Selecting a stop centers the camera on its candidate position, highlights only that stop and displays its name plus “Approximate / unverified.” A persistent map warning links to the relevant dossier page and discloses unresolved convention/precision. The fixed-size ring represents selection, not a measured uncertainty radius. The highlight is projected from a Mars-sphere anchor and follows camera movement/resize, hiding outside the viewport or behind the planet. The 4,500-metre camera height is a viewing parameter, not a surface or sample altitude.
+- Selection is replayed after lazy map startup and retry and when the same stop is selected again after navigating away. Without WebGL, list, surface-image and evidence access remain available. Updated current README/source/evidence text to distinguish approximate display authorization from exact-position verification; historical audit conclusions remain intact.
+- Verification: `npm run build`, `npm run lint`, `npm run format:check`, `npm run check:data` and `git diff --check` passed. Focused selection/preview/evidence suite: **18 passed**. Full `npm test`: **32 passed, 1 intentionally skipped** live-network test. New checks cover all three source-backed display positions, null exact coordinates, selected labels/source links, actual rendered camera focus, globe-relative movement, same-stop reselection, resize, narrow-screen warning/label separation and loading/retry persistence.
+- `npm run test:live`: **1 passed** over real NASA tiles, with no uncaught page errors or mobile overflow. Updated preview/elevation/geology screenshots and added desktop/mobile highlight captures plus `docs/candidate-highlight-live.png`; visually inspected the new captures. Initial sandboxed live-server launch failed; the approved run outside the sandbox passed. Browser checks remain Chromium/software WebGL.
+- `npm run test:pages`: **1 passed** under `/spaceappsproject/`; restored the root build afterward. Existing Cesium bundle-size warning remains. No route, distance, ranking, scientific goal, base, equipment capability, push or remote deployment was added.
+
+### 2026-11-12 — Controlled HiRISE, exploratory slope and operations guide
+
+- User requested continued completion of the backlog. Added independent imagery/terrain exploration capabilities while mission goal, base, crew, equipment, time, reserve and scoring decisions remain open. These changes do not qualify the approximate stop positions for analysis.
+- Reviewed and retained exact controlled HiRISE capabilities/catalog metadata. Product `JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd` declares the 3396190-metre Mars sphere, the existing geographic WMTS grid through level 17 and its own regional envelope. A level-17 representative tile returned HTTP 200, 256x256 PNG with nonconstant image data and CORS `*`; the dated probe URL/hash are in `imagery-review.json`. The original roughly 9.8 GB mosaic was not downloaded. Product-name detail and the catalog's unitless resolution field are disclosed without claiming positioning accuracy, a verified source release or independent registration.
+- HiRISE is enabled above CTX and global imagery by default. All three imagery layers remain independently toggleable, with failure/retry and HiRISE extent status. Verified context imagery remains usable on HiRISE outage, and CTX retries preserve HiRISE priority. Corrected imagery loading indicators to return to loading while finer tiles stream after camera changes, rather than retaining a stale loaded label.
+- Added `pipelines/terrain/build_slope.py`, using the existing pinned environment and reviewed CTX DEM. Computes Horn 3x3 gradients of areoid-relative heights with explicit row-wise Mars east-spacing correction and north spacing in metres; emits a degree-valued 0–90 display scale with no walking/risk thresholds. Complete finite neighbourhoods are required: outer edges and missing neighbours remain transparent. Output: 2,406,940 derived pixels, 6,212 unknown edge pixels; observed gradient range approximately 0.0022–42.4089 degrees. Independent rebuild produced an equal manifest and byte-identical PNG.
+- The slope legend exposes method, source, degree scale, opacity and limitations. Added loading/failure/retry, stale-result handling and viewport extent. Geology, elevation and slope colours are mutually exclusive for legibility. Shared single-image lifecycle code serves geology and slope; geology retains categorical nearest-neighbour sampling. Increased narrow-screen map height to keep status, highlight and warning readable together.
+- Registry now covers nine products; `npm run check:data` verifies 18 retained metadata/display files and rejects inconsistent slope source/units/scale. All analysis eligibility flags remain false. Datum conversion, physical surface inclination, independent alignment, obstacle resolution and route feasibility remain unverified. No direct mineral data, equipment limits or crew assumptions were invented.
+- Verification: terrain Python suite **11 passed** (including six slope checks), catalog integrity suite **6 passed**, Ruff lint/format passed. `npm run build`, `npm run lint`, `npm run format:check`, `npm run check:data` and `git diff --check` passed. Full `npm test`: **37 passed, 1 intentionally skipped** live-network check. New browser checks verify actual rendered HiRISE priority after retries, HiRISE outage/recovery, slope legend/opacity/coverage/exclusivity, loading/failure/stale results, mobile layout and WebGL fallback. Existing checks remain passing after the shared lifecycle and loading-status changes.
+- `npm run test:live`: **1 passed**, verifying real HiRISE/CTX responses, selection and all three local overlays without uncaught errors or horizontal overflow. Refreshed live screenshots, added slope captures and visually inspected the refined HiRISE view and mobile slope map. `npm run test:pages`: **1 passed**, now covering HiRISE status, the slope asset and the selected highlight under `/spaceappsproject/`; restored the root build afterward. Browser evidence remains Chromium/software WebGL; the existing Cesium bundle-size warning remains.
+- Added `docs/slope-processing.md` and `docs/operations.md`; updated current source records, capabilities, setup and hosting notes. The static-site runbook covers release verification, triage, source refresh, upstream outages, rollback and recovery limitations. It does not claim implemented offline orbital imagery, automatic monitoring, durable bulk-data backups or a tested production restore. Those broader checklist items stay open.
+- No new dependency, application server, database, paid service, account, push or remote deployment was introduced. Scientific mission/routing decisions and the recorded publication credential issue remain pending.
+
+### 2026-11-12 — Ancient-water goal and three exploration modes
+
+- User approved the proposed science mission and requested options for astronauts in vehicles and “hovers.” Clarification explicitly identified “hovers” as robotic ground rovers. The ancient-water investigation is now selected, superseding earlier instructions to leave the scientific goal null. Base, crew/vehicle/rover capabilities, budgets, reserve, scoring weights and analysis eligibility remain unresolved.
+- Added `src/data/mission.ts` with the agreed scientific question, objective, expected source-linked comparison and separate walking, crewed-vehicle and robotic ground-rover profiles. Walking is the initial mode. Each profile has an independent unconfigured capability record; no speed, range, maximum slope, equipment, time budget or return reserve is assigned. Mode selection lasts for the current page session and does not imply route feasibility or an autonomous robot capability.
+- Added per-stop proposed investigations in `src/data/investigations.ts`: texture/transport questions at Skinner Ridge, layering/deposition questions at Wildcat Ridge and published alteration evidence/follow-up needs at Amalik. The questions and tasks are proposed activities rather than measured results or completed fieldwork. Each links to the reviewed primary-sample dossier page. Published observations remain distinct from planned measurements and unresolved image detail.
+- Added `MissionSettings` and `StopInvestigation` views. Exploration mode updates the selected stop's proposed tasks, profile requirements and mission context. Vehicle overview observations are distinguished from work requiring a separately assessed walking task; rover tasks are conditional on camera/instrument payload. Source links, stop selection and approximate highlight survive mode changes. A new stop resets the expandable task panel while mode changes preserve its current expansion.
+- Replaced the old session-interest support checkboxes with the functional three-mode selector. Updated goal state, header/explorer/footer context, README, project direction, technical brief, operations notes and `team-decisions.md`. Added `docs/mission-science.md` describing the agreed scope, source links, proposed questions/tasks and remaining gates. The DOCX was reread and left unchanged.
+- Comparison remains disabled for missing base, verified locations, equipment, mobility limits, budgets, scoring weights and analysis-ready evidence; its explanation no longer lists the agreed goal as missing. Exact stop coordinates remain null. No distance, route, score, equipment capability or scientific conclusion was fabricated.
+- Verification: `npm run build`, `npm run lint`, `npm run format:check`, `npm run check:data` and `git diff --check` passed. Full `npm test`: **40 passed, 1 intentionally skipped** live-network check. New checks exercise all three profile definitions, independent null capabilities, goal selection, mode/task/source consistency, selection and analysis gates, mobile keyboard operation, WebGL fallback and page-session reset. Corrected task-panel expansion across stop changes after the first run exposed the persistence issue; the full rerun passed.
+- `npm run test:live`: **1 passed**, including the agreed goal and vehicle/rover controls, with refreshed interface captures and no uncaught errors or mobile overflow. `npm run test:pages`: **1 passed** under `/spaceappsproject/`, now exercising the robotic-rover plan and selected goal. Restored the ordinary root build afterward. Added and visually inspected desktop/mobile mission captures, including `docs/mission-rover.png` and `docs/mission-vehicle.png`. Browser verification remains Chromium/software WebGL; the existing Cesium bundle-size warning remains.
+- Scientific datasets and Python pipelines were unchanged and their suites were not repeated; the retained-data integrity gate still verifies all 18 files. No dependency, backend, account, charges, push or remote deployment was introduced. Detailed operational assumptions and the recorded publication credential issue remain pending.
+
+### 2026-11-12 — Mars-wide named-feature catalogue and candidate additions
+
+- User selected discovery across Mars with region filters, then approved the static import/refresh option for existing GitHub Pages hosting. Read `Space Apps.docx` and repository instructions before implementation. No backend, account, paid service, new dependency, source-document edit, commit, push or deployment.
+- Imported the official IAU/USGS Mars centre-point KMZ. The retained snapshot contains 2,054 unique adopted features, including 1,242 named craters, across 30 source quadrangles plus six unassigned features. One exactly duplicated Bohar row is collapsed and reported. Conflicting duplicate IDs, non-Mars data, invalid or inconsistent coordinates and invalid source contracts reject the import. Source zero dimensions and unassigned regions remain unknown.
+- Added `Discover Mars features` with an on-demand compact search index, accent-insensitive name search, source quadrangle/Jezero-envelope centre filters, all source feature types and eight-result pagination. Regional details load on selection; failures, timeouts, retry, cancellation and late requests preserve the original science records. No thousands-of-markers rendering, viewport query or clustering is claimed.
+- A selected feature shows source-backed details and a clearly labelled catalogue-centre highlight. Longitude wrapping and the existing Mars sphere are shared with the map; camera framing uses approximate feature dimension only. Users can add/remove session-only candidate science stops, reselect them from the candidate list and return to the original outcrop evidence. Reload clears additions. The catalogue does not assign observation sites, science tasks, composition, ages, imagery, access or ranking to imported candidates. All exploration modes retain unconfigured capabilities; the Jezero goal is unchanged.
+- Added `npm run refresh:catalog` and refresh-before-validation in the Pages workflow. Standard-library importer restricts source URL, sizes and timeout, validates the complete input before replacement, retains the exact source KMZ, and generates hash-named static index/region files. Each published build includes its own retained raw export for download. Failures stop publication. Source release dates/versions remain unknown; legacy 2012 metadata, conflicting source ellipsoid/sphere descriptions and unresolved alignment/precision are disclosed.
+- Registered the catalogue as the tenth evidence product. The local integrity gate now verifies 51 retained files and rebuilds all catalogue JSON from the source export before comparing manifest/bytes. Published files and links use the configured URL prefix. The raw export is fetched only on explicit download. Added [catalogue controls, source review and refresh guide](crater-catalogue.md); updated scope, team decisions, source registry, hosting and operations documents.
+- Verification: successful real upstream download through `npm run refresh:catalog`; build, ESLint, Prettier, data integrity gate, Ruff lint/format and `git diff --check` passed. Python catalogue/import/integrity suite: **13 passed**. Full deterministic browser suite: **44 passed, 1 intentionally skipped** live check. Dedicated live NASA imagery check: **1 passed**, including Gale selection/addition with actual global MOC imagery. Repository-prefixed hosting check: **1 passed**, including catalogue discovery, candidate addition and retained-KMZ download with the expected SHA-256. Visual review covered catalogue desktop/mobile and the live Gale marker. Root build restored after the Pages check.
+- Numeric comparison, route feasibility, precise observation sites, persistent saved plans, viewport queries/clustering and wider analysis eligibility remain incomplete. Public deployment remains a separate verification item; local success does not resolve the previously recorded workflow credential issue.

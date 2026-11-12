@@ -1,24 +1,54 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import elevation from './data/generated/elevation.json' with { type: 'json' };
-import { capabilitiesUrl, imagerySources, type LayerId } from './data/layers';
-import { initialMission, stops } from './data/stops';
+import { imagerySources, type LayerId } from './data/layers';
+import { stops } from './data/stops';
+import {
+  initialMission,
+  mobilityProfile,
+  scientificGoal,
+  type MobilityMode,
+} from './data/mission';
+import { MissionSettings } from './MissionSettings';
+import { StopInvestigation } from './StopInvestigation';
 import { MarsMap } from './map/MarsMap';
 import { StopEvidence } from './stops/StopEvidence';
-import geology from './data/generated/geology.json' with { type: 'json' };
 import { GeologyLegend } from './GeologyLegend';
+import { SourceRegistry } from './SourceRegistry';
+import { SlopeLegend } from './SlopeLegend';
+import { CatalogBrowser } from './catalog/CatalogBrowser';
+import { CatalogFeatureDetails } from './catalog/CatalogFeatureDetails';
+import { catalogLocation, type CatalogFeature } from './catalog/catalog';
 export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusRequest, setFocusRequest] = useState(0);
+  const [catalogOpen, setCatalogOpen] = useState(false);
+  const [catalogFeature, setCatalogFeature] = useState<CatalogFeature | null>(
+    null,
+  );
+  const [addedFeatures, setAddedFeatures] = useState<readonly CatalogFeature[]>(
+    [],
+  );
+  const catalogCandidate = useMemo(
+    () => (catalogFeature ? catalogLocation(catalogFeature) : null),
+    [catalogFeature],
+  );
+  function selectFeature(feature: CatalogFeature) {
+    setCatalogFeature(feature);
+    setSelectedId(null);
+    setFocusRequest((request) => request + 1);
+  }
   const [visible, setVisible] = useState<Record<LayerId, boolean>>({
     global: true,
     jezero: true,
+    hirise: true,
   });
-  const [support, setSupport] = useState({
-    vehicle: initialMission.vehicleSupport as boolean,
-    robot: initialMission.robotSupport as boolean,
-  });
+  const [mobility, setMobility] = useState<MobilityMode>(
+    initialMission.mobility,
+  );
   const [elevationEnabled, setElevationEnabled] = useState(false);
   const [geologyEnabled, setGeologyEnabled] = useState(false);
+  const [slopeEnabled, setSlopeEnabled] = useState(false);
+  const [slopeOpacity, setSlopeOpacity] = useState(0.65);
   const [geologyOpacity, setGeologyOpacity] = useState(0.5);
   const [elevationOpacity, setElevationOpacity] = useState(0.65);
   const selected = stops.find((stop) => stop.id === selectedId);
@@ -38,7 +68,7 @@ export default function App() {
           </span>
         </a>
         <div className="header-context">
-          <span className="live-dot" /> JEZERO MARSWALK{' '}
+          <span className="live-dot" /> JEZERO SCIENCE MISSION{' '}
           <span className="separator">/</span> LOCAL PREVIEW
         </div>
         <a className="source-nav" href="#sources">
@@ -51,19 +81,25 @@ export default function App() {
             <p className="eyebrow">HUMAN EXPLORATION / MARS</p>
             <h1>One region. A world to explore.</h1>
             <p>
-              Explore Jezero’s western delta. Get to know the evidence before
-              planning a Marswalk.
+              {scientificGoal.title}. Explore the evidence and plan observations
+              across Jezero’s western delta.
             </p>
           </div>
-          <span className="preview-tag">SIMULATED CREW EXPLORATION</span>
+          <span className="preview-tag">
+            {mobility === 'robotic-rover'
+              ? 'SIMULATED ROBOTIC EXPLORATION'
+              : 'SIMULATED CREW EXPLORATION'}
+          </span>
         </div>
-        <div className="workspace">
+        <div
+          className={`workspace${catalogOpen || catalogFeature ? ' catalogue-workspace' : ''}`}
+        >
           <aside className="explorer-panel">
             <div className="panel-heading">
               <span className="eyebrow">01 / EXPLORE</span>
-              <h2>Jezero Marswalk</h2>
+              <h2>Jezero exploration</h2>
               <p>
-                Walking astronauts are the primary crew. Start with the places
+                {mobilityProfile(mobility).label}. Start with the places
                 Perseverance studied.
               </p>
             </div>
@@ -93,7 +129,10 @@ export default function App() {
                   checked={elevationEnabled}
                   onChange={(event) => {
                     setElevationEnabled(event.target.checked);
-                    if (event.target.checked) setGeologyEnabled(false);
+                    if (event.target.checked) {
+                      setGeologyEnabled(false);
+                      setSlopeEnabled(false);
+                    }
                   }}
                 />
                 <span>
@@ -113,8 +152,8 @@ export default function App() {
                     <span>{elevation.maximumMetres.toFixed(0)} m</span>
                   </div>
                   <p>
-                    Colour indicates elevation, not risk. No 3D relief or slope
-                    analysis.
+                    Colour indicates elevation, not risk. This overlay does not
+                    show 3D relief.
                   </p>
                   <label>
                     Elevation opacity
@@ -144,7 +183,10 @@ export default function App() {
                   checked={geologyEnabled}
                   onChange={(event) => {
                     setGeologyEnabled(event.target.checked);
-                    if (event.target.checked) setElevationEnabled(false);
+                    if (event.target.checked) {
+                      setElevationEnabled(false);
+                      setSlopeEnabled(false);
+                    }
                   }}
                 />
                 <span>
@@ -158,9 +200,32 @@ export default function App() {
                   onOpacity={setGeologyOpacity}
                 />
               )}
-              {(geologyEnabled || elevationEnabled) && (
+              <label className="layer-row">
+                <input
+                  type="checkbox"
+                  checked={slopeEnabled}
+                  onChange={(event) => {
+                    setSlopeEnabled(event.target.checked);
+                    if (event.target.checked) {
+                      setElevationEnabled(false);
+                      setGeologyEnabled(false);
+                    }
+                  }}
+                />
+                <span>
+                  Jezero estimated slope
+                  <small>Derived CTX gradient · 20 m source cells</small>
+                </span>
+              </label>
+              {slopeEnabled && (
+                <SlopeLegend
+                  opacity={slopeOpacity}
+                  onOpacity={setSlopeOpacity}
+                />
+              )}
+              {(geologyEnabled || elevationEnabled || slopeEnabled) && (
                 <p className="quiet">
-                  Geology and elevation colours are viewed separately.
+                  Geology, elevation and slope colours are viewed separately.
                 </p>
               )}
               <p className="quiet">
@@ -173,11 +238,13 @@ export default function App() {
             <section id="science-stops" aria-labelledby="stops-heading">
               <div className="section-title">
                 <h3 id="stops-heading">Candidate science stops</h3>
-                <span className="count">{stops.length}</span>
+                <span className="count">
+                  {stops.length + addedFeatures.length}
+                </span>
               </div>
               <p className="quiet">
-                Coordinates pending verification. Listed here without map
-                markers.
+                Select a stop to highlight its approximate location. Exact
+                coordinates remain unverified.
               </p>
               <ul className="stop-list">
                 {stops.map((stop, index) => (
@@ -185,6 +252,7 @@ export default function App() {
                     <button
                       aria-pressed={selectedId === stop.id}
                       onClick={() => {
+                        setCatalogFeature(null);
                         setSelectedId(stop.id);
                         setFocusRequest((request) => request + 1);
                       }}
@@ -203,22 +271,58 @@ export default function App() {
                     </button>
                   </li>
                 ))}
+                {addedFeatures.map((feature, index) => (
+                  <li key={feature.id}>
+                    <button
+                      className="stop-button"
+                      aria-pressed={catalogFeature?.id === feature.id}
+                      onClick={() => selectFeature(feature)}
+                    >
+                      <span className="stop-number">
+                        {String(stops.length + index + 1).padStart(2, '0')}
+                      </span>
+                      <span>
+                        <strong>{feature.name}</strong>
+                        <small>Catalogue candidate · site unverified</small>
+                      </span>
+                      <span aria-hidden="true" className="stop-arrow">
+                        ↗
+                      </span>
+                    </button>
+                  </li>
+                ))}
               </ul>
+              {!!addedFeatures.length && (
+                <p className="quiet">
+                  Catalogue candidates are added for this page session.
+                  Observation sites and science plans need review.
+                </p>
+              )}
             </section>
+            <CatalogBrowser
+              onSelect={selectFeature}
+              selectedId={catalogFeature?.id ?? null}
+              selectionRevision={focusRequest}
+              onOpenChange={setCatalogOpen}
+            />
             <p className="scope-note">
               Global imagery provides context.
               <br />
-              <strong>The local Marswalk is the focus.</strong>
+              <strong>The local science expedition is the focus.</strong>
             </p>
           </aside>
           <div className="map-column">
             <MarsMap
               focusRequest={focusRequest}
+              selectedStopId={selectedId}
+              catalogCandidate={catalogCandidate}
               visible={visible}
               elevationEnabled={elevationEnabled}
               elevationOpacity={elevationOpacity}
               geologyEnabled={geologyEnabled}
               geologyOpacity={geologyOpacity}
+              slopeEnabled={slopeEnabled}
+              slopeOpacity={slopeOpacity}
             />
             <div className="map-summary">
               <span className="summary-icon" aria-hidden="true">
@@ -236,7 +340,28 @@ export default function App() {
           </div>
           <aside className="details-panel" aria-label="Science information">
             <span className="eyebrow">02 / UNDERSTAND</span>
-            {selected ? (
+            {catalogFeature ? (
+              <CatalogFeatureDetails
+                feature={catalogFeature}
+                added={addedFeatures.some(
+                  (feature) => feature.id === catalogFeature.id,
+                )}
+                onAdd={() =>
+                  setAddedFeatures((previous) =>
+                    previous.some((feature) => feature.id === catalogFeature.id)
+                      ? previous
+                      : [...previous, catalogFeature],
+                  )
+                }
+                onRemove={() =>
+                  setAddedFeatures((previous) =>
+                    previous.filter(
+                      (feature) => feature.id !== catalogFeature.id,
+                    ),
+                  )
+                }
+              />
+            ) : selected ? (
               <section aria-live="polite">
                 <span className="record-tag">PERSEVERANCE / SAMPLE RECORD</span>
                 <h2>{selected.name}</h2>
@@ -268,6 +393,11 @@ export default function App() {
                     </dd>
                   </div>
                 </dl>
+                <StopInvestigation
+                  key={selected.id}
+                  stop={selected}
+                  mode={mobility}
+                />
                 <StopEvidence key={selected.id} stop={selected} />
                 <a
                   className="text-link"
@@ -289,7 +419,8 @@ export default function App() {
                 )}
                 <p className="quiet">
                   Orbital imagery and rover observations are separate evidence
-                  sources. Human approach suitability remains unknown.
+                  sources. Access for the selected exploration mode remains
+                  unverified.
                 </p>
               </section>
             ) : (
@@ -305,131 +436,31 @@ export default function App() {
                 <div className="evidence-note">
                   <strong>Evidence before placement</strong>
                   <p>
-                    The three stops stay in the list until their exact locations
-                    are verified.
+                    Select a stop for an approximate map highlight. Exact sample
+                    locations remain unverified.
                   </p>
                 </div>
               </section>
             )}
           </aside>
         </div>
-        <section className="mission-panel" aria-labelledby="mission-heading">
-          <div className="mission-intro">
-            <span className="eyebrow">03 / PREPARE</span>
-            <h2 id="mission-heading">Mission settings</h2>
-            <p>A walking crew, with the important decisions still open.</p>
-          </div>
-          <div className="mission-fields">
-            <label>
-              Scientific goal
-              <select value={initialMission.goal ?? ''} disabled>
-                <option value="">Unselected — team decision pending</option>
-              </select>
-            </label>
-            <div>
-              <span className="field-label">Crew mobility</span>
-              <strong className="fixed-value">Walking astronauts</strong>
-              <small>Capabilities, equipment and limits undecided</small>
-            </div>
-            <div>
-              <span className="field-label">Optional support</span>
-              <label className="support-option">
-                <input
-                  type="checkbox"
-                  checked={support.vehicle}
-                  onChange={(event) =>
-                    setSupport((previous) => ({
-                      ...previous,
-                      vehicle: event.target.checked,
-                    }))
-                  }
-                />{' '}
-                Crew vehicle
-              </label>
-              <label className="support-option">
-                <input
-                  type="checkbox"
-                  checked={support.robot}
-                  onChange={(event) =>
-                    setSupport((previous) => ({
-                      ...previous,
-                      robot: event.target.checked,
-                    }))
-                  }
-                />{' '}
-                Robotic system
-              </label>
-              <small>
-                {support.vehicle || support.robot
-                  ? 'Interest recorded for this session; capabilities undefined'
-                  : 'No support selected'}
-              </small>
-            </div>
-            <div className="ranking-gate">
-              <button disabled aria-describedby="ranking-reason">
-                Compare stops ↗
-              </button>
-              <p id="ranking-reason">
-                Unavailable: goal, base, capabilities and evidence coverage are
-                not defined.
-              </p>
-            </div>
-          </div>
-        </section>
+        <MissionSettings mode={mobility} onModeChange={setMobility} />
         <footer id="sources">
           <div>
             <span className="eyebrow">DATA & PROVENANCE</span>
             <h2>Know what you’re looking at.</h2>
             <p>
-              Public imagery via NASA Trek, plus local USGS elevation colours
-              and regional geological interpretation. No 3D relief, slope,
-              ranking or route analysis.
+              Public imagery via NASA Trek, plus local USGS elevation and
+              estimated slope colours and regional geological interpretation. No
+              3D relief, ranking or route analysis.
             </p>
           </div>
-          <div className="source-list">
-            {imagerySources.map((source) => (
-              <a
-                key={source.id}
-                href={capabilitiesUrl(source)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <strong>{source.name} ↗</strong>
-                <span>{source.credit}</span>
-                <small>
-                  {source.id === 'global'
-                    ? 'Global context; limited detail at local zoom.'
-                    : 'Regional mosaic; coverage does not establish walkability.'}
-                </small>
-              </a>
-            ))}
-            <a href={elevation.sourcePage} target="_blank" rel="noreferrer">
-              <strong>Jezero CTX elevation ↗</strong>
-              <span>USGS · Fergason et al. 2020 · MRO / CTX</span>
-              <small>
-                Heights relative to Mars areoid; display overlay only.
-              </small>
-            </a>
-            <a href={geology.sourcePage} target="_blank" rel="noreferrer">
-              <strong>Jezero regional geology ↗</strong>
-              <span>{geology.credit} · SIM 3464</span>
-              <small>
-                Orbital interpretation; approximately 100–200 m offsets from CTX
-                imagery.
-              </small>
-            </a>
-            <a
-              href="https://www.nasa.gov/nasa-brand-center/images-and-media/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              NASA media usage guidelines ↗
-            </a>
-          </div>
+          <SourceRegistry />
           <p className="footer-bottom">
             MARTIAN MAP / LOCAL PREVIEW{' '}
             <span>
-              Scientific goal unselected · Base unset · Routes unavailable
+              Ancient water investigation · {mobilityProfile(mobility).label} ·
+              Base unset · Routes unavailable
             </span>
           </p>
         </footer>

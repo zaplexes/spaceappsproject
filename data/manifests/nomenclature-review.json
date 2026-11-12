@@ -1,0 +1,407 @@
+{
+  "schemaVersion": 1,
+  "sourceSha256": "28857438f2b2ac1d0948d35ab7057719fcfdc7fbddeb7ba918a50e10efd73fcb",
+  "title": "Mars named surface features",
+  "sourceUrl": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MARS_nomenclature_center_pts.kmz",
+  "sourcePage": "https://planetarynames.wr.usgs.gov/GIS_Downloads",
+  "retrievedAt": "2026-11-12T21:51:19+00:00",
+  "sourceVersion": null,
+  "sourcePublicationDate": null,
+  "snapshot": {
+    "path": "assets/catalog/source-28857438f2b2.kmz",
+    "assetUrl": "/catalog/source-28857438f2b2.kmz",
+    "sha256": "28857438f2b2ac1d0948d35ab7057719fcfdc7fbddeb7ba918a50e10efd73fcb",
+    "bytes": 2617462
+  },
+  "index": {
+    "assetUrl": "/catalog/index-28857438f2b2.json",
+    "sha256": "86945859df4bf118ea86f07ab35a0a3bbbdd5c02381237653783e958083e83c4",
+    "bytes": 293064
+  },
+  "count": 2054,
+  "craterCount": 1242,
+  "excluded": {
+    "Identical duplicate source record": 1
+  },
+  "regions": [
+    {
+      "id": "mc01",
+      "name": "Mare Boreum",
+      "count": 47,
+      "assetUrl": "/catalog/mc01-28857438f2b2.json",
+      "sha256": "732bca24386826bdfc71be1e709c8832d57f6e74005ea3847659883d6442eda4",
+      "bytes": 16796
+    },
+    {
+      "id": "mc02",
+      "name": "Diacria",
+      "count": 11,
+      "assetUrl": "/catalog/mc02-28857438f2b2.json",
+      "sha256": "d423062702ba61a9532236745b44ea307ff7e6407de936f955ae63b51188ccf2",
+      "bytes": 3964
+    },
+    {
+      "id": "mc03",
+      "name": "Arcadia",
+      "count": 53,
+      "assetUrl": "/catalog/mc03-28857438f2b2.json",
+      "sha256": "3747e12129eef43f2c710c65a3159cac5c56c80ff5ed7b71aadc6b34b46a6224",
+      "bytes": 18537
+    },
+    {
+      "id": "mc04",
+      "name": "Mare Acidalium",
+      "count": 64,
+      "assetUrl": "/catalog/mc04-28857438f2b2.json",
+      "sha256": "7a92ae0281566657e48b18d27c4ba72e5952c77ef3be8ab8e1cb220a1a3618f7",
+      "bytes": 22503
+    },
+    {
+      "id": "mc05",
+      "name": "Ismenius Lacus",
+      "count": 33,
+      "assetUrl": "/catalog/mc05-28857438f2b2.json",
+      "sha256": "2628d5c675e5675979c7daded9bb21269a0c50259f863c7fa3dc04802a1d3f2a",
+      "bytes": 12176
+    },
+    {
+      "id": "mc06",
+      "name": "Casius",
+      "count": 26,
+      "assetUrl": "/catalog/mc06-28857438f2b2.json",
+      "sha256": "0660f013409ac4953b7f055a5f44f180a45fc41bc041af3706c87569d55e29ee",
+      "bytes": 9202
+    },
+    {
+      "id": "mc07",
+      "name": "Cebrenia",
+      "count": 70,
+      "assetUrl": "/catalog/mc07-28857438f2b2.json",
+      "sha256": "0d515d3105aa81469ee3c0c1cc2619093c006e399d1a6b0bc9ad6007e6fa0558",
+      "bytes": 23873
+    },
+    {
+      "id": "mc08",
+      "name": "Amazonis",
+      "count": 10,
+      "assetUrl": "/catalog/mc08-28857438f2b2.json",
+      "sha256": "4a0d7cc2f2fd126399e47ffa9b29933582897ae11059deb009f85997796b83cb",
+      "bytes": 3620
+    },
+    {
+      "id": "mc09",
+      "name": "Tharsis",
+      "count": 54,
+      "assetUrl": "/catalog/mc09-28857438f2b2.json",
+      "sha256": "d31b21e133b255537e3bd1088d6113d434d9ee9b5b6861c12140f5692168fa9b",
+      "bytes": 19459
+    },
+    {
+      "id": "mc10",
+      "name": "Lunae Palus",
+      "count": 153,
+      "assetUrl": "/catalog/mc10-28857438f2b2.json",
+      "sha256": "3124f7931894f4fa470607d0024187a18569200a420c87fb13e94993c966849f",
+      "bytes": 53218
+    },
+    {
+      "id": "mc11",
+      "name": "Oxia Palus",
+      "count": 139,
+      "assetUrl": "/catalog/mc11-28857438f2b2.json",
+      "sha256": "174e1735212be3e410ceb1ef78802b92bdc2667293e7e095678370becfb94e36",
+      "bytes": 47652
+    },
+    {
+      "id": "mc12",
+      "name": "Arabia",
+      "count": 34,
+      "assetUrl": "/catalog/mc12-28857438f2b2.json",
+      "sha256": "e2b2e91870f04ba9ee7910ecd1e966e7c58045f378664ffda2847f8fc7bbd8f5",
+      "bytes": 11870
+    },
+    {
+      "id": "mc13",
+      "name": "Syrtis Major",
+      "count": 52,
+      "assetUrl": "/catalog/mc13-28857438f2b2.json",
+      "sha256": "d286d52f599d01fa2f436ab3d1d3a0c42c7f8c56fe46d590ecd8f0489839e1e3",
+      "bytes": 18325
+    },
+    {
+      "id": "mc14",
+      "name": "Amenthes",
+      "count": 117,
+      "assetUrl": "/catalog/mc14-28857438f2b2.json",
+      "sha256": "0b8e7f4e33525c6343bd76e7406f107efd0e4e6047c641641b9d71dac2be974e",
+      "bytes": 38978
+    },
+    {
+      "id": "mc15",
+      "name": "Elysium",
+      "count": 51,
+      "assetUrl": "/catalog/mc15-28857438f2b2.json",
+      "sha256": "c310ffdc6e58e448fac69abf80ea4617996bd8cb701c5f03e8dde17c079fe858",
+      "bytes": 17880
+    },
+    {
+      "id": "mc16",
+      "name": "Memnonia",
+      "count": 53,
+      "assetUrl": "/catalog/mc16-28857438f2b2.json",
+      "sha256": "38bde0c43efa380caa57891e5c90ad8b5ebed567d286cace0c17f6ad229239f6",
+      "bytes": 18993
+    },
+    {
+      "id": "mc17",
+      "name": "Phoenicis Lacus",
+      "count": 37,
+      "assetUrl": "/catalog/mc17-28857438f2b2.json",
+      "sha256": "a1f02444187ea1611fe1aad868bc23c06f6f7f0ed623bb9bcdc21e3eb2da11a3",
+      "bytes": 13157
+    },
+    {
+      "id": "mc18",
+      "name": "Coprates",
+      "count": 127,
+      "assetUrl": "/catalog/mc18-28857438f2b2.json",
+      "sha256": "0c58e87db7497d0eed5d1d8c2a5a5676a46e171fe446373249a58cef9002eeeb",
+      "bytes": 45161
+    },
+    {
+      "id": "mc19",
+      "name": "Margaritifer Sinus",
+      "count": 217,
+      "assetUrl": "/catalog/mc19-28857438f2b2.json",
+      "sha256": "fe2595b9205d1e05c31489ae21e9e77960cf6e270cf84529861915105b5fa9a0",
+      "bytes": 75641
+    },
+    {
+      "id": "mc20",
+      "name": "Sinus Sabaeus",
+      "count": 31,
+      "assetUrl": "/catalog/mc20-28857438f2b2.json",
+      "sha256": "36b5e2e296be68f632c143cc21eba1b4ccaf5769baf74c3491cd6d8a0af0df2e",
+      "bytes": 11367
+    },
+    {
+      "id": "mc21",
+      "name": "Iapygia",
+      "count": 65,
+      "assetUrl": "/catalog/mc21-28857438f2b2.json",
+      "sha256": "226ea00b7756cb000549de8696199f7d1c910614dd44f5e51694f43a68d1b92f",
+      "bytes": 22261
+    },
+    {
+      "id": "mc22",
+      "name": "Mare Tyrrhenum",
+      "count": 57,
+      "assetUrl": "/catalog/mc22-28857438f2b2.json",
+      "sha256": "95098e825483b0ff77507ee9202200a5f2fa080a82e5e7bb6fae112000de3dcc",
+      "bytes": 20031
+    },
+    {
+      "id": "mc23",
+      "name": "Aeolis",
+      "count": 61,
+      "assetUrl": "/catalog/mc23-28857438f2b2.json",
+      "sha256": "4f8f4172d50ffd97b717879d077f0d775f2b754f7e236eb9c0a0bb19e6929175",
+      "bytes": 21295
+    },
+    {
+      "id": "mc24",
+      "name": "Phaethontis",
+      "count": 66,
+      "assetUrl": "/catalog/mc24-28857438f2b2.json",
+      "sha256": "cba82cfd924d1cf776816d4647462d1f4e85a518ef41b19ec1e5b7102cacf11b",
+      "bytes": 23673
+    },
+    {
+      "id": "mc25",
+      "name": "Thaumasia",
+      "count": 48,
+      "assetUrl": "/catalog/mc25-28857438f2b2.json",
+      "sha256": "a832d0ea02ec443b7425258e6e931a72649db405d4ebe2d998d9f81505392230",
+      "bytes": 17006
+    },
+    {
+      "id": "mc26",
+      "name": "Argyre",
+      "count": 125,
+      "assetUrl": "/catalog/mc26-28857438f2b2.json",
+      "sha256": "e6a35cb3729f7b7e28fad9076183bbba9fade1aedcd49200b2a05df2d152487d",
+      "bytes": 42738
+    },
+    {
+      "id": "mc27",
+      "name": "Noachis",
+      "count": 49,
+      "assetUrl": "/catalog/mc27-28857438f2b2.json",
+      "sha256": "7d862cf1cc849b44a446e96aab3d81ee592c88713ea0f4f728f757ad7da0b0c9",
+      "bytes": 17267
+    },
+    {
+      "id": "mc28",
+      "name": "Hellas",
+      "count": 77,
+      "assetUrl": "/catalog/mc28-28857438f2b2.json",
+      "sha256": "6d72c5e8330a4b8f29e9c34f6205b64add91c7cc55fad11bcc8c6ed43a1d3093",
+      "bytes": 26500
+    },
+    {
+      "id": "mc29",
+      "name": "Eridania",
+      "count": 47,
+      "assetUrl": "/catalog/mc29-28857438f2b2.json",
+      "sha256": "5006f18d58835c227ce62794603de99d6b09a453ab4e371b17bf12aaadf9a213",
+      "bytes": 17216
+    },
+    {
+      "id": "mc30",
+      "name": "Mare Australe",
+      "count": 74,
+      "assetUrl": "/catalog/mc30-28857438f2b2.json",
+      "sha256": "7b188391f613e5f5a1b11a8ad3074fe47e393a58804818447002b638dbd1fa4c",
+      "bytes": 26891
+    },
+    {
+      "id": "unspecified",
+      "name": "Region not specified",
+      "count": 6,
+      "assetUrl": "/catalog/unspecified-28857438f2b2.json",
+      "sha256": "7d39eca28ed60b867da9fc5679e4be42d75e4a90ada2cbbefdd6423f973fcf2d",
+      "bytes": 2286
+    }
+  ],
+  "types": [
+    {
+      "code": "AL",
+      "name": "Albedo Feature"
+    },
+    {
+      "code": "CA",
+      "name": "Catena, catenae"
+    },
+    {
+      "code": "CB",
+      "name": "Cavus, cavi"
+    },
+    {
+      "code": "CH",
+      "name": "Chaos, chaoses"
+    },
+    {
+      "code": "CM",
+      "name": "Chasma, chasmata"
+    },
+    {
+      "code": "CO",
+      "name": "Collis, colles"
+    },
+    {
+      "code": "AA",
+      "name": "Crater, craters"
+    },
+    {
+      "code": "DO",
+      "name": "Dorsum, dorsa"
+    },
+    {
+      "code": "FL",
+      "name": "Fluctus, fluctūs"
+    },
+    {
+      "code": "FO",
+      "name": "Fossa, fossae"
+    },
+    {
+      "code": "LA",
+      "name": "Labes, labēs"
+    },
+    {
+      "code": "LB",
+      "name": "Labyrinthus, labyrinthi"
+    },
+    {
+      "code": "LN",
+      "name": "Lingula, lingulae"
+    },
+    {
+      "code": "MA",
+      "name": "Macula, maculae"
+    },
+    {
+      "code": "MN",
+      "name": "Mensa, mensae"
+    },
+    {
+      "code": "MO",
+      "name": "Mons, montes"
+    },
+    {
+      "code": "PA",
+      "name": "Palus, paludes"
+    },
+    {
+      "code": "PE",
+      "name": "Patera, paterae"
+    },
+    {
+      "code": "PL",
+      "name": "Planitia, planitiae"
+    },
+    {
+      "code": "PM",
+      "name": "Planum, plana"
+    },
+    {
+      "code": "RU",
+      "name": "Rupes, rupēs"
+    },
+    {
+      "code": "SC",
+      "name": "Scopulus, scopuli"
+    },
+    {
+      "code": "SE",
+      "name": "Serpens, serpentes"
+    },
+    {
+      "code": "SU",
+      "name": "Sulcus, sulci"
+    },
+    {
+      "code": "TA",
+      "name": "Terra, terrae"
+    },
+    {
+      "code": "TH",
+      "name": "Tholus, tholi"
+    },
+    {
+      "code": "UN",
+      "name": "Unda, undae"
+    },
+    {
+      "code": "VA",
+      "name": "Vallis, valles"
+    },
+    {
+      "code": "VS",
+      "name": "Vastitas, vastitates"
+    }
+  ],
+  "rights": "Public domain, as stated in the source archive metadata.",
+  "citation": "IAU Working Group for Planetary System Nomenclature / USGS Astrogeology Science Center, Gazetteer of Planetary Nomenclature, Mars named-feature export.",
+  "coordinateNote": "KML export: planetocentric latitude and east longitude, per the USGS GIS downloads page; MDIM 2.1 control network. East longitude is wrapped to -180…180 for display on the 3396190-metre Mars sphere. These are catalogue centres, not observation or landing sites; horizontal accuracy and alignment are unverified.",
+  "analysisEligible": false,
+  "limitations": [
+    "Named, IAU-adopted features only; this is not a complete catalogue of Martian craters or obstacles.",
+    "A feature centre is a discovery reference, not a verified science observation site or accessible stop.",
+    "Diameter means approximate diameter or longest dimension; source zero dimensions remain unknown.",
+    "Name origin explains the name, not the feature's scientific history or composition.",
+    "The archive's legacy metadata lists 2012 coverage, 1690 points and weekly updates; the current downloads page describes nightly exports. Neither is treated as this snapshot's release date or version.",
+    "The archive projection sidecar defines an oblate Mars ellipsoid while its legacy XML describes a sphere. Display follows the documented KML angular convention; no alignment or analysis eligibility is established.",
+    "Region filters use source quadrangle assignments or centre containment, not full feature footprints."
+  ]
+}

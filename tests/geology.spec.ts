@@ -50,7 +50,7 @@ test('geology exposes the source units, offset warning, opacity and extent witho
   await expect(
     page.getByText('Location not yet verified', { exact: true }),
   ).toBeVisible();
-  await expect(page.getByLabel('Scientific goal')).toHaveValue('');
+  await expect(page.getByLabel('Scientific goal')).toHaveValue('ancient-water');
   await expect(
     page.getByRole('button', { name: 'Compare stops' }),
   ).toBeDisabled();

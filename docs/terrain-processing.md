@@ -22,7 +22,7 @@ Enable **Jezero elevation colours** under Map layers. The legend displays the ac
 
 The PNG preserves source pixels without resampling; nodata would have zero alpha and is excluded from colour bounds. Derived imagery is about 944 KiB, stored locally, so this overlay works without an external imagery service after the app has loaded. Internet access is still needed for the underlying NASA MOC/CTX imagery.
 
-A verified areoid-to-radius conversion, height-datum review, and proper terrain tiling are still needed for 3D relief. No DEM values are used for markers, distances, scoring, equipment assumptions, or routing. The official USGS 2025 HiRISE release remains a later candidate; its 5.3 GB mosaic package was not downloaded. The public `mars_v14` terrain endpoint configured by NASA Trek was inspected but not integrated because its metadata did not establish the required source provenance, planetary model and datum compatibility.
+A verified areoid-to-radius conversion, height-datum review, and proper terrain tiling are still needed for 3D relief. No DEM values are used for markers, distances, scoring, equipment assumptions, or routing. A separate exploratory [slope display](slope-processing.md) now derives degree-valued gradients from this pinned DEM; it does not establish physical surface inclination or walking feasibility. Controlled HiRISE imagery is available separately from 3D terrain. The official USGS 2025 HiRISE terrain release remains a later candidate; its 5.3 GB mosaic package was not downloaded. The public `mars_v14` terrain endpoint configured by NASA Trek was inspected but not integrated because its metadata did not establish the required source provenance, planetary model and datum compatibility.
 
 ## Reproduce locally
 

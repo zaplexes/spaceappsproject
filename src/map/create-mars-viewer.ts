@@ -22,6 +22,9 @@ import {
 import elevation from '../data/generated/elevation.json' with { type: 'json' };
 import { classifyCoverage, type Extent, type Coverage } from '../data/coverage';
 import { createGeologyOverlay } from './create-geology-overlay';
+import { createCandidateHighlight } from './create-candidate-highlight';
+import { createRasterOverlay } from './create-raster-overlay';
+import slope from '../data/generated/slope.json' with { type: 'json' };
 export interface RasterOverlayState {
   status: LayerStatus;
   coverage: Coverage;
@@ -37,6 +40,9 @@ export function createMarsViewer(
   onMapFailure: () => void,
   onElevationChange?: (state: RasterOverlayState) => void,
   onGeologyChange?: (state: RasterOverlayState) => void,
+  candidateElement?: HTMLElement,
+  onHiRISECoverage?: (coverage: Coverage) => void,
+  onSlopeChange?: (state: RasterOverlayState) => void,
 ) {
   const mars = marsReferenceEllipsoid;
   Ellipsoid.default = mars;
@@ -102,6 +108,8 @@ export function createMarsViewer(
           CesiumMath.toDegrees,
         ) as [number, number, number, number])
       : null;
+    const hirise = imagerySources.find((source) => source.id === 'hirise');
+    if (hirise) onHiRISECoverage?.(classifyCoverage(view, hirise.extent));
     onElevationChange?.({
       status: elevationStatus,
       coverage: classifyCoverage(
@@ -111,13 +119,30 @@ export function createMarsViewer(
     });
   }
   function orderLayers() {
-    const regional = entries.get('jezero');
-    if (regional) viewer.imageryLayers.raiseToTop(regional.layer);
+    for (const id of ['jezero', 'hirise'] as const) {
+      const regional = entries.get(id);
+      if (regional) viewer.imageryLayers.raiseToTop(regional.layer);
+    }
     if (elevationLayer) viewer.imageryLayers.raiseToTop(elevationLayer);
     if (geologyOverlay.layer)
       viewer.imageryLayers.raiseToTop(geologyOverlay.layer);
+    if (slopeOverlay.layer) viewer.imageryLayers.raiseToTop(slopeOverlay.layer);
   }
   const geologyOverlay = createGeologyOverlay(viewer, mars, onGeologyChange);
+  const slopeOverlay = createRasterOverlay(
+    viewer,
+    mars,
+    {
+      assetUrl: slope.assetUrl,
+      bounds: slope.bounds,
+      credit:
+        'USGS · Fergason et al. (2020) · locally derived DEM gradient; not walkability',
+    },
+    onSlopeChange,
+  );
+  const candidateHighlight = candidateElement
+    ? createCandidateHighlight(viewer, mars, candidateElement)
+    : null;
   function loadElevation() {
     const request = ++elevationRequest;
     elevationStatus = 'loading';
@@ -183,9 +208,9 @@ export function createMarsViewer(
     const removeProgress =
       viewer.scene.globe.tileLoadProgressEvent.addEventListener(
         (pending: number) => {
-          if (pending === 0 && layer.show && !entries.get(id)?.failed) {
-            clearTimeout(timer);
-            onStatus(id, 'ready');
+          if (layer.show && !entries.get(id)?.failed) {
+            if (pending === 0) clearTimeout(timer);
+            onStatus(id, pending === 0 ? 'ready' : 'loading');
           }
         },
       );
@@ -253,11 +278,16 @@ export function createMarsViewer(
   command('jezero');
   install('global');
   install('jezero');
+  install('hirise');
   return {
     command,
+    highlightCandidate: candidateHighlight?.select,
     setGeology: geologyOverlay.setEnabled,
     setGeologyOpacity: geologyOverlay.setOpacity,
     retryGeology: geologyOverlay.retry,
+    setSlope: slopeOverlay.setEnabled,
+    setSlopeOpacity: slopeOverlay.setOpacity,
+    retrySlope: slopeOverlay.retry,
     setElevationOpacity(opacity: number) {
       elevationOpacity = Math.max(0, Math.min(1, opacity));
       if (elevationLayer) {
@@ -300,6 +330,8 @@ export function createMarsViewer(
       elevationRequest++;
       removeCameraChanged();
       geologyOverlay.destroy();
+      slopeOverlay.destroy();
+      candidateHighlight?.destroy();
       for (const entry of entries.values()) {
         clearTimeout(entry.timer);
         entry.removeError();

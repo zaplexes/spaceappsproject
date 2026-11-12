@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "pipelineVersion": "1.0.0",
+  "productId": "JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0-horn-gradient-display-v1",
+  "sourceProductId": "JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0",
+  "sourceUrl": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif",
+  "sourceSha256": "16a1aa66c3f48c1bca252795827db7b417876217aff0f5e1aff18027fab2327b",
+  "sourcePage": "https://astrogeology.usgs.gov/search/map/mars_2020_terrain_relative_navigation_ctx_dtm_mosaic",
+  "sourcePublicationDate": "2020-07-24",
+  "verifiedDate": "2026-11-12",
+  "citation": "Fergason et al., 2020, doi:10.5066/P906QQT8; local Horn-gradient derivation",
+  "rights": "USGS public data; cite authors and disclose derived display",
+  "mission": "Mars Reconnaissance Orbiter",
+  "instrument": "CTX",
+  "latitudeType": "planetocentric",
+  "longitudeConvention": "east-positive, -180 to 180 degrees",
+  "referenceSphereRadiusMetres": 3396190.0,
+  "verticalDatum": "Mars areoid (source DeltaGeoid)",
+  "verticalDatumConverted": false,
+  "heightUnits": "metres",
+  "angleUnits": "degrees",
+  "bounds": [
+    77.16046545922367, 18.211027390963398, 77.69897516629472, 18.721194481872804
+  ],
+  "width": 1596,
+  "height": 1512,
+  "sourcePixelSizeMetres": [20.0, 20.0],
+  "sourceCrsWkt": "PROJCS[\"Equirectangular Mars 2000 Sphere IAU\",GEOGCS[\"GCS_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere_IAU\",3396190,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "algorithm": "Horn 3x3 areoid-height gradient; east ground spacing dx*cos(planetocentric latitude), north spacing dy on the source sphere",
+  "algorithmReference": "https://gdal.org/en/stable/programs/gdaldem.html#slope",
+  "neighbourhoodCells": [3, 3],
+  "edgePolicy": "Transparent at outer 1-pixel border and wherever any 3x3 neighbour is missing or nonfinite; no interpolation",
+  "scaleDegrees": [0, 90],
+  "palette": [
+    [34, 64, 92],
+    [124, 161, 178],
+    [244, 224, 160]
+  ],
+  "minimumDegrees": 0.0021698048813380256,
+  "maximumDegrees": 42.408946410540835,
+  "validPixels": 2406940,
+  "nodataPixels": 6212,
+  "assetUrl": "/jezero-slope.png",
+  "assetSha256": "8af84029f316f46b398488056606766e06354bcf66aeab861be3cb8e7b356c9c",
+  "analysisEligible": false,
+  "limitations": [
+    "Exploratory gradient of source areoid-relative heights, not independently validated physical surface inclination",
+    "20 m source grid and 3x3 neighbourhood cannot resolve individual rocks or small obstacles",
+    "Independent imagery/DEM registration and height-datum conversion remain unverified",
+    "No risk classes, walking thresholds, route eligibility or safety rating"
+  ]
+}

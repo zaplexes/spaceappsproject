@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { imagerySources, type LayerId } from '../data/layers';
+import {
+  candidateLocations,
+  type CandidateLocation,
+} from '../data/candidate-locations';
+import type { Coverage } from '../data/coverage';
 import type {
   createMarsViewer,
   LayerStatus,
@@ -8,20 +13,34 @@ import type {
 } from './create-mars-viewer';
 export function MarsMap({
   focusRequest = 0,
+  selectedStopId = null,
+  catalogCandidate = null,
   visible,
   elevationEnabled = false,
   elevationOpacity = 0.65,
   geologyEnabled = false,
   geologyOpacity = 0.5,
+  slopeEnabled = false,
+  slopeOpacity = 0.65,
 }: {
   focusRequest?: number;
+  selectedStopId?: string | null;
+  catalogCandidate?: CandidateLocation | null;
   visible: Record<LayerId, boolean>;
   elevationEnabled?: boolean;
   elevationOpacity?: number;
   geologyEnabled?: boolean;
   geologyOpacity?: number;
+  slopeEnabled?: boolean;
+  slopeOpacity?: number;
 }) {
   const host = useRef<HTMLDivElement>(null);
+  const highlightElement = useRef<HTMLDivElement>(null);
+  const candidate =
+    catalogCandidate ??
+    candidateLocations.find((entry) => entry.stopId === selectedStopId) ??
+    null;
+  const catalogueCentre = candidate?.referenceKind === 'catalogue-centre';
   const controller = useRef<ReturnType<typeof createMarsViewer> | null>(null);
   const visibleRef = useRef(visible);
   visibleRef.current = visible;
@@ -31,7 +50,9 @@ export function MarsMap({
   const [status, setStatus] = useState<Record<LayerId, LayerStatus>>({
     global: 'loading',
     jezero: 'loading',
+    hirise: 'loading',
   });
+  const [hiriseCoverage, setHiRISECoverage] = useState<Coverage>('unknown');
   const elevationRef = useRef({
     enabled: elevationEnabled,
     opacity: elevationOpacity,
@@ -54,6 +75,12 @@ export function MarsMap({
     coverage: 'unknown',
   });
   const [attempt, setAttempt] = useState(0);
+  const slopeRef = useRef({ enabled: slopeEnabled, opacity: slopeOpacity });
+  slopeRef.current = { enabled: slopeEnabled, opacity: slopeOpacity };
+  const [slopeState, setSlopeState] = useState<RasterOverlayState>({
+    status: 'hidden',
+    coverage: 'unknown',
+  });
   useEffect(() => {
     let disposed = false;
     let active: ReturnType<typeof createMarsViewer> | null = null;
@@ -67,7 +94,11 @@ export function MarsMap({
             host.current,
             (id, next) => {
               if (!disposed)
-                setStatus((previous) => ({ ...previous, [id]: next }));
+                setStatus((previous) =>
+                  previous[id] === next
+                    ? previous
+                    : { ...previous, [id]: next },
+                );
             },
             () => {
               if (!disposed) setMapState('failed');
@@ -78,12 +109,21 @@ export function MarsMap({
             (next) => {
               if (!disposed) setGeologyState(next);
             },
+            highlightElement.current ?? undefined,
+            (coverage) => {
+              if (!disposed) setHiRISECoverage(coverage);
+            },
+            (next) => {
+              if (!disposed) setSlopeState(next);
+            },
           );
           controller.current = active;
           active.setElevationOpacity(elevationRef.current.opacity);
           active.setElevation(elevationRef.current.enabled);
           active.setGeologyOpacity(geologyRef.current.opacity);
           active.setGeology(geologyRef.current.enabled);
+          active.setSlopeOpacity(slopeRef.current.opacity);
+          active.setSlope(slopeRef.current.enabled);
           for (const source of imagerySources)
             if (!visibleRef.current[source.id]) active.toggle(source.id, false);
           setMapState('ready');
@@ -110,12 +150,10 @@ export function MarsMap({
     controller.current?.setElevation(elevationEnabled);
   }, [elevationEnabled, elevationOpacity]);
   useEffect(() => {
-    // All current stops belong to Jezero. Use regional camera context while
-    // their exact drill positions remain unverified. Replays after map startup
-    // or retry, and handles reselecting the same stop after navigating away.
-    if (focusRequest > 0 && mapState === 'ready')
-      controller.current?.command('jezero');
-  }, [focusRequest, mapState]);
+    // Replay selection after startup/retry and on same-stop reselection.
+    if (mapState === 'ready')
+      controller.current?.highlightCandidate?.(candidate, focusRequest > 0);
+  }, [candidate, focusRequest, mapState]);
   useEffect(() => {
     controller.current?.setGeologyOpacity(geologyOpacity);
     controller.current?.setGeology(geologyEnabled);
@@ -123,13 +161,54 @@ export function MarsMap({
   function command(action: MapCommand) {
     controller.current?.command(action);
   }
+  useEffect(() => {
+    controller.current?.setSlopeOpacity(slopeOpacity);
+    controller.current?.setSlope(slopeEnabled);
+  }, [slopeEnabled, slopeOpacity]);
   return (
-    <section className="map-section" aria-label="Jezero map">
+    <section
+      className="map-section"
+      aria-label={catalogueCentre ? 'Mars discovery map' : 'Jezero map'}
+    >
       <div ref={host} className="map-host" data-testid="map-host" />
+      <div className="candidate-overlay" hidden={mapState !== 'ready'}>
+        <div
+          ref={highlightElement}
+          className="candidate-highlight"
+          data-testid="candidate-highlight"
+          hidden
+          role="img"
+          aria-label={
+            candidate
+              ? catalogueCentre
+                ? `${candidate.name}: catalogue centre, observation site unverified`
+                : `${candidate.name}: approximate, unverified location`
+              : undefined
+          }
+        >
+          <span className="candidate-ring" aria-hidden="true" />
+          <span className="candidate-label">
+            <strong>{candidate?.name}</strong>
+            <small>
+              {catalogueCentre
+                ? 'Catalogue centre / site unverified'
+                : 'Approximate / unverified'}
+            </small>
+          </span>
+        </div>
+      </div>
       <div className="map-caption">
-        <span className="eyebrow">MARS / JEZERO</span>
-        <strong>Western delta</strong>
-        <span>Orbital imagery · regional context</span>
+        <span className="eyebrow">
+          {catalogueCentre ? 'MARS / DISCOVERY' : 'MARS / JEZERO'}
+        </span>
+        <strong>
+          {catalogueCentre ? 'Catalogue reference' : 'Western delta'}
+        </strong>
+        <span>
+          {catalogueCentre
+            ? 'Named feature · coverage varies'
+            : 'Orbital imagery · regional context'}
+        </span>
       </div>
       {mapState === 'loading' && (
         <div className="map-message" role="status">
@@ -182,6 +261,17 @@ export function MarsMap({
                   )}
                 </div>
               ))}
+            {visible.hirise && (
+              <p className="coverage-status" data-testid="hirise-coverage">
+                {hiriseCoverage === 'inside'
+                  ? 'Within HiRISE service extent'
+                  : hiriseCoverage === 'partial'
+                    ? 'HiRISE covers part of this viewport'
+                    : hiriseCoverage === 'outside'
+                      ? 'Outside HiRISE coverage · context imagery below'
+                      : 'HiRISE coverage unknown'}
+              </p>
+            )}
             {elevationEnabled && (
               <div data-testid="elevation-status">
                 <span className={`status-dot ${elevationState.status}`} />
@@ -240,10 +330,41 @@ export function MarsMap({
                 </p>
               </>
             )}
+            {slopeEnabled && (
+              <>
+                <div data-testid="slope-status">
+                  <span className={`status-dot ${slopeState.status}`} />
+                  <span>
+                    Jezero slope:{' '}
+                    {slopeState.status === 'ready'
+                      ? 'loaded'
+                      : slopeState.status === 'failed'
+                        ? 'unavailable'
+                        : 'loading…'}
+                  </span>
+                  {slopeState.status === 'failed' && (
+                    <button onClick={() => controller.current?.retrySlope()}>
+                      Retry slope
+                    </button>
+                  )}
+                </div>
+                <p className="coverage-status" data-testid="slope-coverage">
+                  {slopeState.coverage === 'inside'
+                    ? 'Within slope grid extent · edges/gaps unknown'
+                    : slopeState.coverage === 'partial'
+                      ? 'Slope grid covers part of this viewport'
+                      : slopeState.coverage === 'outside'
+                        ? 'Outside slope coverage'
+                        : 'Slope coverage unknown'}
+                </p>
+              </>
+            )}
             {!visible.global &&
               !visible.jezero &&
+              !visible.hirise &&
               !elevationEnabled &&
-              !geologyEnabled && (
+              !geologyEnabled &&
+              !slopeEnabled && (
                 <span>Imagery off · smooth reference globe</span>
               )}
           </div>
@@ -256,9 +377,35 @@ export function MarsMap({
             ? 'Regional geology · alignment unverified'
             : elevationEnabled
               ? 'Elevation colours only · no 3D relief'
-              : 'Smooth globe · no stop markers'}
+              : slopeEnabled
+                ? 'Estimated DEM gradient · no walkability assessment'
+                : candidate
+                  ? 'Approximate candidate reference · smooth globe'
+                  : 'Smooth globe · select a science stop'}
         </strong>
       </div>
+      {candidate && mapState === 'ready' && (
+        <div
+          className="candidate-warning"
+          role="status"
+          data-testid="candidate-warning"
+        >
+          <strong>
+            {candidate.name} ·{' '}
+            {catalogueCentre
+              ? 'Catalogue centre / observation site unverified'
+              : 'Approximate / unverified location'}
+          </strong>
+          <p>
+            {catalogueCentre
+              ? 'Published planetocentric / east-longitude reference. Alignment and accuracy unverified; this is not an observation site. Marker size does not indicate accuracy.'
+              : 'Latitude convention and precision unverified. Highlight is a visual reference; its size does not indicate accuracy.'}
+          </p>
+          <a href={candidate.sourceUrl} target="_blank" rel="noreferrer">
+            Published candidate position ↗
+          </a>
+        </div>
+      )}
     </section>
   );
 }

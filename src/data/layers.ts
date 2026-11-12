@@ -1,4 +1,6 @@
-export type LayerId = 'global' | 'jezero';
+import imageryReview from '../../data/manifests/imagery-review.json' with { type: 'json' };
+
+export type LayerId = 'global' | 'jezero' | 'hirise';
 export interface ImagerySource {
   id: LayerId;
   name: string;
@@ -8,26 +10,22 @@ export interface ImagerySource {
   maxLevel: number;
   extent: readonly [number, number, number, number];
 }
-export const imagerySources: readonly ImagerySource[] = [
-  {
-    id: 'global',
-    name: 'Global MOC imagery',
-    productId: 'msss_atlas_simp_clon',
-    mission: 'Mars Global Surveyor · MOC',
-    credit: 'NASA/JPL/MSSS · NASA Trek',
-    maxLevel: 6,
-    extent: [-179.9999885, -89.9999958, 179.9999862, 89.9999916],
-  },
-  {
-    id: 'jezero',
-    name: 'Jezero CTX imagery',
-    productId: 'JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0',
-    mission: 'Mars Reconnaissance Orbiter · CTX',
-    credit: 'NASA/JPL-Caltech/USGS · NASA Trek',
-    maxLevel: 13,
-    extent: [77.1604655, 18.2110274, 77.6991776, 18.7211945],
-  },
-];
+export const imagerySources: readonly ImagerySource[] =
+  imageryReview.sources.map((source) => {
+    if (!['global', 'jezero', 'hirise'].includes(source.layerId))
+      throw new Error(`Unknown imagery layer: ${source.layerId}`);
+    if (source.extent.length !== 4)
+      throw new Error(`Invalid imagery extent: ${source.productId}`);
+    return {
+      id: source.layerId as LayerId,
+      name: source.name,
+      productId: source.productId,
+      mission: source.mission,
+      credit: source.credit,
+      maxLevel: source.maxLevel,
+      extent: source.extent as [number, number, number, number],
+    };
+  });
 export function tileUrl(source: ImagerySource) {
   return `https://trek.nasa.gov/tiles/Mars/EQ/${source.productId}/1.0.0/default/default028mm/{z}/{y}/{x}.png`;
 }

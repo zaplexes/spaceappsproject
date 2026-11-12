@@ -2,19 +2,19 @@
 
 ## Purpose
 
-Help a simulated astronaut crew plan and review a science-focused Marswalk in Jezero crater. The global Mars globe and crater catalog provide discovery and context; detailed excursion planning is regional.
+Help plan and review a simulated science expedition in Jezero crater by walking astronauts, astronauts in a crew vehicle or a robotic ground rover. The global Mars globe and crater catalog provide discovery and context; detailed excursion planning is regional.
 
 ## Agreed experience
 
 1. Explore Mars and enter the detailed Jezero region.
 2. Select a simulated local base and crew profile.
 3. Inspect aligned imagery, terrain, and geological or mineralogical evidence.
-4. Select a scientific goal. **Leave this unselected until the team decides.**
+4. Investigate ancient water in Jezero through a source-linked comparison of Skinner Ridge, Wildcat Ridge and Amalik. **This scientific goal is selected.**
 5. Compare reachable local science stops using scientific value, travel difficulty, and data confidence.
 6. Review a base-to-stops-to-base excursion, including travel, stop activities, equipment assumptions, and data gaps.
 7. Open a field-use view with numbered stops, science tasks, and reference surface images. Any simulated position must be labeled.
 
-Walking astronauts are the primary experience. Crew vehicles and robotic systems support the mission; detailed capabilities remain undecided. Local targets can be outcrops, deposits, or viewpoints rather than crater centers.
+Walking astronauts are the initial exploration mode. Crewed vehicles and robotic ground rovers are selectable alternatives; their detailed capabilities remain undecided. Local targets can be outcrops, deposits, or viewpoints rather than crater centers.
 
 ## Demonstration evidence
 
@@ -27,7 +27,7 @@ Walking astronauts are the primary experience. Crew vehicles and robotic systems
 
 ## Decisions still open
 
-Scientific goal; scoring features and weights; equipment and mobility assumptions; exact base and stop coordinates; hosting provider and budget.
+Scoring features and weights; equipment and mobility assumptions; simulated base and supported analysis area. See [team decisions](team-decisions.md) for the current decision list. Exact stop locations remain a scientific verification task. Static GitHub Pages hosting and visibly unverified approximate selection highlights are approved.
 
 ## Scope boundaries
 
@@ -40,3 +40,7 @@ Catalog-wide browsing does not imply detailed analysis for every crater. Live en
 - `technical-brief.md`: editable technical detail and references.
 
 This records the accepted direction and updates the briefs. The local React + TypeScript + CesiumJS preview is implemented; verified behavior and remaining work are tracked in `implementation-checklist.md`. Backend, hosting and analysis architecture remain proposals. `Space Apps.docx` remains unchanged.
+
+See [mission science and exploration modes](mission-science.md) for the agreed goal, proposed stop activities and remaining analysis gates.
+
+Mars-wide named-feature discovery with source region/type filters and session-only candidate additions is implemented from a retained IAU/USGS export, refreshed during Pages publication. Catalogue centres remain separate from verified observation sites. See [catalogue scope and limits](crater-catalogue.md).

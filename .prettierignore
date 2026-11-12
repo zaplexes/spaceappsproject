@@ -6,3 +6,6 @@ playwright-report/
 docs/
 AGENTS.md
 package-lock.json
+# Preserve exact upstream bytes covered by metadata checksums.
+data/manifests/imagery-*-catalog.json
+assets/catalog/

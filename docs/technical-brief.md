@@ -1,10 +1,10 @@
 # Martian Map — Technical Architecture Brief
 
-Status: proposed full architecture for team review. A local React + TypeScript + CesiumJS frontend preview, source-linked NASA surface references/PDS position review, and local elevation-colour/regional-geology pipelines are now implemented; see `implementation-checklist.md` for verified scope. No backend, cloud resources, scoring formula or deployment has been implemented. Scientific goal remains undecided.
+Status: proposed full architecture for team review. A local React + TypeScript + CesiumJS frontend preview, source-linked NASA surface references/PDS position review, and local elevation-colour/regional-geology pipelines are now implemented, along with controlled HiRISE imagery and an exploratory estimated-slope display; see `implementation-checklist.md` for verified scope. Mars-wide named-feature discovery, filters and session-only candidate additions are implemented through a retained IAU/USGS export, refreshed during the static Pages build. No backend, cloud resources, scoring formula or verified deployment has been implemented. The ancient-water investigation is selected; walking, crewed-vehicle and robotic ground-rover modes are implemented with unconfigured capabilities.
 
-Accepted direction: a Jezero Marswalk with local science stops, a round-trip excursion and a field-use view. Global crater discovery is supporting scope. Scientific goal remains undecided.
+Accepted direction: a Jezero Marswalk with local science stops, a round-trip excursion and a field-use view. Global crater discovery is supporting scope. The ancient-water investigation is selected; walking, crewed-vehicle and robotic ground-rover modes are implemented with unconfigured capabilities.
 
-Based on `Space Apps.docx` and the discussion. All endpoints, component names and deployment choices below are proposals, not existing functionality.
+Based on `Space Apps.docx` and the discussion. The service endpoints and full system modules below are proposals. The current catalogue uses static search/region files and requires no application server; see [catalogue implementation](crater-catalogue.md).
 
 ## System architecture
 
@@ -12,7 +12,7 @@ Proposed service boundaries and the path from scientific sources to the browser.
 
 ### Browser application
 
-React + TypeScript + CesiumJS proposed. Global discovery leads into a detailed Jezero Marswalk. Local layers, science stops, round-trip planning and a field view are central. Scientific goal remains null until selected.
+React + TypeScript + CesiumJS proposed. Global discovery leads into a detailed Jezero Marswalk. Local layers, science stops, round-trip planning and a field view are central. The selected goal investigates ancient water in Jezero.
 
 ### Static hosting / CDN
 
@@ -44,7 +44,7 @@ GlobeView: global discovery and local Jezero view. MissionPanel: base, crew prof
 
 ### State and accessibility
 
-Walking astronauts are the primary workflow; crew vehicles and robotic support are optional profiles. Goal starts null. Keep map, mission and cached-data state separate. Support keyboard navigation, stale-request cancellation and explicit loading/error states.
+Walking astronauts are the initial mode; crewed vehicles and robotic ground rovers are selectable alternatives. The ancient-water goal is selected. Keep map, mission and cached-data state separate. Support keyboard navigation, stale-request cancellation and explicit loading/error states.
 
 ### Catalog endpoints — proposed
 
@@ -92,7 +92,7 @@ Publish reviewed dataset versions atomically. Store large rasters outside databa
 
 ## Ranking & route analysis
 
-An explainable decision-support model; scientific goal and weights remain open.
+An explainable decision-support model; the ancient-water goal is selected and scoring weights remain open.
 
 ### Required mission inputs
 
@@ -168,11 +168,11 @@ Pull request → build frontend → backend tests → scientific-data checks →
 
 ### Phased delivery
 
-1: verify Jezero sources and stops; agree the scientific goal. 2: build local layered map and evidence panels. 3: compare stops and review a round-trip excursion. 4: add field view and global discovery. No application or infrastructure is deployed.
+1: verify Jezero sources and stops; the ancient-water goal is agreed. 2: build local layered map and evidence panels. 3: compare stops and review a round-trip excursion. 4: add field view and global discovery. No application or infrastructure is deployed.
 
 ### Decisions awaiting the team
 
-Accepted: Jezero Marswalk centerpiece; global crater discovery supports it. Still open: scientific goal/weights, exact base and stops, crew/support profiles, stack acceptance, hosting budget and accounts. Ask before implementation that depends on these choices.
+Accepted: Jezero Marswalk centerpiece; global crater discovery supports it. Still open: scoring weights, exact base and stops, crew/vehicle/rover capabilities, any additional infrastructure budget and accounts. Ask before implementation that depends on these choices.
 
 ## Architecture connections
 
