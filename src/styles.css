@@ -907,3 +907,60 @@ footer p {
   font-size: 9px;
   padding: 5px 0 0;
 }
+
+.surface-reference {
+  margin: 22px 0;
+  max-width: 560px;
+}
+.surface-reference .record-tag {
+  display: block;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.surface-image-frame {
+  position: relative;
+  aspect-ratio: 1024 / 771;
+  background: #e3dfd3;
+  border: 1px solid var(--line);
+}
+.surface-image-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.surface-image-frame img[hidden] {
+  display: none;
+}
+.surface-image-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  font-size: 11px;
+}
+.surface-image-message button {
+  padding: 8px;
+  background: #faf8f1;
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+.surface-reference figcaption p {
+  margin: 8px 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.location-review summary {
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.location-review .text-link {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}

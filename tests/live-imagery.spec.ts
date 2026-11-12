@@ -27,6 +27,7 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   });
   expect(tiles.some((url) => url.includes('JEZ_ctx_B_soc_008'))).toBe(true);
   await page.getByRole('button', { name: /Wildcat Ridge/ }).click();
+  await expect(page.locator('.surface-reference img')).toBeVisible();
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/preview-desktop.png', fullPage: true });
   await page.getByRole('button', { name: 'Mars globe', exact: true }).click();

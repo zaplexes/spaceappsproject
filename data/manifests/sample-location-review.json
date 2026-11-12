@@ -37,6 +37,12 @@
       "exactDrillLocationConfirmed": false
     }
   ],
-  "blocker": "Dossier reports positions, but exact drill-point meaning, latitude definition and accuracy have not been established. Shared coordinates for Swift Run/Skyland must not be assumed to be independently verified drill locations. Application coordinates remain null; no markers.",
-  "mageikNote": "Dossier distinguishes coring sol 579 from sealing sol 619. UI correctly labels the NASA catalog value as sol sealed."
+  "blocker": "No event-matched, independently verified drill-tip position or dossier latitude definition/accuracy. Reviewed arm rows lack time intervals; the documented drill-feed CSV URL returned HTTP 404. Rover-frame coordinates must not replace sample positions. Application coordinates remain null; no markers.",
+  "mageikNote": "Dossier distinguishes coring sol 579 from sealing sol 619. UI correctly labels the NASA catalog value as sol sealed.",
+  "placesSisUrl": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/document/Mars2020_Rover_PLACES_PDS_SIS.pdf",
+  "instrumentFramesUrl": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/document/Mars2020_Rover_PLACES_SIS_Appendix_B_PPPCS.pdf",
+  "localizationUrl": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/data_localizations/best_interp.csv.xml",
+  "armUrl": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/data_mechanisms/mech_arm.csv.xml",
+  "positionReviewDate": "2026-11-12",
+  "reviewSummary": "PLACES localizations locate rover frames, not named drill holes. Arm joint records require a sampling-event time and calibrated instrument transforms to locate a drill tip. The dossier position definition and accuracy remain unresolved."
 }

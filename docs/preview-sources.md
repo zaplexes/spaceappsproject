@@ -17,7 +17,7 @@ Both use `default` style, `default028mm` tile matrix set, 256-pixel PNG tiles, a
 
 The source catalog describes CTX as a controlled orthomosaic at approximately 6 metres per pixel. That is source metadata, not a precision guarantee for this preview; delivered tile resolution depends on zoom. The global MOC mosaic is low-detail context and may appear blurred at Jezero zoom. Extents do not guarantee valid pixels everywhere. No common-resolution alignment or point-level registration is certified. No multi-layer analysis is performed. The globe has no measured elevation; its reference-sphere height is not a surface measurement. HiRISE prioritization awaits a verified later layer.
 
-Usage: follow [NASA media guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/) and the [JPL image use policy](https://www.jpl.nasa.gov/jpl-image-use-policy/), retain source credits, and do not imply endorsement. This educational/informational preview uses no NASA logos. Third-party rights must be rechecked if material/use changes. CesiumJS is Apache-2.0 licensed; its bundled attribution UI is retained. The legacy metadata HTML endpoint returned an empty body; capabilities and catalog are used instead. These are public upstream services with no availability guarantee and no offline imagery package. The preview offers failure/retry states.
+Usage: follow [NASA media guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/) and the [JPL image use policy](https://www.jpl.nasa.gov/jpl-image-use-policy/), retain source credits, and do not imply endorsement. This educational/informational preview uses no NASA logos. Third-party rights must be rechecked if material/use changes. CesiumJS is Apache-2.0 licensed; its bundled attribution UI is retained. The legacy metadata HTML endpoint returned an empty body; capabilities and catalog are used instead. These are public upstream services with no availability guarantee and no offline orbital-imagery package. The preview offers failure/retry states.
 
 ## Science records and unresolved positions
 
@@ -38,3 +38,7 @@ The camera context (18.4446° N, 77.4509° E) comes from the DOCX and is corrobo
 ## Elevation overlay extension
 
 A local USGS CTX DEM colour overlay has been added after the initial preview. See [terrain processing](terrain-processing.md), the source snapshots in `data/manifests/` and `src/data/generated/elevation.json`. It uses source areoid heights as colours; the reference globe remains smooth. No 3D height conversion or analysis eligibility is claimed.
+
+## Surface reference and position evidence extension
+
+Each stop now includes its primary sample’s NASA Navcam photograph, capture context, credit, original-image link and an expandable PDS position review. Files are retained locally with hashes. See [stop evidence](stop-evidence.md) for per-image provenance, the reviewed PLACES/instrument-frame definitions, reproducible table audit and unresolved placement gates. No geographic stop markers have been approved.

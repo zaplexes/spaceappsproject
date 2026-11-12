@@ -3,6 +3,7 @@ import elevation from './data/generated/elevation.json' with { type: 'json' };
 import { capabilitiesUrl, imagerySources, type LayerId } from './data/layers';
 import { initialMission, stops } from './data/stops';
 import { MarsMap } from './map/MarsMap';
+import { StopEvidence } from './stops/StopEvidence';
 export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [visible, setVisible] = useState<Record<LayerId, boolean>>({
@@ -230,13 +231,7 @@ export default function App() {
                     </dd>
                   </div>
                 </dl>
-                <div className="evidence-note">
-                  <strong>Location not yet verified</strong>
-                  <p>
-                    Sample coordinates are unknown. No marker, distance, or
-                    route is inferred from the rover’s position.
-                  </p>
-                </div>
+                <StopEvidence key={selected.id} stop={selected} />
                 <a
                   className="text-link"
                   href={selected.source}

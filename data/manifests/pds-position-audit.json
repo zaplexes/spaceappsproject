@@ -1,0 +1,145 @@
+{
+  "reviewDateUtc": "2026-11-12",
+  "purpose": "Diagnostic rover-frame and mechanism-table review, not target localization.",
+  "sources": [
+    {
+      "file": "best_interp.csv",
+      "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/data_localizations/best_interp.csv",
+      "sha256": "58fbc62f2676195a00b40b2da53a797a70284a8d2344b288c999d325b7ccb4cc",
+      "bytes": 8684070,
+      "version": "16.0",
+      "logicalIdentifier": "urn:nasa:pds:mars2020_rover_places:data_localizations:best_interp.csv",
+      "records": 33458
+    },
+    {
+      "file": "best_interp.csv.xml",
+      "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/data_localizations/best_interp.csv.xml",
+      "sha256": "03a382042c73d7a7eaced1c32f64108ed42c07f2139bbcc815cb4ab882eac70b",
+      "bytes": 15890
+    },
+    {
+      "file": "mech_arm.csv",
+      "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/data_mechanisms/mech_arm.csv",
+      "sha256": "5292a962ea966dea9110cc7c2778ff8585e80fa1cb57d84e5f08ea51e221ea83",
+      "bytes": 6403914,
+      "version": "16.0",
+      "logicalIdentifier": "urn:nasa:pds:mars2020_rover_places:data_mechanisms:mech_arm.csv",
+      "records": 65488
+    },
+    {
+      "file": "mech_arm.csv.xml",
+      "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/data_mechanisms/mech_arm.csv.xml",
+      "sha256": "6f313b049f264944e97e3e9281872021966dc8b1b04b5f7b18b33e2bce4f6808",
+      "bytes": 11091
+    },
+    {
+      "file": "places-sis.pdf",
+      "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/document/Mars2020_Rover_PLACES_PDS_SIS.pdf",
+      "sha256": "ca3eb9d2a0d992cedf96860f30537ac508e15fb0e2417fb74c5b80cb31418d1a",
+      "bytes": 1700553
+    },
+    {
+      "file": "places-appendix-b.pdf",
+      "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_rover_places/document/Mars2020_Rover_PLACES_SIS_Appendix_B_PPPCS.pdf",
+      "sha256": "0cf5c06521b68c4ff2e074a0d77bc7579627b4b94460ee608c067031f9025220",
+      "bytes": 9969923
+    }
+  ],
+  "diagnosticKeys": [
+    {
+      "site": 26,
+      "drive": 1004,
+      "correspondenceToCoringEventVerified": false,
+      "roverFrameRows": [
+        {
+          "frame": "ROVER",
+          "site": "26",
+          "drive": "1004",
+          "pose": "-1",
+          "landing_x": "845.742",
+          "landing_y": "-2514.167",
+          "landing_z": "-49.057",
+          "northing": "1094145.437",
+          "easting": "4351979.919",
+          "planetocentric_latitude": "18.458895325",
+          "planetodetic_latitude": "18.346169209",
+          "longitude": "77.406167686",
+          "elevation": "-2520.853",
+          "map_pixel_line": "11698.25",
+          "map_pixel_sample": "44359.68",
+          "dem_pixel_line": "2924.56",
+          "dem_pixel_sample": "11089.92",
+          "roll": "5.644",
+          "pitch": "12.787",
+          "yaw": "8.434",
+          "quat_s": "0.990291153",
+          "quat_v1": "0.040618768",
+          "quat_v2": "0.114520315",
+          "quat_v3": "0.067517737",
+          "areoid": "3394504.140",
+          "radius": "3391983.287",
+          "sclk": "709292198",
+          "sol": "477"
+        }
+      ],
+      "armRows": 427,
+      "armRowsWithoutExactTimeInterval": 427,
+      "armRowsWithoutApproximateTimeInterval": 427,
+      "armRowsWithAllResolverAngles": 78
+    },
+    {
+      "site": 26,
+      "drive": 1222,
+      "correspondenceToCoringEventVerified": false,
+      "roverFrameRows": [
+        {
+          "frame": "ROVER",
+          "site": "26",
+          "drive": "1222",
+          "pose": "-1",
+          "landing_x": "831.039",
+          "landing_y": "-2527.814",
+          "landing_z": "-46.742",
+          "northing": "1094130.734",
+          "easting": "4351966.272",
+          "planetocentric_latitude": "18.458647276",
+          "planetodetic_latitude": "18.346169209",
+          "longitude": "77.405924946",
+          "elevation": "-2523.168",
+          "map_pixel_line": "11757.06",
+          "map_pixel_sample": "44305.09",
+          "dem_pixel_line": "2939.27",
+          "dem_pixel_sample": "11076.27",
+          "roll": "-14.090",
+          "pitch": "-1.913",
+          "yaw": "-107.805",
+          "quat_s": "0.582978402",
+          "quat_v1": "-0.085641116",
+          "quat_v2": "0.089328654",
+          "quat_v3": "-0.803008203",
+          "areoid": "3394504.231",
+          "radius": "3391981.063",
+          "sclk": "711504522",
+          "sol": "502"
+        }
+      ],
+      "armRows": 515,
+      "armRowsWithoutExactTimeInterval": 515,
+      "armRowsWithoutApproximateTimeInterval": 515,
+      "armRowsWithAllResolverAngles": 114
+    },
+    {
+      "site": 29,
+      "drive": 0,
+      "correspondenceToCoringEventVerified": false,
+      "roverFrameRows": [],
+      "armRows": 738,
+      "armRowsWithoutExactTimeInterval": 738,
+      "armRowsWithoutApproximateTimeInterval": 738,
+      "armRowsWithAllResolverAngles": 107
+    }
+  ],
+  "eventJoinVerified": false,
+  "drillTipTransformApplied": false,
+  "markerPlacementApproved": false
+}

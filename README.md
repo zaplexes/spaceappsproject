@@ -22,7 +22,7 @@ The production preview opens at **http://127.0.0.1:4173**. Cesium worker/static 
 
 ## What is implemented
 
-Interactive Mars reference globe, initial Jezero camera view, global MOC and regional CTX imagery toggles, a local USGS elevation-colour toggle with opacity, datum legend and viewport coverage, source-linked science records, list-to-panel selection, keyboard map controls, responsive layouts, optional support preferences for the current session and unavailable-data states. The goal stays `null`; the base is unset. Support preferences have no equipment or mobility capabilities attached.
+Interactive Mars reference globe, initial Jezero camera view, global MOC and regional CTX imagery toggles, a local USGS elevation-colour toggle with opacity, datum legend and viewport coverage, source-linked science records with local NASA Navcam photographs and expandable PDS position evidence, list-to-panel selection, keyboard map controls, responsive layouts, optional support preferences for the current session and unavailable-data states. The goal stays `null`; the base is unset. Support preferences have no equipment or mobility capabilities attached.
 
 Skinner Ridge, Wildcat Ridge and Amalik have **no geographic markers** because exact sample coordinates remain unverified. List numbering is only a list index, not route order. The initial camera center is the published approximate Perseverance landing location, not a simulated base or sample position. 3D terrain relief, slopes, geological/mineralogical layers, distances, ranking, routes, field view, saved plans, crater catalog and backend are not implemented. No human route safety is claimed.
 
@@ -44,10 +44,12 @@ npm run test:live
 ## Layout and sources
 
 - `src/data/`: source-linked records and imagery configuration.
+- `src/stops/`: surface photographs, image recovery and unresolved-position evidence.
 - `src/map/`: Cesium lifecycle, Mars geometry, imagery, navigation and failure handling.
 - `src/`: application interface and styles.
 - `tests/`: interaction, scientific-data constraints, outage and live imagery checks.
-- `assets/`: static resources and the generated elevation overlay; Cesium runtime assets are ignored.
+- `assets/`: retained NASA surface photographs and the generated elevation overlay; Cesium runtime assets are ignored.
+- `pipelines/evidence/`: standard-library Python audit of pinned PDS localization and arm records.
 - `pipelines/terrain/`: optional local Python processing, pinned hashed requirements and Ruff configuration.
 - `data/manifests/`: small scientific metadata snapshots; raw rasters are ignored.
 - `scripts/`: repeatable local asset preparation.
@@ -61,3 +63,5 @@ Review the captured [desktop preview](docs/preview-desktop.png) and [mobile prev
 The measured elevation layer is a colour overlay, with heights relative to the source Mars areoid. It does not displace the globe or establish walkability. See [terrain processing](docs/terrain-processing.md) for reproducible Python setup, data checks and the remaining 3D height-conversion gate. Python is not required to open the preview.
 
 View the [elevation overlay on desktop](docs/elevation-desktop.png) or [mobile](docs/elevation-mobile.png).
+
+See [stop evidence and position review](docs/stop-evidence.md) for image provenance, the rover-frame versus drill-point distinction, reproducible PDS audit commands and outstanding placement blockers. Surface photos are served locally; orbital imagery still needs internet access.

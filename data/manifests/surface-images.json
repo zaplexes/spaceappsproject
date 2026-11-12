@@ -1,0 +1,57 @@
+{
+  "retrievedDate": "2026-11-12",
+  "sourcePageUrl": "https://science.nasa.gov/mission/mars-2020-perseverance/mars-rock-samples/",
+  "images": [
+    {
+      "stopId": "skinner-ridge",
+      "assetUrl": "/stops/skinner-ridge-navcam.png",
+      "sourceImageUrl": "https://science.nasa.gov/wp-content/uploads/2024/03/mars-sample-10-nlf-0490-0710456117-926ecm-n0261004ncam00709-01-095j.png?w=1024",
+      "sha256": "3e0f57d06612cbe3b91b5b1e0b25e6d5384217fcbce0223923e0ba7702fdd450",
+      "bytes": 590406,
+      "width": 1024,
+      "height": 771,
+      "credit": "NASA/JPL-Caltech",
+      "modified": false,
+      "sample": "Swift Run",
+      "acquisitionSol": 490,
+      "dateAsPublished": "2022-07-07",
+      "camera": "Perseverance left Navcam",
+      "caption": "Navcam surface view following Swift Run sampling.",
+      "alt": "Rock surface at Skinner Ridge with a drill hole and a nearby circular abrasion patch."
+    },
+    {
+      "stopId": "wildcat-ridge",
+      "assetUrl": "/stops/wildcat-ridge-navcam.png",
+      "sourceImageUrl": "https://science.nasa.gov/wp-content/uploads/2024/03/mars-sample-12-nlf-0509-0712140650-691ecm-n0261222ncam00709-01-095j.png?w=1024",
+      "sha256": "67c708b3a6c829e0dcdcb44f75f3d3c1939f03755087b2addff3b7da81facc7b",
+      "bytes": 630932,
+      "width": 1024,
+      "height": 771,
+      "credit": "NASA/JPL-Caltech",
+      "modified": false,
+      "sample": "Hazeltop",
+      "acquisitionSol": 509,
+      "dateAsPublished": "2022-07-26",
+      "camera": "Perseverance left Navcam",
+      "caption": "Navcam view of the Hazeltop drill hole and nearby abrasion patch.",
+      "alt": "Rock outcrop at Wildcat Ridge with the Hazeltop drill hole beside a circular abrasion patch."
+    },
+    {
+      "stopId": "amalik",
+      "assetUrl": "/stops/amalik-navcam.png",
+      "sourceImageUrl": "https://science.nasa.gov/wp-content/uploads/2024/03/mars-sample-14-nlf-0575-0717997335-774ecm-n0290000ncam00709-01-095j.png?w=1024",
+      "sha256": "86b3b10ee28f68427610ba4d80a3536b22905ea2c91d0b0c50a5671958bd166c",
+      "bytes": 647806,
+      "width": 1024,
+      "height": 771,
+      "credit": "NASA/JPL-Caltech",
+      "modified": false,
+      "sample": "Shuyak",
+      "acquisitionSol": 575,
+      "dateAsPublished": "2022-10-02",
+      "camera": "Perseverance left Navcam",
+      "caption": "Navcam view of the Shuyak drill hole and nearby abrasion patch.",
+      "alt": "Rock surface at Amalik with the Shuyak drill hole and nearby abrasion patch."
+    }
+  ]
+}
