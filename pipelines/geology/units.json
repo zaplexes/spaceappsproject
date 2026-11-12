@@ -1,0 +1,89 @@
+{
+  "paletteNote": "Display colours chosen for categorical distinction; not the original USGS map colours, mineral abundances, ages or suitability scores.",
+  "units": [
+    {
+      "sourceCode": "0",
+      "symbol": "NHjf2",
+      "name": "Jezero fan 2 unit",
+      "colour": "#4292c6"
+    },
+    {
+      "sourceCode": "1",
+      "symbol": "NHjf1",
+      "name": "Jezero fan 1 unit",
+      "colour": "#9ecae1"
+    },
+    {
+      "sourceCode": "2",
+      "symbol": "Njf",
+      "name": "Jezero floor unit",
+      "colour": "#b15928"
+    },
+    {
+      "sourceCode": "3",
+      "symbol": "Nle",
+      "name": "Lower etched unit",
+      "colour": "#fdbf6f"
+    },
+    {
+      "sourceCode": "4",
+      "symbol": "Hnpf",
+      "name": "Nili Planum fan unit",
+      "colour": "#33a02c"
+    },
+    {
+      "sourceCode": "5",
+      "symbol": "Nnp2",
+      "name": "Nili Planum 2 unit",
+      "colour": "#b2df8a"
+    },
+    {
+      "sourceCode": "6",
+      "symbol": "Nnp1",
+      "name": "Nili Planum 1 unit",
+      "colour": "#1b7837"
+    },
+    {
+      "sourceCode": "7",
+      "symbol": "Aeb",
+      "name": "Eolian bedform unit",
+      "colour": "#fee08b"
+    },
+    {
+      "sourceCode": "8",
+      "symbol": "su",
+      "name": "Smooth unit, undivided",
+      "colour": "#bdbdbd"
+    },
+    {
+      "sourceCode": "9",
+      "symbol": "Nrb",
+      "name": "Rugged bright unit",
+      "colour": "#cab2d6"
+    },
+    {
+      "sourceCode": "10",
+      "symbol": "Nue",
+      "name": "Upper etched unit",
+      "colour": "#fb9a99"
+    },
+    {
+      "sourceCode": "11",
+      "symbol": "cr",
+      "name": "Crater rim unit",
+      "colour": "#6a3d9a"
+    },
+    {
+      "sourceCode": "12",
+      "symbol": "ce",
+      "name": "Crater ejecta unit",
+      "colour": "#e31a1c"
+    },
+    {
+      "sourceCode": "13",
+      "symbol": "ci",
+      "name": "Crater interior unit",
+      "colour": "#80cdc1"
+    }
+  ]
+}

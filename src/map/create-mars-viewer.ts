@@ -20,7 +20,8 @@ import {
 } from '../data/layers';
 import elevation from '../data/generated/elevation.json' with { type: 'json' };
 import { classifyCoverage, type Extent, type Coverage } from '../data/coverage';
-export interface ElevationState {
+import { createGeologyOverlay } from './create-geology-overlay';
+export interface RasterOverlayState {
   status: LayerStatus;
   coverage: Coverage;
 }
@@ -33,7 +34,8 @@ export function createMarsViewer(
   container: HTMLElement,
   onStatus: (id: LayerId, status: LayerStatus) => void,
   onMapFailure: () => void,
-  onElevationChange?: (state: ElevationState) => void,
+  onElevationChange?: (state: RasterOverlayState) => void,
+  onGeologyChange?: (state: RasterOverlayState) => void,
 ) {
   const mars = marsReferenceEllipsoid;
   Ellipsoid.default = mars;
@@ -111,7 +113,10 @@ export function createMarsViewer(
     const regional = entries.get('jezero');
     if (regional) viewer.imageryLayers.raiseToTop(regional.layer);
     if (elevationLayer) viewer.imageryLayers.raiseToTop(elevationLayer);
+    if (geologyOverlay.layer)
+      viewer.imageryLayers.raiseToTop(geologyOverlay.layer);
   }
+  const geologyOverlay = createGeologyOverlay(viewer, mars, onGeologyChange);
   function loadElevation() {
     const request = ++elevationRequest;
     elevationStatus = 'loading';
@@ -249,6 +254,9 @@ export function createMarsViewer(
   install('jezero');
   return {
     command,
+    setGeology: geologyOverlay.setEnabled,
+    setGeologyOpacity: geologyOverlay.setOpacity,
+    retryGeology: geologyOverlay.retry,
     setElevationOpacity(opacity: number) {
       elevationOpacity = Math.max(0, Math.min(1, opacity));
       if (elevationLayer) {
@@ -290,6 +298,7 @@ export function createMarsViewer(
       alive = false;
       elevationRequest++;
       removeCameraChanged();
+      geologyOverlay.destroy();
       for (const entry of entries.values()) {
         clearTimeout(entry.timer);
         entry.removeError();

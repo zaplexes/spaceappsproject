@@ -1,0 +1,3 @@
+-r ../terrain/requirements.txt
+pyogrio==0.13.0
+shapely==2.2.0

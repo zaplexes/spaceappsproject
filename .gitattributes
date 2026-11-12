@@ -1,3 +1,8 @@
 # Preserve official scientific metadata snapshots byte for byte, including CRLF.
 data/manifests/ctx-elevation-fgdc.xml -text -diff
 data/manifests/ctx-elevation-pds3.lbl -text -diff
+
+data/manifests/geology-usgs-metadata.xml -text -diff
+data/manifests/geology-usgs-readme.txt -text -diff
+data/manifests/geology-mtm.prj -text -diff
+data/manifests/geology-mars-sphere.prj -text -diff

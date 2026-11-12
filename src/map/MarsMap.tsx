@@ -4,18 +4,22 @@ import type {
   createMarsViewer,
   LayerStatus,
   MapCommand,
-  ElevationState,
+  RasterOverlayState,
 } from './create-mars-viewer';
 export function MarsMap({
   focusRequest = 0,
   visible,
   elevationEnabled = false,
   elevationOpacity = 0.65,
+  geologyEnabled = false,
+  geologyOpacity = 0.5,
 }: {
   focusRequest?: number;
   visible: Record<LayerId, boolean>;
   elevationEnabled?: boolean;
   elevationOpacity?: number;
+  geologyEnabled?: boolean;
+  geologyOpacity?: number;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const controller = useRef<ReturnType<typeof createMarsViewer> | null>(null);
@@ -36,7 +40,16 @@ export function MarsMap({
     enabled: elevationEnabled,
     opacity: elevationOpacity,
   };
-  const [elevationState, setElevationState] = useState<ElevationState>({
+  const [elevationState, setElevationState] = useState<RasterOverlayState>({
+    status: 'hidden',
+    coverage: 'unknown',
+  });
+  const geologyRef = useRef({
+    enabled: geologyEnabled,
+    opacity: geologyOpacity,
+  });
+  geologyRef.current = { enabled: geologyEnabled, opacity: geologyOpacity };
+  const [geologyState, setGeologyState] = useState<RasterOverlayState>({
     status: 'hidden',
     coverage: 'unknown',
   });
@@ -62,10 +75,15 @@ export function MarsMap({
             (next) => {
               if (!disposed) setElevationState(next);
             },
+            (next) => {
+              if (!disposed) setGeologyState(next);
+            },
           );
           controller.current = active;
           active.setElevationOpacity(elevationRef.current.opacity);
           active.setElevation(elevationRef.current.enabled);
+          active.setGeologyOpacity(geologyRef.current.opacity);
+          active.setGeology(geologyRef.current.enabled);
           for (const source of imagerySources)
             if (!visibleRef.current[source.id]) active.toggle(source.id, false);
           setMapState('ready');
@@ -98,6 +116,10 @@ export function MarsMap({
     if (focusRequest > 0 && mapState === 'ready')
       controller.current?.command('jezero');
   }, [focusRequest, mapState]);
+  useEffect(() => {
+    controller.current?.setGeologyOpacity(geologyOpacity);
+    controller.current?.setGeology(geologyEnabled);
+  }, [geologyEnabled, geologyOpacity]);
   function command(action: MapCommand) {
     controller.current?.command(action);
   }
@@ -189,18 +211,52 @@ export function MarsMap({
                       : 'Elevation coverage unknown'}
               </p>
             )}
-            {!visible.global && !visible.jezero && !elevationEnabled && (
-              <span>Imagery off · smooth reference globe</span>
+            {geologyEnabled && (
+              <>
+                <div data-testid="geology-status">
+                  <span className={`status-dot ${geologyState.status}`} />
+                  <span>
+                    Jezero geology:{' '}
+                    {geologyState.status === 'ready'
+                      ? 'loaded'
+                      : geologyState.status === 'failed'
+                        ? 'unavailable'
+                        : 'loading…'}
+                  </span>
+                  {geologyState.status === 'failed' && (
+                    <button onClick={() => controller.current?.retryGeology()}>
+                      Retry geology
+                    </button>
+                  )}
+                </div>
+                <p className="coverage-status" data-testid="geology-coverage">
+                  {geologyState.coverage === 'inside'
+                    ? 'Within geology map extent'
+                    : geologyState.coverage === 'partial'
+                      ? 'Geology map covers part of this viewport'
+                      : geologyState.coverage === 'outside'
+                        ? 'Outside geology map extent'
+                        : 'Geology map extent unknown'}
+                </p>
+              </>
             )}
+            {!visible.global &&
+              !visible.jezero &&
+              !elevationEnabled &&
+              !geologyEnabled && (
+                <span>Imagery off · smooth reference globe</span>
+              )}
           </div>
         </>
       )}
       <div className="map-footnote">
         <span>Drag to pan · scroll to zoom · keyboard controls available</span>
         <strong>
-          {elevationEnabled
-            ? 'Elevation colours only · no 3D relief'
-            : 'Smooth globe · no stop markers'}
+          {geologyEnabled
+            ? 'Regional geology · alignment unverified'
+            : elevationEnabled
+              ? 'Elevation colours only · no 3D relief'
+              : 'Smooth globe · no stop markers'}
         </strong>
       </div>
     </section>

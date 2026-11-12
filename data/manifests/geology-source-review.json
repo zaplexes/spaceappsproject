@@ -1,0 +1,52 @@
+{
+  "reviewDateUtc": "2026-11-12",
+  "sourceVersion": "USGS SIM 3464 GIS release, posted 2020-12-02; exact reviewed bytes identified by hashes",
+  "sources": [
+    {
+      "url": "https://pubs.usgs.gov/sim/3464/sim3464_database.zip",
+      "sha256": "a88bd53a5573743cc4a20036c10e585106d08a433ad2f34af269e9cea1529f87",
+      "bytes": 349336873,
+      "retainedInGit": false
+    },
+    {
+      "url": "https://pubs.usgs.gov/sim/3464/sim3464_metadata.xml",
+      "sha256": "e4ede0b7465190319c81babfb9359d4e84710cb82deebe331219ef26130927fd",
+      "bytes": 20924,
+      "retainedInGit": true,
+      "retainedPath": "data/manifests/geology-usgs-metadata.xml"
+    },
+    {
+      "url": "https://pubs.usgs.gov/sim/3464/sim3464_readme.txt",
+      "sha256": "226c04cc89b86441fff8d51e70e3f906551b405c7a23a8a9cfb8ca9df9a7762d",
+      "bytes": 3914,
+      "retainedInGit": true,
+      "retainedPath": "data/manifests/geology-usgs-readme.txt"
+    },
+    {
+      "url": "https://pubs.usgs.gov/sim/3464/sim3464_pamphlet.pdf",
+      "sha256": "6bba9b47ae894ab79170dbbc977e82f2217cccd13929de9dfd74ab85c0677bac",
+      "bytes": 728435,
+      "retainedInGit": false
+    }
+  ],
+  "sourceOffsetsMetresAsReported": [100, 200],
+  "alignmentVerified": false,
+  "userDecision": "Show regional overlay with the offset warning",
+  "projectionReview": "Archive embedded CRS, PRJ, readme and metadata agree on central meridian 77.5 E; pamphlet states 77.3 E. Used the actual embedded geometry CRS and checked boundary against published bounds. Standalone FGDC metadata has denflat=10.E-10 despite its sphere label; the actual geodatabase and PRJs explicitly define zero flattening. Transformation uses the actual embedded CRS.",
+  "excludedFeatureIds": [112, 666, 1155],
+  "displayNameCorrection": "FID 1004: Crater riim unit -> Crater rim unit; source unit code and symbol unchanged.",
+  "coordinateSnapshots": [
+    {
+      "archiveMember": "sim3464_JezeroNili_FINAL/CoordinateSystems/MTM_clon77_5E.prj",
+      "retainedPath": "data/manifests/geology-mtm.prj",
+      "sha256": "d8eb567773a607cfa993f9934de6c81f1f86e9b15c5302cf6184e2f6058fc3a0",
+      "bytes": 408
+    },
+    {
+      "archiveMember": "sim3464_JezeroNili_FINAL/CoordinateSystems/Mars2000_Sphere.prj",
+      "retainedPath": "data/manifests/geology-mars-sphere.prj",
+      "sha256": "b1a91e94dcf78fdd3f81f570cf64ac110a859fae6b3cc03f6c30a7ce8cf7f4cc",
+      "bytes": 193
+    }
+  ]
+}

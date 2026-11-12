@@ -4,6 +4,8 @@ import { capabilitiesUrl, imagerySources, type LayerId } from './data/layers';
 import { initialMission, stops } from './data/stops';
 import { MarsMap } from './map/MarsMap';
 import { StopEvidence } from './stops/StopEvidence';
+import geology from './data/generated/geology.json' with { type: 'json' };
+import { GeologyLegend } from './GeologyLegend';
 export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusRequest, setFocusRequest] = useState(0);
@@ -16,6 +18,8 @@ export default function App() {
     robot: initialMission.robotSupport as boolean,
   });
   const [elevationEnabled, setElevationEnabled] = useState(false);
+  const [geologyEnabled, setGeologyEnabled] = useState(false);
+  const [geologyOpacity, setGeologyOpacity] = useState(0.5);
   const [elevationOpacity, setElevationOpacity] = useState(0.65);
   const selected = stops.find((stop) => stop.id === selectedId);
   return (
@@ -87,9 +91,10 @@ export default function App() {
                 <input
                   type="checkbox"
                   checked={elevationEnabled}
-                  onChange={(event) =>
-                    setElevationEnabled(event.target.checked)
-                  }
+                  onChange={(event) => {
+                    setElevationEnabled(event.target.checked);
+                    if (event.target.checked) setGeologyEnabled(false);
+                  }}
                 />
                 <span>
                   Jezero elevation colours
@@ -133,11 +138,36 @@ export default function App() {
                   </a>
                 </div>
               )}
+              <label className="layer-row">
+                <input
+                  type="checkbox"
+                  checked={geologyEnabled}
+                  onChange={(event) => {
+                    setGeologyEnabled(event.target.checked);
+                    if (event.target.checked) setElevationEnabled(false);
+                  }}
+                />
+                <span>
+                  Jezero regional geology
+                  <small>USGS · Sun & Stack (2020) · 1:75,000</small>
+                </span>
+              </label>
+              {geologyEnabled && (
+                <GeologyLegend
+                  opacity={geologyOpacity}
+                  onOpacity={setGeologyOpacity}
+                />
+              )}
+              {(geologyEnabled || elevationEnabled) && (
+                <p className="quiet">
+                  Geology and elevation colours are viewed separately.
+                </p>
+              )}
               <p className="quiet">
                 3D terrain relief awaits verified height conversion.
               </p>
               <p className="quiet">
-                Geology and mineralogy layers are not available in this preview.
+                Direct mineralogy layers are not available in this preview.
               </p>
             </section>
             <section id="science-stops" aria-labelledby="stops-heading">
@@ -187,6 +217,8 @@ export default function App() {
               visible={visible}
               elevationEnabled={elevationEnabled}
               elevationOpacity={elevationOpacity}
+              geologyEnabled={geologyEnabled}
+              geologyOpacity={geologyOpacity}
             />
             <div className="map-summary">
               <span className="summary-icon" aria-hidden="true">
@@ -349,8 +381,9 @@ export default function App() {
             <span className="eyebrow">DATA & PROVENANCE</span>
             <h2>Know what you’re looking at.</h2>
             <p>
-              Public imagery via NASA Trek, plus a local USGS elevation-colour
-              overlay. No 3D relief, slope, ranking or route analysis.
+              Public imagery via NASA Trek, plus local USGS elevation colours
+              and regional geological interpretation. No 3D relief, slope,
+              ranking or route analysis.
             </p>
           </div>
           <div className="source-list">
@@ -375,6 +408,14 @@ export default function App() {
               <span>USGS · Fergason et al. 2020 · MRO / CTX</span>
               <small>
                 Heights relative to Mars areoid; display overlay only.
+              </small>
+            </a>
+            <a href={geology.sourcePage} target="_blank" rel="noreferrer">
+              <strong>Jezero regional geology ↗</strong>
+              <span>{geology.credit} · SIM 3464</span>
+              <small>
+                Orbital interpretation; approximately 100–200 m offsets from CTX
+                imagery.
               </small>
             </a>
             <a

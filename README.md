@@ -1,6 +1,6 @@
 # Martian Map
 
-A local Jezero Marswalk preview with an optional elevation-colour overlay, built with React, TypeScript and CesiumJS. Walking astronauts are primary; global imagery provides context. This is pre-event work begun at the user's direction on November 11, 2026. The organizer's [timing clarification](https://github.com/nasa/spaceapps/discussions/1827) requires project work to begin at the official hackathon start; adding features during the event does not resolve use of pre-event work. Competition eligibility is not established.
+A local Jezero Marswalk preview with optional elevation-colour and regional geology overlays, built with React, TypeScript and CesiumJS. Walking astronauts are primary; global imagery provides context. This is pre-event work begun at the user's direction on November 11, 2026. The organizer's [timing clarification](https://github.com/nasa/spaceapps/discussions/1827) requires project work to begin at the official hackathon start; adding features during the event does not resolve use of pre-event work. Competition eligibility is not established.
 
 ## Local preview
 
@@ -22,9 +22,9 @@ The production preview opens at **http://127.0.0.1:4173**. Cesium worker/static 
 
 ## What is implemented
 
-Interactive Mars reference globe, initial Jezero camera view, global MOC and regional CTX imagery toggles, a local USGS elevation-colour toggle with opacity, datum legend and viewport coverage, source-linked science records with local NASA Navcam photographs and expandable PDS position evidence, list-to-panel selection, keyboard map controls, responsive layouts, optional support preferences for the current session and unavailable-data states. The goal stays `null`; the base is unset. Support preferences have no equipment or mobility capabilities attached.
+Interactive Mars reference globe, initial Jezero camera view, global MOC and regional CTX imagery toggles, a local USGS elevation-colour toggle with opacity, datum legend and viewport coverage, a regional USGS geology toggle with unit legend, opacity, source-offset warning and extent, source-linked science records with local NASA Navcam photographs and expandable PDS position evidence, list-to-panel selection, keyboard map controls, responsive layouts, optional support preferences for the current session and unavailable-data states. The goal stays `null`; the base is unset. Support preferences have no equipment or mobility capabilities attached.
 
-Skinner Ridge, Wildcat Ridge and Amalik have **no geographic markers** because exact sample coordinates remain unverified. List numbering is only a list index, not route order. The initial camera center is the published approximate Perseverance landing location, not a simulated base or sample position. 3D terrain relief, slopes, geological/mineralogical layers, distances, ranking, routes, field view, saved plans, crater catalog and backend are not implemented. No human route safety is claimed.
+Skinner Ridge, Wildcat Ridge and Amalik have **no geographic markers** because exact sample coordinates remain unverified. List numbering is only a list index, not route order. The initial camera center is the published approximate Perseverance landing location, not a simulated base or sample position. 3D terrain relief, slopes, direct mineralogy layers, distances, ranking, routes, field view, saved plans, crater catalog and backend are not implemented. No human route safety is claimed.
 
 ## Controls and checks
 
@@ -50,6 +50,7 @@ npm run test:live
 - `tests/`: interaction, scientific-data constraints, outage and live imagery checks.
 - `assets/`: retained NASA surface photographs and the generated elevation overlay; Cesium runtime assets are ignored.
 - `pipelines/evidence/`: standard-library Python audit of pinned PDS localization and arm records.
+- `pipelines/geology/`: optional, isolated GIS-to-display processing and hashed dependencies.
 - `pipelines/terrain/`: optional local Python processing, pinned hashed requirements and Ruff configuration.
 - `data/manifests/`: small scientific metadata snapshots; raw rasters are ignored.
 - `scripts/`: repeatable local asset preparation.
@@ -65,3 +66,5 @@ The measured elevation layer is a colour overlay, with heights relative to the s
 View the [elevation overlay on desktop](docs/elevation-desktop.png) or [mobile](docs/elevation-mobile.png).
 
 See [stop evidence and position review](docs/stop-evidence.md) for image provenance, the rover-frame versus drill-point distinction, reproducible PDS audit commands and outstanding placement blockers. Surface photos are served locally; orbital imagery still needs internet access.
+
+Enable **Jezero regional geology** for the USGS SIM 3464 interpretation, then open **Geological units (14)**. USGS reports offsets of about 100–200 m from the controlled CTX imagery; alignment remains unverified. Transparent areas are unclassified or withheld. Geology and elevation colours are viewed one at a time. See [geology processing and limitations](docs/geology-processing.md) for source QA, reproduction commands and [desktop](docs/geology-desktop.png)/[mobile](docs/geology-mobile.png) screenshots.

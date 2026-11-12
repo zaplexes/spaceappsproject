@@ -42,3 +42,7 @@ A local USGS CTX DEM colour overlay has been added after the initial preview. Se
 ## Surface reference and position evidence extension
 
 Each stop now includes its primary sample’s NASA Navcam photograph, capture context, credit, original-image link and an expandable PDS position review. Files are retained locally with hashes. See [stop evidence](stop-evidence.md) for per-image provenance, the reviewed PLACES/instrument-frame definitions, reproducible table audit and unresolved placement gates. No geographic stop markers have been approved.
+
+## Regional geology extension
+
+USGS SIM 3464 (Sun and Stack, 2020) now supplies a local categorical geological-interpretation overlay and source-linked 14-unit legend. Source-coordinate conversion is checked; independent alignment remains unverified. The user accepted the readme’s approximately 100–200 m offsets from the controlled CTX imagery as a visible regional-context limitation. Invalid/conflicting areas remain transparent, with conservative masks documented in [geology processing](geology-processing.md). Map-extent indicators describe the envelope, not complete valid coverage. The layer neither assigns units to unlocated stops nor provides direct mineral measurements, slopes or route eligibility.

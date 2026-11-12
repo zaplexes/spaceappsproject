@@ -46,5 +46,20 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   await page.setViewportSize({ width: 390, height: 844 });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/elevation-mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.getByLabel('Jezero regional geology', { exact: false }).check();
+  await expect(page.getByTestId('geology-status')).toContainText('loaded');
+  await expect(page.getByLabel('Jezero elevation colours')).not.toBeChecked();
+  await page.getByText('Geological units (14)', { exact: true }).click();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'docs/geology-desktop.png', fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'docs/geology-mobile.png', fullPage: true });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
   expect(errors).toEqual([]);
 });
