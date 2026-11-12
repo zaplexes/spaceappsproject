@@ -8,6 +8,7 @@ import {
   Globe,
   Math as CesiumMath,
   Rectangle,
+  SingleTileImageryProvider,
   UrlTemplateImageryProvider,
   Viewer,
 } from 'cesium';
@@ -17,6 +18,12 @@ import {
   tileUrl,
   type LayerId,
 } from '../data/layers';
+import elevation from '../data/generated/elevation.json' with { type: 'json' };
+import { classifyCoverage, type Extent, type Coverage } from '../data/coverage';
+export interface ElevationState {
+  status: LayerStatus;
+  coverage: Coverage;
+}
 export type LayerStatus = 'loading' | 'ready' | 'failed' | 'hidden';
 export type MapCommand =
   'jezero' | 'global' | 'in' | 'out' | 'north' | 'west' | 'south' | 'east';
@@ -26,6 +33,7 @@ export function createMarsViewer(
   container: HTMLElement,
   onStatus: (id: LayerId, status: LayerStatus) => void,
   onMapFailure: () => void,
+  onElevationChange?: (state: ElevationState) => void,
 ) {
   const mars = marsReferenceEllipsoid;
   Ellipsoid.default = mars;
@@ -76,6 +84,66 @@ export function createMarsViewer(
       failed: boolean;
     }
   >();
+  let alive = true;
+  let elevationEnabled = false;
+  let elevationStatus: LayerStatus = 'hidden';
+  let elevationLayer: ReturnType<
+    typeof viewer.imageryLayers.addImageryProvider
+  > | null = null;
+  let elevationRequest = 0;
+  let elevationOpacity = 0.65;
+  function reportElevation() {
+    const rectangle = viewer.camera.computeViewRectangle(mars);
+    const view: Extent | null = rectangle
+      ? ([rectangle.west, rectangle.south, rectangle.east, rectangle.north].map(
+          CesiumMath.toDegrees,
+        ) as [number, number, number, number])
+      : null;
+    onElevationChange?.({
+      status: elevationStatus,
+      coverage: classifyCoverage(
+        view,
+        elevation.bounds as [number, number, number, number],
+      ),
+    });
+  }
+  function orderLayers() {
+    const regional = entries.get('jezero');
+    if (regional) viewer.imageryLayers.raiseToTop(regional.layer);
+    if (elevationLayer) viewer.imageryLayers.raiseToTop(elevationLayer);
+  }
+  function loadElevation() {
+    const request = ++elevationRequest;
+    elevationStatus = 'loading';
+    reportElevation();
+    SingleTileImageryProvider.fromUrl(elevation.assetUrl, {
+      rectangle: Rectangle.fromDegrees(
+        ...(elevation.bounds as [number, number, number, number]),
+      ),
+      ellipsoid: mars,
+      credit:
+        'NASA/JPL-Caltech/MSSS/USGS · Fergason et al. 2020 · CTX elevation colours',
+    })
+      .then((provider) => {
+        if (!alive || request !== elevationRequest || !elevationEnabled) return;
+        if (elevationLayer) viewer.imageryLayers.remove(elevationLayer, true);
+        elevationLayer = viewer.imageryLayers.addImageryProvider(provider);
+        elevationLayer.alpha = elevationOpacity;
+        elevationStatus = 'ready';
+        orderLayers();
+        reportElevation();
+        viewer.scene.requestRender();
+      })
+      .catch(() => {
+        if (alive && request === elevationRequest && elevationEnabled) {
+          elevationStatus = 'failed';
+          reportElevation();
+        }
+      });
+  }
+  const removeCameraChanged =
+    viewer.camera.changed.addEventListener(reportElevation);
+  viewer.camera.percentageChanged = 0.05;
   function install(id: LayerId, show = true) {
     const source = imagerySources.find((s) => s.id === id)!;
     const previous = entries.get(id);
@@ -123,8 +191,7 @@ export function createMarsViewer(
       failed: false,
     });
     // Keep the regional layer above global imagery, including after retry.
-    const regional = entries.get('jezero');
-    if (regional) viewer.imageryLayers.raiseToTop(regional.layer);
+    orderLayers();
     onStatus(id, show ? 'loading' : 'hidden');
     viewer.scene.requestRender();
   }
@@ -182,6 +249,32 @@ export function createMarsViewer(
   install('jezero');
   return {
     command,
+    setElevationOpacity(opacity: number) {
+      elevationOpacity = Math.max(0, Math.min(1, opacity));
+      if (elevationLayer) {
+        elevationLayer.alpha = elevationOpacity;
+        viewer.scene.requestRender();
+      }
+    },
+    setElevation(enabled: boolean) {
+      if (enabled === elevationEnabled) return;
+      elevationEnabled = enabled;
+      if (!enabled) {
+        elevationRequest++;
+        if (elevationLayer) elevationLayer.show = false;
+        elevationStatus = 'hidden';
+        reportElevation();
+        viewer.scene.requestRender();
+      } else if (elevationLayer) {
+        elevationLayer.show = true;
+        elevationStatus = 'ready';
+        reportElevation();
+        viewer.scene.requestRender();
+      } else loadElevation();
+    },
+    retryElevation() {
+      if (elevationEnabled) loadElevation();
+    },
     toggle(id: LayerId, show: boolean) {
       const entry = entries.get(id);
       if (entry && entry.layer.show !== show) {
@@ -194,6 +287,9 @@ export function createMarsViewer(
       install(id);
     },
     destroy() {
+      alive = false;
+      elevationRequest++;
+      removeCameraChanged();
       for (const entry of entries.values()) {
         clearTimeout(entry.timer);
         entry.removeError();

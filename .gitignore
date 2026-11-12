@@ -6,3 +6,8 @@ playwright-report/
 .env
 .env.*
 !.env.example
+
+.venv-terrain/
+data/raw/
+__pycache__/
+.ruff_cache/

@@ -856,3 +856,54 @@ footer p {
     scroll-behavior: auto !important;
   }
 }
+
+.elevation-legend {
+  margin: 10px 0 18px;
+  padding: 12px;
+  background: #eeefe6;
+  border: 1px solid var(--line);
+  font-size: 10px;
+}
+.elevation-legend strong {
+  font-size: 10px;
+}
+.elevation-ramp {
+  height: 9px;
+  margin-top: 10px;
+  background: linear-gradient(
+    to right,
+    rgb(54, 90, 103),
+    rgb(223, 207, 149),
+    rgb(165, 67, 41)
+  );
+}
+.legend-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 9px;
+}
+.elevation-legend p {
+  font-size: 9px;
+  margin: 9px 0;
+}
+.elevation-legend label {
+  display: block;
+  margin: 12px 0;
+}
+.elevation-legend input {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
+.elevation-legend a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--rust);
+  font-size: 9px;
+}
+.coverage-status {
+  color: #eee6d6;
+  font-size: 9px;
+  padding: 5px 0 0;
+}

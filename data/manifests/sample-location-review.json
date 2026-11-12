@@ -1,0 +1,42 @@
+{
+  "sourceUrl": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_dossier/initial_reports/initial_reports_volume2.pdf",
+  "sourceSha256": "914a4baacdbd4dd6f86688b9d4e15dc353a506f9b24874e6f0bf04a799b9f123",
+  "labelVersion": "3.2",
+  "lid": "urn:nasa:pds:mars2020_sample_dossier:initial_reports:initial_reports_volume2",
+  "sourceLabelUrl": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_dossier/initial_reports/initial_reports_volume2.lblx",
+  "reviewDate": "2026-11-11",
+  "entries": [
+    {
+      "sample": "Swift Run",
+      "pdfPage": 14,
+      "reportedLatitudeNorth": "18.458931",
+      "reportedLongitudeEast": "77.40617078",
+      "placementStatus": "pending_verification",
+      "latitudeDefinition": null,
+      "horizontalAccuracyMetres": null,
+      "exactDrillLocationConfirmed": false
+    },
+    {
+      "sample": "Hazeltop",
+      "pdfPage": 58,
+      "reportedLatitudeNorth": "18.45863707",
+      "reportedLongitudeEast": "77.40588851",
+      "placementStatus": "pending_verification",
+      "latitudeDefinition": null,
+      "horizontalAccuracyMetres": null,
+      "exactDrillLocationConfirmed": false
+    },
+    {
+      "sample": "Shuyak",
+      "pdfPage": 100,
+      "reportedLatitudeNorth": "18.45068954",
+      "reportedLongitudeEast": "77.40143171",
+      "placementStatus": "pending_verification",
+      "latitudeDefinition": null,
+      "horizontalAccuracyMetres": null,
+      "exactDrillLocationConfirmed": false
+    }
+  ],
+  "blocker": "Dossier reports positions, but exact drill-point meaning, latitude definition and accuracy have not been established. Shared coordinates for Swift Run/Skyland must not be assumed to be independently verified drill locations. Application coordinates remain null; no markers.",
+  "mageikNote": "Dossier distinguishes coring sol 579 from sealing sol 619. UI correctly labels the NASA catalog value as sol sealed."
+}

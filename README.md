@@ -1,6 +1,6 @@
 # Martian Map
 
-A local Jezero Marswalk preview built with React, TypeScript and CesiumJS. Walking astronauts are primary; global imagery provides context. This is pre-event work begun at the user's direction on November 11, 2026. The organizer's [timing clarification](https://github.com/nasa/spaceapps/discussions/1827) requires project work to begin at the official hackathon start; adding features during the event does not resolve use of pre-event work. Competition eligibility is not established.
+A local Jezero Marswalk preview with an optional elevation-colour overlay, built with React, TypeScript and CesiumJS. Walking astronauts are primary; global imagery provides context. This is pre-event work begun at the user's direction on November 11, 2026. The organizer's [timing clarification](https://github.com/nasa/spaceapps/discussions/1827) requires project work to begin at the official hackathon start; adding features during the event does not resolve use of pre-event work. Competition eligibility is not established.
 
 ## Local preview
 
@@ -22,9 +22,9 @@ The production preview opens at **http://127.0.0.1:4173**. Cesium worker/static 
 
 ## What is implemented
 
-Interactive Mars reference globe, initial Jezero camera view, global MOC and regional CTX imagery toggles, source-linked science records, list-to-panel selection, keyboard map controls, responsive layouts, optional support preferences for the current session and unavailable-data states. The goal stays `null`; the base is unset. Support preferences have no equipment or mobility capabilities attached.
+Interactive Mars reference globe, initial Jezero camera view, global MOC and regional CTX imagery toggles, a local USGS elevation-colour toggle with opacity, datum legend and viewport coverage, source-linked science records, list-to-panel selection, keyboard map controls, responsive layouts, optional support preferences for the current session and unavailable-data states. The goal stays `null`; the base is unset. Support preferences have no equipment or mobility capabilities attached.
 
-Skinner Ridge, Wildcat Ridge and Amalik have **no geographic markers** because exact sample coordinates remain unverified. List numbering is only a list index, not route order. The initial camera center is the published approximate Perseverance landing location, not a simulated base or sample position. Terrain elevation, slopes, geological/mineralogical layers, distances, ranking, routes, field view, saved plans, crater catalog and backend are not implemented. No human route safety is claimed.
+Skinner Ridge, Wildcat Ridge and Amalik have **no geographic markers** because exact sample coordinates remain unverified. List numbering is only a list index, not route order. The initial camera center is the published approximate Perseverance landing location, not a simulated base or sample position. 3D terrain relief, slopes, geological/mineralogical layers, distances, ranking, routes, field view, saved plans, crater catalog and backend are not implemented. No human route safety is claimed.
 
 ## Controls and checks
 
@@ -47,7 +47,9 @@ npm run test:live
 - `src/map/`: Cesium lifecycle, Mars geometry, imagery, navigation and failure handling.
 - `src/`: application interface and styles.
 - `tests/`: interaction, scientific-data constraints, outage and live imagery checks.
-- `assets/`: static resources; generated Cesium assets are ignored.
+- `assets/`: static resources and the generated elevation overlay; Cesium runtime assets are ignored.
+- `pipelines/terrain/`: optional local Python processing, pinned hashed requirements and Ruff configuration.
+- `data/manifests/`: small scientific metadata snapshots; raw rasters are ignored.
 - `scripts/`: repeatable local asset preparation.
 - `docs/implementation-checklist.md`: persistent implementation tracker.
 - `docs/preview-sources.md`: source verification, coordinate conventions and known limitations.
@@ -55,3 +57,7 @@ npm run test:live
 See [source verification](docs/preview-sources.md) for attribution and usage policies. No secret tokens are used. Any future browser token would be public to users and must be deliberately scoped/restricted; do not add a secret token to frontend code or any `VITE_` variable.
 
 Review the captured [desktop preview](docs/preview-desktop.png) and [mobile preview](docs/preview-mobile.png), generated with live NASA imagery.
+
+The measured elevation layer is a colour overlay, with heights relative to the source Mars areoid. It does not displace the globe or establish walkability. See [terrain processing](docs/terrain-processing.md) for reproducible Python setup, data checks and the remaining 3D height-conversion gate. Python is not required to open the preview.
+
+View the [elevation overlay on desktop](docs/elevation-desktop.png) or [mobile](docs/elevation-mobile.png).

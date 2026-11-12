@@ -15,7 +15,7 @@
 - [x] Inspect existing files, Git state, runtime availability, and applicable instructions.
 - [x] Check official competition timing and rules; clarify intended use if implementation would precede the permitted start.
 - [x] Confirm frontend stack compatibility and choose exact dependency versions; ask about unresolved material choices.
-- [ ] Establish a usable Mars imagery/terrain source, attribution, licensing, access, and token requirements.
+- [x] Establish a usable Mars imagery/terrain source, attribution, licensing, access, and token requirements.
 - [x] Define local preview commands and the first milestone's verification criteria.
 
 ## 1. Working local preview — first implementation milestone
@@ -35,15 +35,15 @@
 
 ## 2. Verified multi-mission Jezero layers
 
-- [ ] Identify specific products from multiple NASA missions and record their scientific contribution.
+- [x] Identify specific products from multiple NASA missions and record their scientific contribution.
 - [ ] Record product IDs, URLs, citations, rights, dates, versions, checksums, footprints, and resolution.
 - [ ] Normalize Mars coordinate systems, longitude conventions, latitude definitions, units, and height datums.
 - [ ] Obtain and align appropriate imagery, elevation, and geological/mineralogical evidence.
 - [ ] Check nodata, spatial alignment, coverage, and resolution before combining datasets.
-- [ ] Provide functional layer toggles, legends, provenance, and coverage indicators.
+- [x] Provide functional layer toggles, legends, provenance, and coverage indicators.
 - [ ] Distinguish orbital observations, rover measurements, and derived interpretations.
 - [ ] Preserve raw snapshots and reproducible processing manifests; keep bulk assets outside Git.
-- [ ] Separate visual terrain assets from analysis rasters and expose their limitations.
+- [x] Separate visual terrain assets from analysis rasters and expose their limitations.
 
 ## 3. Scientific mission and local stops
 
@@ -183,3 +183,23 @@ Initial state: no implementation was verified before the work recorded below. Ex
 
 - Final dev smoke check: a Playwright-driven Chromium session opened http://127.0.0.1:5174/, waited for live CTX imagery, selected Amalik and verified its information panel. Passed. Captured request hosts were only `127.0.0.1` and `trek.nasa.gov`; no ion/Earth-provider request occurred.
 - Final tracker validation: section 0 has 5/6 checked, section 1 has 11/12 checked, and all later sections remain unchecked. Python verified these counts and no trailing whitespace in new source/tooling/docs. `git diff --check` passed and `git diff --exit-code -- 'Space Apps.docx'` confirmed the tracked DOCX is unchanged.
+
+### 2026-11-11 — Commit checkpoint and bounded elevation milestone
+
+- User requested a commit and continuation on missing functionality. Created local commit `ca0160b` (`Add local Jezero Marswalk preview`), including the existing project briefs/diagrams, source/tests, lockfile, tracker and preview screenshots. `git diff --cached --check` passed; working tree was clean afterwards. No push or deployment. Previous verification remained applicable because no source changed before this commit.
+- User approved a small local Python terrain-processing pipeline, without cloud resources or credentials. Installed an isolated `.venv-terrain` using Python 3.14.8 and uv 0.13.1. Processing dependencies are exactly pinned with hashes in `pipelines/terrain/requirements.txt`; Ruff configuration is in `pyproject.toml`. Raw rasters and the environment/cache are ignored. No system Python packages were changed.
+- Source selected: USGS/Fergason et al. 2020 CTX TRN DTM version B/008, `JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0`, DOI 10.5066/P906QQT8. Source size 9,662,387 bytes; SHA-256 `16a1aa66c3f48c1bca252795827db7b417876217aff0f5e1aff18027fab2327b`. Verified 1596×1512 Float32 raster, 20-metre map pixels, planetocentric latitude, east-positive longitude, zero-centred equirectangular projection on a 3396190-metre Mars sphere. Bounds match the official PDS label to 1e-10 degrees. Retained small XML/PDS metadata snapshots and checksum records; full raw raster remains outside Git.
+- Implemented a local elevation-colour overlay, independent toggle, opacity slider, source/datum legend, live viewport coverage, loading/error/retry and stale-result cancellation. Valid-data range comes from the source; no scoring thresholds or risk colours were invented. Raw source has 2,413,152 valid pixels, zero nodata pixels; generic processing preserves transparency/excludes nodata. Output PNG is about 944 KiB; checksum and visualization provenance are stored in `src/data/generated/elevation.json`.
+- Elevation is relative to the source Mars areoid, not height above the renderer's sphere. No 3D terrain displacement, height conversion, slope, route, hazard or equipment analysis is implemented. The source-readiness checkbox is now complete because usable credential-free imagery and a measured elevation-display source are verified; this does not certify a 3D terrain source or analysis eligibility. Visual PNG and raw scientific raster remain distinct.
+- Multiple NASA missions now have explicit contributions: MGS/MOC global image context; MRO/CTX local imagery and DEM-derived elevation colours; Mars 2020 Perseverance sample observations. Layer controls/provenance/coverage are verified for the implemented subset. Complete all-product registry, independent image/DEM registration, common analysis grids, geology/mineralogy and 3D terrain remain unchecked.
+- Verification: `uv pip sync --python .venv-terrain/bin/python --require-hashes pipelines/terrain/requirements.txt` passed (9 packages); `.venv-terrain/bin/python pipelines/terrain/build_elevation.py --download` passed end-to-end, downloading the fixed public S3 source, enforcing the size/checksum gate and rebuilding the asset. Derived PNG checksum matched the manifest; geographic bounds matched the retained PDS label.
+- `.venv-terrain/bin/python -m unittest discover -s tests/terrain -v`: 5 passed (nodata/NaN handling, footprint math, Earth CRS rejection, missing/empty data rejection, unreviewed checksum rejection, constant-grid colour handling). Ruff lint/format passed. An initial read-only sandbox run could not create Ruff's cache; reran with write permission successfully.
+- `npm run build`, `npm run lint`, `npm run format:check` passed. `npm test`: 14 passed, 1 intentionally skipped live-network test. New checks cover the overlay's legend, source values, opacity, viewport/seam coverage, failure/retry, stale-loading cancellation, mobile layout and committed asset integrity. Original eight checks remain passing. Initial Node 26 JSON module import failure was corrected with explicit JSON import attributes; subsequent build/tests passed.
+- `npm run test:live`: 1 passed with live NASA imagery plus the local elevation overlay and no uncaught page errors. Refreshed ordinary screenshots and captured/visually inspected `docs/elevation-desktop.png` and `docs/elevation-mobile.png`. No horizontal overflow at 390 pixels. Browser testing remains Chromium/software WebGL; hardware GPU and Firefox remain unverified.
+- Coordinate investigation: downloaded the public PDS sample dossier (about 100 MB) to `/tmp/martian-map-evidence/`, extracted text with `pdftotext -layout`, and recorded source/version/hash plus reported values in `data/manifests/sample-location-review.json`. Dossier SHA-256 `914a4baacdbd4dd6f86688b9d4e15dc353a506f9b24874e6f0bf04a799b9f123`, label version 3.2. It reports sample positions, but latitude definition, point meaning and accuracy were not established. Shared Swift Run/Skyland coordinates are not proof of exact drill locations. Application coordinates remain null and no markers are placed; coordinate checklist item remains unchecked.
+- PDS resolves the apparent Mageik sol discrepancy: coring sol 579 differs from sealing sol 619. The existing UI's explicitly labeled `sol sealed` remains 619, as approved. No DOCX edit was made.
+- Alternatives reviewed: official 2025 HiRISE mosaic metadata/readme (full 5.3 GB package not downloaded); NASA Trek's public `mars_v14` quantized-mesh endpoint (not used because datum/planetary-model/source compatibility is not established). ScienceBase metadata returned a browser challenge; used directly accessible official USGS metadata and archive files.
+- Documentation: README and `docs/terrain-processing.md` contain source limitations, optional reproducible Python setup, pipeline/lint/test commands and preview instructions. Updated the scope/brief status so existing architecture proposals are not mistaken for implemented backend/hosting/scoring.
+- Remaining gates: exact sample coordinates; independently verified image/DEM alignment; areoid-to-radius conversion and proper tiling for 3D relief; higher-resolution terrain, geology/mineralogy; team scientific goal, base, equipment, budgets and scoring. These remain unchecked. No backend, account, deployment, paid service or route was added. Existing local preview remains http://127.0.0.1:5174/; refresh and enable “Jezero elevation colours”.
+
+- Commit review found CRLF/trailing whitespace in the original downloaded metadata. Kept these source snapshots byte-for-byte with targeted `.gitattributes` binary/non-normalizing rules; all application text remains subject to normal whitespace checks. Snapshot checksums were revalidated before commit.

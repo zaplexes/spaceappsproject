@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import elevation from './data/generated/elevation.json' with { type: 'json' };
 import { capabilitiesUrl, imagerySources, type LayerId } from './data/layers';
 import { initialMission, stops } from './data/stops';
 import { MarsMap } from './map/MarsMap';
@@ -12,6 +13,8 @@ export default function App() {
     vehicle: initialMission.vehicleSupport as boolean,
     robot: initialMission.robotSupport as boolean,
   });
+  const [elevationEnabled, setElevationEnabled] = useState(false);
+  const [elevationOpacity, setElevationOpacity] = useState(0.65);
   const selected = stops.find((stop) => stop.id === selectedId);
   return (
     <>
@@ -78,12 +81,59 @@ export default function App() {
                   </span>
                 </label>
               ))}
-              <label className="layer-row unavailable">
-                <input type="checkbox" disabled />
+              <label className="layer-row">
+                <input
+                  type="checkbox"
+                  checked={elevationEnabled}
+                  onChange={(event) =>
+                    setElevationEnabled(event.target.checked)
+                  }
+                />
                 <span>
-                  Terrain elevation<small>Source verification pending</small>
+                  Jezero elevation colours
+                  <small>MRO / CTX · 20 m source pixels</small>
                 </span>
               </label>
+              {elevationEnabled && (
+                <div
+                  className="elevation-legend"
+                  aria-label="Elevation colour legend"
+                >
+                  <strong>Elevation relative to Mars areoid</strong>
+                  <div className="elevation-ramp" />
+                  <div className="legend-values">
+                    <span>{elevation.minimumMetres.toFixed(0)} m</span>
+                    <span>{elevation.maximumMetres.toFixed(0)} m</span>
+                  </div>
+                  <p>
+                    Colour indicates elevation, not risk. No 3D relief or slope
+                    analysis.
+                  </p>
+                  <label>
+                    Elevation opacity
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={Math.round(elevationOpacity * 100)}
+                      onChange={(event) =>
+                        setElevationOpacity(Number(event.target.value) / 100)
+                      }
+                    />
+                  </label>
+                  <a
+                    href={elevation.sourcePage}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    USGS source & limitations ↗
+                  </a>
+                </div>
+              )}
+              <p className="quiet">
+                3D terrain relief awaits verified height conversion.
+              </p>
               <p className="quiet">
                 Geology and mineralogy layers are not available in this preview.
               </p>
@@ -127,7 +177,11 @@ export default function App() {
             </p>
           </aside>
           <div className="map-column">
-            <MarsMap visible={visible} />
+            <MarsMap
+              visible={visible}
+              elevationEnabled={elevationEnabled}
+              elevationOpacity={elevationOpacity}
+            />
             <div className="map-summary">
               <span className="summary-icon" aria-hidden="true">
                 ◎
@@ -295,8 +349,8 @@ export default function App() {
             <span className="eyebrow">DATA & PROVENANCE</span>
             <h2>Know what you’re looking at.</h2>
             <p>
-              Public imagery via NASA Trek. A smooth Mars reference globe; no
-              elevation, slope, ranking or route analysis.
+              Public imagery via NASA Trek, plus a local USGS elevation-colour
+              overlay. No 3D relief, slope, ranking or route analysis.
             </p>
           </div>
           <div className="source-list">
@@ -316,6 +370,13 @@ export default function App() {
                 </small>
               </a>
             ))}
+            <a href={elevation.sourcePage} target="_blank" rel="noreferrer">
+              <strong>Jezero CTX elevation ↗</strong>
+              <span>USGS · Fergason et al. 2020 · MRO / CTX</span>
+              <small>
+                Heights relative to Mars areoid; display overlay only.
+              </small>
+            </a>
             <a
               href="https://www.nasa.gov/nasa-brand-center/images-and-media/"
               target="_blank"

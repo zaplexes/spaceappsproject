@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "pipelineVersion": "1.0.0",
+  "productId": "JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0",
+  "sourceUrl": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif",
+  "sourceSha256": "16a1aa66c3f48c1bca252795827db7b417876217aff0f5e1aff18027fab2327b",
+  "sourceByteLength": 9662387,
+  "sourcePage": "https://astrogeology.usgs.gov/search/map/mars_2020_terrain_relative_navigation_ctx_dtm_mosaic",
+  "citation": "Fergason et al., 2020, doi:10.5066/P906QQT8",
+  "rights": "USGS public data; cite authors",
+  "sourcePublicationDate": "2020-07-24",
+  "verifiedDate": "2026-11-11",
+  "mission": "Mars Reconnaissance Orbiter",
+  "instrument": "CTX",
+  "latitudeType": "planetocentric",
+  "longitudeConvention": "east-positive, -180 to 180 degrees",
+  "referenceSphereRadiusMetres": 3396190.0,
+  "verticalDatum": "Mars areoid (source DeltaGeoid)",
+  "verticalUnits": "metres",
+  "verticalDatumConverted": false,
+  "assetUrl": "/jezero-elevation.png",
+  "assetSha256": "04a9179229243d02609caa702ffd566f5a8311c0cd75b1086544c3427df2405d",
+  "displayType": "colour overlay on a smooth reference sphere; not 3D relief",
+  "resampling": "none; source pixels retained",
+  "colourScale": "linear over valid source range; not risk or scoring",
+  "palette": [
+    [54, 90, 103],
+    [223, 207, 149],
+    [165, 67, 41]
+  ],
+  "analysisEligible": false,
+  "limitations": [
+    "Source metadata alignment only; independent point-level registration unverified",
+    "No slopes, obstacles, walking feasibility or hazard classification",
+    "No areoid-to-radius height conversion; no 3D displacement"
+  ],
+  "bounds": [
+    77.16046545922367, 18.211027390963398, 77.69897516629472, 18.721194481872804
+  ],
+  "width": 1596,
+  "height": 1512,
+  "sourcePixelSizeMetres": [20.0, 20.0],
+  "minimumMetres": -2710.69580078125,
+  "maximumMetres": -1515.53955078125,
+  "validPixels": 2413152,
+  "nodataPixels": 0,
+  "nodataValue": -3.4028226550889045e38,
+  "sourceCrsWkt": "PROJCS[\"Equirectangular Mars 2000 Sphere IAU\",GEOGCS[\"GCS_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere_IAU\",3396190,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]"
+}

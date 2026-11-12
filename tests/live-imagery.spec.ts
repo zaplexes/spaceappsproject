@@ -37,5 +37,13 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   await page.setViewportSize({ width: 390, height: 844 });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/preview-mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.getByLabel('Jezero elevation colours').check();
+  await expect(page.getByTestId('elevation-status')).toContainText('loaded');
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'docs/elevation-desktop.png', fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'docs/elevation-mobile.png', fullPage: true });
   expect(errors).toEqual([]);
 });

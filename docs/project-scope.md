@@ -27,7 +27,7 @@ Walking astronauts are the primary experience. Crew vehicles and robotic systems
 
 ## Decisions still open
 
-Scientific goal; scoring features and weights; equipment and mobility assumptions; exact base and stop coordinates; technology stack; hosting provider and budget.
+Scientific goal; scoring features and weights; equipment and mobility assumptions; exact base and stop coordinates; hosting provider and budget.
 
 ## Scope boundaries
 
@@ -39,4 +39,4 @@ Catalog-wide browsing does not imply detailed analysis for every crater. Live en
 - `technical-architecture.pdf`: proposed technical architecture.
 - `technical-brief.md`: editable technical detail and references.
 
-This records the accepted direction and updates the briefs. No application or infrastructure has been implemented. `Space Apps.docx` remains unchanged.
+This records the accepted direction and updates the briefs. The local React + TypeScript + CesiumJS preview is implemented; verified behavior and remaining work are tracked in `implementation-checklist.md`. Backend, hosting and analysis architecture remain proposals. `Space Apps.docx` remains unchanged.

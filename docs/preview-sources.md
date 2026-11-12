@@ -34,3 +34,7 @@ NASA's [Wildcat Ridge observations](https://science.nasa.gov/resource/sample-col
 All sample coordinates remain `null` / `pending_verification`. No sample or base markers are created. Stop numbering does not define an excursion. Exact drill positions and approach suitability still require verification through [PDS PLACES](https://pds-geosciences.wustl.edu/missions/mars2020/places.htm) and appropriate instrument data.
 
 The camera context (18.4446° N, 77.4509° E) comes from the DOCX and is corroborated by [Bell et al., 2022, on NASA NTRS](https://ntrs.nasa.gov/api/citations/20230016428/downloads/Bell%20et%20al%202022sciadv.pdf). It is an approximate historical landing reference used only to orient the camera. Camera altitude/zoom are display settings, not terrain elevations or a crew base. Goal, base and equipment capabilities remain unknown.
+
+## Elevation overlay extension
+
+A local USGS CTX DEM colour overlay has been added after the initial preview. See [terrain processing](terrain-processing.md), the source snapshots in `data/manifests/` and `src/data/generated/elevation.json`. It uses source areoid heights as colours; the reference globe remains smooth. No 3D height conversion or analysis eligibility is claimed.

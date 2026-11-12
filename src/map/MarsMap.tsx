@@ -4,8 +4,17 @@ import type {
   createMarsViewer,
   LayerStatus,
   MapCommand,
+  ElevationState,
 } from './create-mars-viewer';
-export function MarsMap({ visible }: { visible: Record<LayerId, boolean> }) {
+export function MarsMap({
+  visible,
+  elevationEnabled = false,
+  elevationOpacity = 0.65,
+}: {
+  visible: Record<LayerId, boolean>;
+  elevationEnabled?: boolean;
+  elevationOpacity?: number;
+}) {
   const host = useRef<HTMLDivElement>(null);
   const controller = useRef<ReturnType<typeof createMarsViewer> | null>(null);
   const visibleRef = useRef(visible);
@@ -16,6 +25,18 @@ export function MarsMap({ visible }: { visible: Record<LayerId, boolean> }) {
   const [status, setStatus] = useState<Record<LayerId, LayerStatus>>({
     global: 'loading',
     jezero: 'loading',
+  });
+  const elevationRef = useRef({
+    enabled: elevationEnabled,
+    opacity: elevationOpacity,
+  });
+  elevationRef.current = {
+    enabled: elevationEnabled,
+    opacity: elevationOpacity,
+  };
+  const [elevationState, setElevationState] = useState<ElevationState>({
+    status: 'hidden',
+    coverage: 'unknown',
   });
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
@@ -36,8 +57,13 @@ export function MarsMap({ visible }: { visible: Record<LayerId, boolean> }) {
             () => {
               if (!disposed) setMapState('failed');
             },
+            (next) => {
+              if (!disposed) setElevationState(next);
+            },
           );
           controller.current = active;
+          active.setElevationOpacity(elevationRef.current.opacity);
+          active.setElevation(elevationRef.current.enabled);
           for (const source of imagerySources)
             if (!visibleRef.current[source.id]) active.toggle(source.id, false);
           setMapState('ready');
@@ -59,6 +85,10 @@ export function MarsMap({ visible }: { visible: Record<LayerId, boolean> }) {
     for (const source of imagerySources)
       controller.current?.toggle(source.id, visible[source.id]);
   }, [visible]);
+  useEffect(() => {
+    controller.current?.setElevationOpacity(elevationOpacity);
+    controller.current?.setElevation(elevationEnabled);
+  }, [elevationEnabled, elevationOpacity]);
   function command(action: MapCommand) {
     controller.current?.command(action);
   }
@@ -121,7 +151,36 @@ export function MarsMap({ visible }: { visible: Record<LayerId, boolean> }) {
                   )}
                 </div>
               ))}
-            {!visible.global && !visible.jezero && (
+            {elevationEnabled && (
+              <div data-testid="elevation-status">
+                <span className={`status-dot ${elevationState.status}`} />
+                <span>
+                  Jezero elevation:{' '}
+                  {elevationState.status === 'ready'
+                    ? 'loaded'
+                    : elevationState.status === 'failed'
+                      ? 'unavailable'
+                      : 'loading…'}
+                </span>
+                {elevationState.status === 'failed' && (
+                  <button onClick={() => controller.current?.retryElevation()}>
+                    Retry elevation
+                  </button>
+                )}
+              </div>
+            )}
+            {elevationEnabled && (
+              <p className="coverage-status" data-testid="elevation-coverage">
+                {elevationState.coverage === 'inside'
+                  ? 'Elevation covers this viewport'
+                  : elevationState.coverage === 'partial'
+                    ? 'Elevation covers part of this viewport'
+                    : elevationState.coverage === 'outside'
+                      ? 'Outside elevation coverage'
+                      : 'Elevation coverage unknown'}
+              </p>
+            )}
+            {!visible.global && !visible.jezero && !elevationEnabled && (
               <span>Imagery off · smooth reference globe</span>
             )}
           </div>
@@ -129,7 +188,11 @@ export function MarsMap({ visible }: { visible: Record<LayerId, boolean> }) {
       )}
       <div className="map-footnote">
         <span>Drag to pan · scroll to zoom · keyboard controls available</span>
-        <strong>No elevation model · no stop markers</strong>
+        <strong>
+          {elevationEnabled
+            ? 'Elevation colours only · no 3D relief'
+            : 'Smooth globe · no stop markers'}
+        </strong>
       </div>
     </section>
   );

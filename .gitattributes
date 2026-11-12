@@ -1,0 +1,3 @@
+# Preserve official scientific metadata snapshots byte for byte, including CRLF.
+data/manifests/ctx-elevation-fgdc.xml -text -diff
+data/manifests/ctx-elevation-pds3.lbl -text -diff

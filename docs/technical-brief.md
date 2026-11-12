@@ -1,6 +1,6 @@
 # Martian Map — Technical Architecture Brief
 
-Status: proposed architecture for team review. No application, cloud resources, scoring formula or deployment has been implemented. Scientific goal remains undecided.
+Status: proposed full architecture for team review. A local React + TypeScript + CesiumJS frontend preview and an elevation-colour pipeline are now implemented; see `implementation-checklist.md` for verified scope. No backend, cloud resources, scoring formula or deployment has been implemented. Scientific goal remains undecided.
 
 Accepted direction: a Jezero Marswalk with local science stops, a round-trip excursion and a field-use view. Global crater discovery is supporting scope. Scientific goal remains undecided.
 
