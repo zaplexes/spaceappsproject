@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#eab18d" stroke-width="1.5"/></marker></defs>
+<rect x="0" y="0" width="1600" height="1800" rx="0" fill="#0b111b" stroke="none"/>
+<text x="64" y="72" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#b2c8be">MARTIAN MAP  /  TECHNICAL BRIEF</text>
+<text x="64" y="143" font-family="DejaVu Sans,sans-serif" font-size="48" font-weight="700" fill="#fff">System architecture</text>
+<text x="64" y="188" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="400" fill="#9eb0c3">Proposed service boundaries and the path from scientific sources to the browser.</text>
+<rect x="64" y="218" width="1472" height="52" rx="9" fill="#282326" stroke="none"/>
+<text x="84" y="251" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="400" fill="#edb797">PROPOSED • Not implemented • Scientific goal, scoring weights and hosting provider remain undecided</text>
+<rect x="64" y="302" width="438" height="67" rx="15" fill="#203143" stroke="#3b5067"/>
+<text x="84" y="344" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="700" fill="#fff">BROWSER / FRONTEND</text>
+<rect x="581" y="302" width="438" height="67" rx="15" fill="#203143" stroke="#3b5067"/>
+<text x="601" y="344" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="700" fill="#fff">API / METADATA</text>
+<rect x="1098" y="302" width="438" height="67" rx="15" fill="#203143" stroke="#3b5067"/>
+<text x="1118" y="344" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="700" fill="#fff">DATABASE / POSTGIS</text>
+<path d="M510 336 H569" stroke="#eab18d" stroke-width="2" marker-end="url(#a)"/>
+<path d="M1027 336 H1086" stroke="#eab18d" stroke-width="2" marker-end="url(#a)"/>
+<text x="64" y="404" font-family="DejaVu Sans,sans-serif" font-size="20" font-weight="400" fill="#b7c6d5">Browser → imagery / tile CDN     •     Batch sources → processing jobs → storage + database</text>
+<rect x="64" y="445" width="720" height="365" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="487" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">01</text>
+<text x="91" y="528" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Browser application</text>
+<text x="91" y="575" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">React + TypeScript + CesiumJS proposed. Global</text>
+<text x="91" y="609" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">discovery leads into a detailed Jezero Marswalk.</text>
+<text x="91" y="643" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Local layers, science stops, round-trip planning</text>
+<text x="91" y="677" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">and a field view are central. Scientific goal</text>
+<text x="91" y="711" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">remains null until selected.</text>
+<rect x="816" y="445" width="720" height="365" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="487" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">02</text>
+<text x="843" y="528" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Static hosting / CDN</text>
+<text x="843" y="575" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Serve compiled frontend assets through HTTPS.</text>
+<text x="843" y="609" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Browser requests imagery and 3D tiles directly</text>
+<text x="843" y="643" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">from approved providers or object storage. Keep</text>
+<text x="843" y="677" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">bulk tile traffic away from the API process.</text>
+<rect x="64" y="835" width="720" height="365" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="877" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">03</text>
+<text x="91" y="918" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Application API</text>
+<text x="91" y="965" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Python + FastAPI proposed. Validate requests,</text>
+<text x="91" y="999" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">search the catalog, return evidence, apply</text>
+<text x="91" y="1033" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">mission constraints and calculate lightweight</text>
+<text x="91" y="1067" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">rankings. Publish a versioned OpenAPI contract.</text>
+<rect x="816" y="835" width="720" height="365" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="877" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">04</text>
+<text x="843" y="918" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Spatial database</text>
+<text x="843" y="965" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">PostgreSQL + PostGIS proposed. Store crater</text>
+<text x="843" y="999" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">records, footprints, scientific observations,</text>
+<text x="843" y="1033" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">dataset versions and analysis results. Use</text>
+<text x="843" y="1067" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">spatial indexes and explicit Mars coordinate</text>
+<text x="843" y="1101" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">reference systems.</text>
+<rect x="64" y="1225" width="720" height="365" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="1267" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">05</text>
+<text x="91" y="1308" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Processing jobs</text>
+<text x="91" y="1355" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Python + GDAL proposed. Import source data and</text>
+<text x="91" y="1389" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">precompute regional terrain features. Use a</text>
+<text x="91" y="1423" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">separate batch process for heavy raster work;</text>
+<text x="91" y="1457" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">persistent queued jobs can be added when</text>
+<text x="91" y="1491" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">interactive routing needs them.</text>
+<rect x="816" y="1225" width="720" height="365" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="1267" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">06</text>
+<text x="843" y="1308" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Scientific assets</text>
+<text x="843" y="1355" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Versioned object storage for raw snapshots,</text>
+<text x="843" y="1389" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">derived rasters and display tiles. NASA / USGS /</text>
+<text x="843" y="1423" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">PDS are source systems, not databases we assume</text>
+<text x="843" y="1457" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">are always reachable. Cesium ion is an optional</text>
+<text x="843" y="1491" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">visual terrain provider.</text>
+<path d="M64 1652 H1536" stroke="#2b3a4c"/>
+<text x="64" y="1690" font-family="DejaVu Sans,sans-serif" font-size="19" font-weight="400" fill="#9eb0c3">Read technical-brief.md for linked sources, assumptions and competition timing.</text>
+<text x="64" y="1730" font-family="DejaVu Sans,sans-serif" font-size="17" font-weight="400" fill="#8298ae">Architecture proposal for discussion • No live services or validated mission scores</text>
+<text x="1400" y="1730" font-family="DejaVu Sans,sans-serif" font-size="20" font-weight="700" fill="#edb797">01 / 06</text>
+</svg>

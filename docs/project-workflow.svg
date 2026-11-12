@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1600" viewBox="0 0 1600 1600"><defs><radialGradient id="mars" cx="32%" cy="28%"><stop stop-color="#e3a17d"/><stop offset=".6" stop-color="#aa604b"/><stop offset="1" stop-color="#412d31"/></radialGradient><clipPath id="planet"><circle cx="1210" cy="480" r="130"/></clipPath><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#f2a27e" stroke-width="1.5"/></marker></defs>
+<rect x="0" y="0" width="1600" height="1600" rx="0" fill="#0b111b" stroke="none"/>
+<rect x="64" y="55" width="210" height="34" rx="17" fill="#273035" stroke="none"/>
+<text x="82" y="78" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#b5d9cc" font-weight="700">CONCEPT / TEAM BRIEF</text>
+<text x="64" y="150" font-family="DejaVu Sans,sans-serif" font-size="56" fill="#ffffff" font-weight="700">MARTIAN MAP</text>
+<text x="66" y="191" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#aab9c9" font-weight="400">Discover Mars. Plan a science-focused Marswalk in Jezero.</text>
+<text x="66" y="228" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#efb598" font-weight="400">Proposed user workflow • Scientific goal pending team discussion</text>
+<text x="64" y="285" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#91a4b8" font-weight="700">USER JOURNEY</text>
+<rect x="64" y="311" width="875" height="150" rx="14" fill="#111d2b" stroke="#2b3a4c"/>
+<rect x="84" y="333" width="51" height="42" rx="10" fill="#203143" stroke="none"/>
+<text x="96" y="361" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#f2b393" font-weight="700">01</text>
+<text x="155" y="360" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#ffffff" font-weight="700">Discover Mars; enter Jezero</text>
+<text x="155" y="399" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#c4d1de" font-weight="400">Use the global globe to discover craters and their context.</text>
+<text x="155" y="430" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#90a4b9" font-weight="400">Enter Jezero for the detailed Marswalk demonstration.</text>
+<path d="M100 463 V482" stroke="#f2a27e" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="64" y="491" width="875" height="150" rx="14" fill="#111d2b" stroke="#2b3a4c"/>
+<rect x="84" y="513" width="51" height="42" rx="10" fill="#203143" stroke="none"/>
+<text x="96" y="541" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#f2b393" font-weight="700">02</text>
+<text x="155" y="540" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#ffffff" font-weight="700">Set a local base and crew profile</text>
+<text x="155" y="579" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#c4d1de" font-weight="400">Choose a simulated base inside the supported Jezero area.</text>
+<text x="155" y="610" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#90a4b9" font-weight="400">Walking is central; crew vehicles and robots support the mission.</text>
+<path d="M100 643 V662" stroke="#f2a27e" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="64" y="671" width="875" height="150" rx="14" fill="#111d2b" stroke="#2b3a4c"/>
+<rect x="84" y="693" width="51" height="42" rx="10" fill="#203143" stroke="none"/>
+<text x="96" y="721" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#f2b393" font-weight="700">03</text>
+<text x="155" y="720" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#ffffff" font-weight="700">Inspect the evidence layers</text>
+<text x="155" y="759" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#c4d1de" font-weight="400">Compare imagery, terrain, and geology or mineralogy.</text>
+<text x="155" y="790" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#90a4b9" font-weight="400">Show mission sources, coverage, resolution, and missing evidence.</text>
+<path d="M100 823 V842" stroke="#f2a27e" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="64" y="851" width="875" height="150" rx="14" fill="#111d2b" stroke="#b38267"/>
+<rect x="84" y="873" width="51" height="42" rx="10" fill="#332c2b" stroke="none"/>
+<text x="96" y="901" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#f2b393" font-weight="700">04</text>
+<text x="155" y="900" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#ffffff" font-weight="700">Set the scientific goal</text>
+<text x="155" y="939" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#efb598" font-weight="400">UNSELECTED — TO BE DECIDED WITH THE TEAM</text>
+<text x="155" y="970" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#90a4b9" font-weight="400">Browse freely; mission ranking waits for a selected goal.</text>
+<path d="M100 1003 V1022" stroke="#f2a27e" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="64" y="1031" width="875" height="150" rx="14" fill="#111d2b" stroke="#2b3a4c"/>
+<rect x="84" y="1053" width="51" height="42" rx="10" fill="#203143" stroke="none"/>
+<text x="96" y="1081" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#f2b393" font-weight="700">05</text>
+<text x="155" y="1080" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#ffffff" font-weight="700">Compare reachable science stops</text>
+<text x="155" y="1119" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#c4d1de" font-weight="400">Compare local outcrops, deposits, or viewpoints within Jezero.</text>
+<text x="155" y="1150" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#90a4b9" font-weight="400">Explain science value, travel difficulty, and data confidence.</text>
+<path d="M100 1183 V1202" stroke="#f2a27e" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="64" y="1211" width="875" height="150" rx="14" fill="#111d2b" stroke="#2b3a4c"/>
+<rect x="84" y="1233" width="51" height="42" rx="10" fill="#203143" stroke="none"/>
+<text x="96" y="1261" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#f2b393" font-weight="700">06</text>
+<text x="155" y="1260" font-family="DejaVu Sans,sans-serif" font-size="25" fill="#ffffff" font-weight="700">Plan and review the Marswalk</text>
+<text x="155" y="1299" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#c4d1de" font-weight="400">Inspect a round-trip route, stop activities, and reference images.</text>
+<text x="155" y="1330" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#90a4b9" font-weight="400">Open a field view with numbered stops and a science checklist.</text>
+<text x="985" y="285" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#91a4b8" font-weight="700">SCREEN CONCEPT</text>
+<rect x="983" y="311" width="552" height="650" rx="14" fill="#111d2b" stroke="#2b3a4c"/>
+<rect x="999" y="327" width="520" height="43" rx="8" fill="#1c2b3c" stroke="none"/>
+<text x="1015" y="355" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#fff" font-weight="700">MARTIAN MAP</text>
+<text x="1328" y="355" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#aac0d2" font-weight="400">Explore  /  Plan</text>
+<rect x="1000" y="385" width="518" height="271" rx="8" fill="#0b121c" stroke="none"/>
+<circle cx="1210" cy="480" r="130" fill="url(#mars)" transform="translate(38 40)"/>
+<ellipse cx="1218" cy="507" rx="25" ry="16.5" fill="none" stroke="#503b38" stroke-opacity=".42" stroke-width="5"/>
+<ellipse cx="1301" cy="545" rx="36" ry="23.76" fill="none" stroke="#503b38" stroke-opacity=".42" stroke-width="5"/>
+<ellipse cx="1273" cy="473" rx="15" ry="9.9" fill="none" stroke="#503b38" stroke-opacity=".42" stroke-width="5"/>
+<ellipse cx="1328" cy="497" rx="12" ry="7.92" fill="none" stroke="#503b38" stroke-opacity=".42" stroke-width="5"/>
+<ellipse cx="1262" cy="599" rx="21" ry="13.860000000000001" fill="none" stroke="#503b38" stroke-opacity=".42" stroke-width="5"/>
+<circle cx="1284" cy="510" r="6" fill="#d6eec8"/><circle cx="1284" cy="510" r="13" fill="none" stroke="#d6eec8"/>
+<text x="1018" y="638" font-family="DejaVu Sans,sans-serif" font-size="12" fill="#98a9b9" font-weight="400">Illustrative planet • not a geographic map</text>
+<rect x="1004" y="678" width="510" height="65" rx="8" fill="#202e3c" stroke="none"/>
+<text x="1020" y="705" font-family="DejaVu Sans,sans-serif" font-size="12" fill="#90a4b9" font-weight="700">MISSION GOAL</text>
+<text x="1020" y="730" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#efb598" font-weight="700">Not selected</text>
+<text x="1009" y="781" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#90a4b9" font-weight="700">LOCAL SCIENCE STOP</text>
+<text x="1010" y="816" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#dce5ed" font-weight="400">Scientific value</text>
+<text x="1475" y="816" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#efb598" font-weight="400">—</text>
+<text x="1010" y="860" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#dce5ed" font-weight="400">Travel difficulty</text>
+<text x="1475" y="860" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#efb598" font-weight="400">—</text>
+<text x="1010" y="904" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#dce5ed" font-weight="400">Data confidence</text>
+<text x="1475" y="904" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#efb598" font-weight="400">—</text>
+<text x="1009" y="947" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#90a4b9" font-weight="400">No ranking until mission inputs are defined.</text>
+<rect x="983" y="984" width="552" height="226" rx="14" fill="#14251f" stroke="#2e4a3e"/>
+<text x="1008" y="1024" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#b5d9cc" font-weight="700">WHAT MAKES THE RANKING USEFUL</text>
+<text x="1008" y="1065" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#c1d5cc" font-weight="400">Explain each stop and its planned science task.</text>
+<text x="1008" y="1101" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#c1d5cc" font-weight="400">Keep science and difficulty visible separately.</text>
+<text x="1008" y="1137" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#c1d5cc" font-weight="400">Show missing data rather than inventing scores.</text>
+<text x="1008" y="1173" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#c1d5cc" font-weight="400">Include return travel and time spent at stops.</text>
+<rect x="983" y="1233" width="552" height="128" rx="14" fill="#211f29" stroke="#41394b"/>
+<text x="1008" y="1272" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#dcc7e8" font-weight="700">SCOPE OF THIS BRIEF</text>
+<text x="1008" y="1305" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#b9b5c6" font-weight="400">Visual concept only. No scoring formula chosen.</text>
+<text x="1008" y="1335" font-family="DejaVu Sans,sans-serif" font-size="16" fill="#b9b5c6" font-weight="400">No live data, validated routes, or safety ratings.</text>
+<path d="M64 1436 H1536" stroke="#2b3a4c"/>
+<text x="64" y="1476" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#efb598" font-weight="700">TEAM DECISIONS STILL OPEN</text>
+<text x="64" y="1513" font-family="DejaVu Sans,sans-serif" font-size="19" fill="#d2dce6" font-weight="400">Scientific goal • scoring weights • equipment profiles • verified base and stop coordinates</text>
+<text x="64" y="1554" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#8fa2b6" font-weight="400">Based on Space Apps.docx and our discussion. Catalog coverage and terrain detail will vary by location.</text>
+</svg>

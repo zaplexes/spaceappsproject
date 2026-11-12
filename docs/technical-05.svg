@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#eab18d" stroke-width="1.5"/></marker></defs>
+<rect x="0" y="0" width="1600" height="1800" rx="0" fill="#0b111b" stroke="none"/>
+<text x="64" y="72" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#b2c8be">MARTIAN MAP  /  TECHNICAL BRIEF</text>
+<text x="64" y="143" font-family="DejaVu Sans,sans-serif" font-size="48" font-weight="700" fill="#fff">Hosting &amp; server management</text>
+<text x="64" y="188" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="400" fill="#9eb0c3">A small managed deployment first, with explicit responsibilities and cost controls.</text>
+<rect x="64" y="218" width="1472" height="52" rx="9" fill="#282326" stroke="none"/>
+<text x="84" y="251" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="400" fill="#edb797">PROPOSED • Not implemented • Scientific goal, scoring weights and hosting provider remain undecided</text>
+<rect x="64" y="310" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="352" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">01</text>
+<text x="91" y="393" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Proposed deployment topology</text>
+<text x="91" y="440" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Static frontend on a CDN; API in a managed Linux</text>
+<text x="91" y="474" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">container; managed PostgreSQL/PostGIS; object</text>
+<text x="91" y="508" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">storage for assets. Run imports as separate batch</text>
+<text x="91" y="542" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">jobs. Add a dedicated worker and durable queue</text>
+<text x="91" y="576" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">only when long-running route workloads justify</text>
+<text x="91" y="610" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">them.</text>
+<rect x="816" y="310" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="352" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">02</text>
+<text x="843" y="393" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Runtime management</text>
+<text x="843" y="440" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Pin dependencies and build immutable images.</text>
+<text x="843" y="474" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Configure process startup, health checks, restart</text>
+<text x="843" y="508" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">policy and graceful shutdown. Size API</text>
+<text x="843" y="542" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">concurrency around memory and database</text>
+<text x="843" y="576" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">connections. Offload CPU-heavy terrain work so it</text>
+<text x="843" y="610" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">cannot block catalog requests.</text>
+<rect x="64" y="740" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="782" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">03</text>
+<text x="91" y="823" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Environment and networking</text>
+<text x="91" y="870" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Separate local development, staging and</text>
+<text x="91" y="904" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">production configuration. Keep database private</text>
+<text x="91" y="938" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">with least-privilege credentials. Use managed TLS</text>
+<text x="91" y="972" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">termination and explicit allowed origins. Record</text>
+<text x="91" y="1006" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">provider, region, domain, monthly budget and</text>
+<text x="91" y="1040" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">ownership as team decisions.</text>
+<rect x="816" y="740" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="782" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">04</text>
+<text x="843" y="823" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Monitoring and incident handling</text>
+<text x="843" y="870" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Capture structured logs with request/job IDs and</text>
+<text x="843" y="904" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">dataset/model versions. Track API errors,</text>
+<text x="843" y="938" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">latency, job failures, queue depth, storage and</text>
+<text x="843" y="972" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">database health. Alert on persistent failures.</text>
+<text x="843" y="1006" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Keep a short runbook: triage, pause jobs,</text>
+<text x="843" y="1040" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">rollback and restore.</text>
+<rect x="64" y="1170" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="1212" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">05</text>
+<text x="91" y="1253" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Backups and recovery</text>
+<text x="91" y="1300" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Schedule database backups and define retention</text>
+<text x="91" y="1334" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">plus recovery targets with the team. Test</text>
+<text x="91" y="1368" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">restoring into an isolated environment. Version</text>
+<text x="91" y="1402" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">scientific assets; keep rebuild scripts and</text>
+<text x="91" y="1436" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">source checksums. Persist jobs and state outside</text>
+<text x="91" y="1470" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">ephemeral container filesystems.</text>
+<rect x="816" y="1170" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="1212" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">06</text>
+<text x="843" y="1253" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Capacity and cost management</text>
+<text x="843" y="1300" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Cap query area, candidate count, raster</text>
+<text x="843" y="1334" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">resolution, job runtime and concurrent jobs. Use</text>
+<text x="843" y="1368" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">cache keys containing mission and dataset</text>
+<text x="843" y="1402" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">versions. Watch database, storage, bandwidth and</text>
+<text x="843" y="1436" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">imagery-provider quotas. Keep a small precomputed</text>
+<text x="843" y="1470" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">demo dataset for upstream outages.</text>
+<path d="M64 1652 H1536" stroke="#2b3a4c"/>
+<text x="64" y="1690" font-family="DejaVu Sans,sans-serif" font-size="19" font-weight="400" fill="#9eb0c3">Read technical-brief.md for linked sources, assumptions and competition timing.</text>
+<text x="64" y="1730" font-family="DejaVu Sans,sans-serif" font-size="17" font-weight="400" fill="#8298ae">Architecture proposal for discussion • No live services or validated mission scores</text>
+<text x="1400" y="1730" font-family="DejaVu Sans,sans-serif" font-size="20" font-weight="700" fill="#edb797">05 / 06</text>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#eab18d" stroke-width="1.5"/></marker></defs>
+<rect x="0" y="0" width="1600" height="1800" rx="0" fill="#0b111b" stroke="none"/>
+<text x="64" y="72" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#b2c8be">MARTIAN MAP  /  TECHNICAL BRIEF</text>
+<text x="64" y="143" font-family="DejaVu Sans,sans-serif" font-size="48" font-weight="700" fill="#fff">Scientific data pipeline</text>
+<text x="64" y="188" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="400" fill="#9eb0c3">Discover → snapshot → validate → normalize → derive → review → publish.</text>
+<rect x="64" y="218" width="1472" height="52" rx="9" fill="#282326" stroke="none"/>
+<text x="84" y="251" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="400" fill="#edb797">PROPOSED • Not implemented • Scientific goal, scoring weights and hosting provider remain undecided</text>
+<rect x="64" y="310" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="352" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">01</text>
+<text x="91" y="393" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Source registry and ingestion</text>
+<text x="91" y="440" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Select specific products from multiple NASA</text>
+<text x="91" y="474" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">missions for Jezero: candidate sources include</text>
+<text x="91" y="508" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">MRO imagery, MGS topography and Perseverance</text>
+<text x="91" y="542" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">observations. Verify coverage and alignment.</text>
+<text x="91" y="576" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Record product IDs, citations, timestamps,</text>
+<text x="91" y="610" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">licenses and checksums.</text>
+<rect x="816" y="310" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="352" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">02</text>
+<text x="843" y="393" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Planetary coordinate handling</text>
+<text x="843" y="440" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Record body, CRS, latitude type, longitude</text>
+<text x="843" y="474" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">direction/range, height datum and units for each</text>
+<text x="843" y="508" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">product. Normalize explicitly; handle the</text>
+<text x="843" y="542" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">longitude seam and poles. Do not label Mars</text>
+<text x="843" y="576" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">positions EPSG:4326 or use Earth distances by</text>
+<text x="843" y="610" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">default.</text>
+<rect x="64" y="740" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="782" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">03</text>
+<text x="91" y="823" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Raster processing</text>
+<text x="91" y="870" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Retain original DEM and imagery. Produce</text>
+<text x="91" y="904" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">validated analysis rasters and separate display</text>
+<text x="91" y="938" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">tiles. GDAL COG is a proposed storage format; COG</text>
+<text x="91" y="972" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">is not a ready-to-use Cesium terrain tileset.</text>
+<text x="91" y="1006" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Derive slope only with verified horizontal and</text>
+<text x="91" y="1040" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">vertical units.</text>
+<rect x="816" y="740" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="782" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">04</text>
+<text x="843" y="823" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Core data entities</text>
+<text x="843" y="870" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">craters/regions: discovery context. stops:</text>
+<text x="843" y="904" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">verified coordinates, science tasks, tools and</text>
+<text x="843" y="938" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">work time. datasets/observations: provenance,</text>
+<text x="843" y="972" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">resolution and values. excursions: base, ordered</text>
+<text x="843" y="1006" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">stops and return. runs: input, model and dataset</text>
+<text x="843" y="1040" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">versions.</text>
+<rect x="64" y="1170" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="1212" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">05</text>
+<text x="91" y="1253" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Coverage and quality gates</text>
+<text x="91" y="1300" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Check duplicates, units, coordinate transforms,</text>
+<text x="91" y="1334" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">nodata, raster alignment and valid geometry.</text>
+<text x="91" y="1368" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Treat footprints and pixel resolution as</text>
+<text x="91" y="1402" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">eligibility inputs. Sample-level coordinates</text>
+<text x="91" y="1436" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">remain pending until verified; a rover location</text>
+<text x="91" y="1470" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">is not automatically a drill location.</text>
+<rect x="816" y="1170" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="1212" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">06</text>
+<text x="843" y="1253" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Serving and refresh</text>
+<text x="843" y="1300" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Publish reviewed dataset versions atomically.</text>
+<text x="843" y="1334" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Store large rasters outside database rows; index</text>
+<text x="843" y="1368" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">footprints and metadata in PostGIS. Serve</text>
+<text x="843" y="1402" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">prebuilt display tiles via storage/CDN. Refresh</text>
+<text x="843" y="1436" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">deliberately, retaining old versions for</text>
+<text x="843" y="1470" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">reproducible rankings and rollback.</text>
+<path d="M64 1652 H1536" stroke="#2b3a4c"/>
+<text x="64" y="1690" font-family="DejaVu Sans,sans-serif" font-size="19" font-weight="400" fill="#9eb0c3">Read technical-brief.md for linked sources, assumptions and competition timing.</text>
+<text x="64" y="1730" font-family="DejaVu Sans,sans-serif" font-size="17" font-weight="400" fill="#8298ae">Architecture proposal for discussion • No live services or validated mission scores</text>
+<text x="1400" y="1730" font-family="DejaVu Sans,sans-serif" font-size="20" font-weight="700" fill="#edb797">03 / 06</text>
+</svg>

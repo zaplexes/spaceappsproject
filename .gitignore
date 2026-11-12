@@ -1,0 +1,8 @@
+node_modules/
+dist/
+assets/cesium/
+test-results/
+playwright-report/
+.env
+.env.*
+!.env.example

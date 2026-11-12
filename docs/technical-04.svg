@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#eab18d" stroke-width="1.5"/></marker></defs>
+<rect x="0" y="0" width="1600" height="1800" rx="0" fill="#0b111b" stroke="none"/>
+<text x="64" y="72" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#b2c8be">MARTIAN MAP  /  TECHNICAL BRIEF</text>
+<text x="64" y="143" font-family="DejaVu Sans,sans-serif" font-size="48" font-weight="700" fill="#fff">Ranking &amp; route analysis</text>
+<text x="64" y="188" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="400" fill="#9eb0c3">An explainable decision-support model; scientific goal and weights remain open.</text>
+<rect x="64" y="218" width="1472" height="52" rx="9" fill="#282326" stroke="none"/>
+<text x="84" y="251" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="400" fill="#edb797">PROPOSED • Not implemented • Scientific goal, scoring weights and hosting provider remain undecided</text>
+<rect x="64" y="310" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="352" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">01</text>
+<text x="91" y="393" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Required mission inputs</text>
+<text x="91" y="440" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Jezero base, selected goal, walking crew profile,</text>
+<text x="91" y="474" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">optional vehicle/robot support, time/range budget</text>
+<text x="91" y="508" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">and return reserve. Include carried equipment,</text>
+<text x="91" y="542" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">science work time and crew configuration. All</text>
+<text x="91" y="576" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">capabilities are versioned assumptions awaiting</text>
+<text x="91" y="610" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">agreement.</text>
+<rect x="816" y="310" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="352" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">02</text>
+<text x="843" y="393" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Candidate filtering</text>
+<text x="843" y="440" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Rank reachable science stops within verified</text>
+<text x="843" y="474" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Jezero coverage, not distant crater centers.</text>
+<text x="843" y="508" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Stops may be outcrops, deposits or viewpoints.</text>
+<text x="843" y="542" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Verify coordinates before placement. Exclude</text>
+<text x="843" y="576" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">stops outside round-trip limits or without</text>
+<text x="843" y="610" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">required approach data.</text>
+<rect x="64" y="740" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="782" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">03</text>
+<text x="91" y="823" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Separate score components</text>
+<text x="91" y="870" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Science value: evidence relevant to the chosen</text>
+<text x="91" y="904" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">goal. Travel cost: route length, time and</text>
+<text x="91" y="938" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">elevation change. Terrain difficulty: mapped</text>
+<text x="91" y="972" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">slopes and obstacles. Data confidence: coverage</text>
+<text x="91" y="1006" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">and resolution; show it separately, not as a</text>
+<text x="91" y="1040" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">probability of safety.</text>
+<rect x="816" y="740" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="782" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">04</text>
+<text x="843" y="823" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Priority model — not yet defined</text>
+<text x="843" y="870" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Normalize comparable features with fixed</text>
+<text x="843" y="904" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">documented bounds. Version weights and feature</text>
+<text x="843" y="938" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">definitions. Show each contribution and</text>
+<text x="843" y="972" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">exclusion. Do not choose weights, thresholds or</text>
+<text x="843" y="1006" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">goals silently. Missing data stays unknown and</text>
+<text x="843" y="1040" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">must not improve a score.</text>
+<rect x="64" y="1170" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="91" y="1212" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">05</text>
+<text x="91" y="1253" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Route engine — staged scope</text>
+<text x="91" y="1300" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Marswalk planning includes base-to-stops-to-base</text>
+<text x="91" y="1334" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">travel, stop work time, terrain concerns and</text>
+<text x="91" y="1368" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">assumptions. Use clearly labeled distance</text>
+<text x="91" y="1402" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">estimates first; bounded grid routing comes</text>
+<text x="91" y="1436" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">later. Field view shows numbered stops, science</text>
+<text x="91" y="1470" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">tasks and reference imagery.</text>
+<rect x="816" y="1170" width="720" height="402" rx="15" fill="#111d2b" stroke="#2c3d50"/>
+<text x="843" y="1212" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#f1ad87">06</text>
+<text x="843" y="1253" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#fff">Scientific validation</text>
+<text x="843" y="1300" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Check known examples, projection math, nodata</text>
+<text x="843" y="1334" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">behavior and budget exclusions. Test whether</text>
+<text x="843" y="1368" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">rankings change sensibly with goals and profiles.</text>
+<text x="843" y="1402" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">Evaluate sensitivity to weights and data</text>
+<text x="843" y="1436" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">resolution. No hazard probability, validated</text>
+<text x="843" y="1470" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">human route or certified safety rating is</text>
+<text x="843" y="1504" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#bdccda">claimed.</text>
+<path d="M64 1652 H1536" stroke="#2b3a4c"/>
+<text x="64" y="1690" font-family="DejaVu Sans,sans-serif" font-size="19" font-weight="400" fill="#9eb0c3">Read technical-brief.md for linked sources, assumptions and competition timing.</text>
+<text x="64" y="1730" font-family="DejaVu Sans,sans-serif" font-size="17" font-weight="400" fill="#8298ae">Architecture proposal for discussion • No live services or validated mission scores</text>
+<text x="1400" y="1730" font-family="DejaVu Sans,sans-serif" font-size="20" font-weight="700" fill="#edb797">04 / 06</text>
+</svg>
