@@ -6,6 +6,7 @@ import { MarsMap } from './map/MarsMap';
 import { StopEvidence } from './stops/StopEvidence';
 export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [focusRequest, setFocusRequest] = useState(0);
   const [visible, setVisible] = useState<Record<LayerId, boolean>>({
     global: true,
     jezero: true,
@@ -153,7 +154,10 @@ export default function App() {
                   <li key={stop.id}>
                     <button
                       aria-pressed={selectedId === stop.id}
-                      onClick={() => setSelectedId(stop.id)}
+                      onClick={() => {
+                        setSelectedId(stop.id);
+                        setFocusRequest((request) => request + 1);
+                      }}
                       className="stop-button"
                     >
                       <span className="stop-number">
@@ -179,6 +183,7 @@ export default function App() {
           </aside>
           <div className="map-column">
             <MarsMap
+              focusRequest={focusRequest}
               visible={visible}
               elevationEnabled={elevationEnabled}
               elevationOpacity={elevationOpacity}

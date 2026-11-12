@@ -7,10 +7,12 @@ import type {
   ElevationState,
 } from './create-mars-viewer';
 export function MarsMap({
+  focusRequest = 0,
   visible,
   elevationEnabled = false,
   elevationOpacity = 0.65,
 }: {
+  focusRequest?: number;
   visible: Record<LayerId, boolean>;
   elevationEnabled?: boolean;
   elevationOpacity?: number;
@@ -89,6 +91,13 @@ export function MarsMap({
     controller.current?.setElevationOpacity(elevationOpacity);
     controller.current?.setElevation(elevationEnabled);
   }, [elevationEnabled, elevationOpacity]);
+  useEffect(() => {
+    // All current stops belong to Jezero. Use regional camera context while
+    // their exact drill positions remain unverified. Replays after map startup
+    // or retry, and handles reselecting the same stop after navigating away.
+    if (focusRequest > 0 && mapState === 'ready')
+      controller.current?.command('jezero');
+  }, [focusRequest, mapState]);
   function command(action: MapCommand) {
     controller.current?.command(action);
   }

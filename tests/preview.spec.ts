@@ -219,3 +219,39 @@ test('imagery loading is visible before requests finish', async ({ page }) => {
   release();
   await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible();
 });
+
+test('left-panel stop selection returns the rendered globe to Jezero, including reselection', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(page.locator('canvas')).toBeVisible();
+  await page.getByRole('button', { name: /Skinner Ridge/ }).click();
+  await expect(page.locator('.surface-reference img')).toBeVisible();
+  await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible();
+  const canvas = page.locator('canvas');
+  // Inspect the real rendered corner: regional imagery fills it; the globe
+  // leaves space there. This verifies camera movement rather than React state.
+  const corner = () =>
+    canvas.evaluate((element: HTMLCanvasElement) => {
+      const gl = element.getContext('webgl2') ?? element.getContext('webgl');
+      if (!gl) throw new Error('Missing WebGL context');
+      const rgba = new Uint8Array(4);
+      gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, rgba);
+      return Array.from(rgba);
+    });
+  await expect.poll(corner).not.toEqual([0, 0, 0, 0]);
+  const regionalCorner = await corner();
+  for (const stop of [stops[0], stops[1], stops[2], stops[2]]) {
+    await page.getByRole('button', { name: 'Mars globe', exact: true }).click();
+    await expect.poll(corner).not.toEqual(regionalCorner);
+    const button = page.getByRole('button', { name: new RegExp(stop.name) });
+    await button.focus();
+    await page.keyboard.press('Enter');
+    await expect(button).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.surface-reference img')).toBeVisible();
+    await expect.poll(corner).toEqual(regionalCorner);
+    await expect(
+      page.getByText('Location not yet verified', { exact: true }),
+    ).toBeVisible();
+  }
+});

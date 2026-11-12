@@ -28,7 +28,7 @@ Skinner Ridge, Wildcat Ridge and Amalik have **no geographic markers** because e
 
 ## Controls and checks
 
-Drag/scroll for map navigation. Tab to the map canvas: arrow keys pan, `+`/`-` zoom, `H` resets Jezero. Named buttons provide Jezero/global views and zoom. Native buttons and checkboxes work with the keyboard. Without WebGL, use the stop list and sources.
+Drag/scroll for map navigation. Tab to the map canvas: arrow keys pan, `+`/`-` zoom, `H` resets Jezero. Named buttons provide Jezero/global views and zoom. Selecting any stop in the left panel returns the camera to the Jezero regional view, including selecting the same stop again after navigating away. This is regional context, not a verified drill location. Native buttons and checkboxes work with the keyboard. Without WebGL, use the stop list and sources.
 
 ```sh
 npm run lint
