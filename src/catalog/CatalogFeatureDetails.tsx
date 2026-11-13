@@ -1,3 +1,4 @@
+import { FeatureImagery } from './FeatureImagery';
 import { catalogReview, type CatalogFeature } from './catalog';
 
 export function CatalogFeatureDetails({
@@ -19,6 +20,7 @@ export function CatalogFeatureDetails({
         A named surface feature. Its catalogue centre is a reference for
         discovery; an exact science observation site has not been selected.
       </p>
+      <FeatureImagery key={feature.id} feature={feature} />
       <dl className="sample-facts">
         <div>
           <dt>Feature type</dt>

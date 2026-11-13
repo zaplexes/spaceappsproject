@@ -2378,3 +2378,39 @@ summary:focus-visible {
   min-width: 0;
   overflow-wrap: anywhere;
 }
+
+.orbital-preview-frame {
+  position: relative;
+  aspect-ratio: 1;
+  background: #171919;
+  border: 1px solid var(--line);
+  color: #f5f0e3;
+}
+.orbital-preview-frame canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.orbital-preview-frame canvas[hidden] {
+  display: none;
+}
+.orbital-centre {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-shadow:
+    0 1px 3px #000,
+    0 -1px 3px #000;
+  font-size: 26px;
+  line-height: 1;
+  pointer-events: none;
+}
+.jezero-rover-gallery summary {
+  cursor: pointer;
+}
+.jezero-rover-gallery > p {
+  font-size: 12px;
+  line-height: 1.6;
+}

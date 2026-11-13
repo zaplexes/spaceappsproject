@@ -116,3 +116,26 @@ See the [operations and recovery guide](docs/operations.md) for release checks, 
 See [mission science context](docs/mission-science.md) for the agreed goal, per-stop questions, proposed tasks and remaining assumptions. The old standalone Mission settings and disabled comparison block have been replaced by optional settings inside the working round-trip planner.
 
 If live global MOC tiles fail, the map uses matching crops of two bundled, unmodified NASA Trek level-zero tiles. Failed tiles reuse loaded parent imagery where possible; otherwise CTX tiles become transparent so the base can still render. Requests that stall for eight seconds also use fallback imagery. The map reports partial availability and retains Retry. These fallback images are coarse context only; provenance is in `src/data/generated/moc-overview.json`.
+
+## Feature images
+
+Catalogue details request a north-up orbital crop centred on the IAU/USGS
+feature centre, sized from the feature’s approximate dimension. The reviewed
+Caltech/Esri CTX service supplies detailed views; missing, transparent or failed
+tiles fall back to the coarser NASA Trek MOC overview. If both fail, the panel
+shows an unavailable state and a retry button. No geographic coordinates are
+inferred from photographs. The cross marks the catalogue centre, not a science
+observation site. Geographic crops can distort polar features and may not contain
+an entire elongated feature. Mosaic acquisition dates and alignment are not
+independently established. Credits and source links accompany each preview.
+
+Jezero’s catalogue record also includes an expandable gallery of the three
+retained NASA Perseverance Navcam images, with their sampling-site names,
+camera, image sol, NASA caption date and credits. The same image component is
+used in each science stop. The gallery does not place these photos at the crater
+centre or assign them to unrelated features. Images are already retained in
+`assets/stops/`; their provenance remains in `data/manifests/surface-images.json`.
+
+Verify image crops, fallback, feature switching and Jezero gallery attribution
+with `npm test -- tests/feature-imagery.spec.ts tests/stop-evidence.spec.ts` after
+`npm run build`.
