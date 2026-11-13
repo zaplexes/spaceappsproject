@@ -1,6 +1,6 @@
 # Marsway — Agreed Project Direction
 
-Updated November 13, 2026. This decision supersedes the Jezero ancient-water mission in the original project brief and earlier planning notes. The source DOCX is retained unchanged.
+Updated November 13, 2026. This decision supersedes the Jezero ancient-water mission in the original project brief and earlier planning notes. The original Portuguese brief has been removed at the user’s request. This English document defines the current scope.
 
 ## Purpose
 

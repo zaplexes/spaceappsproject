@@ -40,7 +40,7 @@ export function tileUrl(source: ImagerySource) {
 export function capabilitiesUrl(source: ImagerySource) {
   return `https://trek.nasa.gov/tiles/Mars/EQ/${source.productId}/1.0.0/WMTSCapabilities.xml`;
 }
-// Camera context from Space Apps.docx, corroborated by Bell et al. (2022). Not a simulated base or sample position.
+// Camera context corroborated by Bell et al. (2022); see cameraReference below. Not a simulated base or sample position.
 export const jezeroView = {
   latitude: 18.4446,
   longitude: 77.4509,

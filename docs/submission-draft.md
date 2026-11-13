@@ -2,6 +2,13 @@
 
 This is an editable handoff for the user, who will complete the submission. It is not an official form, a submitted entry or proof of eligibility. Project work began before the official event; retain that disclosure and confirm permitted use with the organizer. No organizer message has been sent.
 
+## Public project links
+
+- Interactive app: https://zaplexes.github.io/Marsway/
+- HTML documentation: https://zaplexes.github.io/Marsway/documentation/
+- Public source code: https://github.com/zaplexes/Marsway
+- Video: to be supplied separately by the team before submission.
+
 ## Project description draft
 
 Marsway helps astronauts decide where to go next on Mars. Crews set a simulated base, compare nearby destinations with adjustable interests and distance preferences, inspect NASA imagery and supporting evidence, and prepare a round-trip field plan. Every feature type starts with equal study interest; the app does not impose a water-finding mission. Jezero provides an optional worked example using Perseverance sample observations.

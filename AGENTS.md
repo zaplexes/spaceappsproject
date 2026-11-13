@@ -4,9 +4,9 @@
 
 Ask the user whenever a requirement, intended behavior, scope, or implementation approach is unclear, or whenever you are unsure how to perform a task. Explain the uncertainty and ask specific questions before proceeding with work that depends on the answer. Do not silently guess or treat an unanswered question as approval. You may continue independent, clearly understood work while waiting.
 
-Read `Space Apps.docx` in the repository root before planning or implementing project features. Its absolute path is `/home/fles/Documents/spaceappsproject/Space Apps.docx`. Use it as project context alongside the user's instructions. If its contents are ambiguous, conflict with the request, or cannot be read, ask the user before proceeding with affected work. Do not modify the document unless requested.
+Read `docs/project-scope.md` and `docs/mission-science.md` before planning or implementing project features. Use these English documents as project context alongside the user's instructions. Consult `docs/technical-brief.md` for architecture and `docs/implementation-checklist.md` for implementation history. If their contents are ambiguous or conflict with the request, ask the user before proceeding with affected work.
 
-To read its text without additional dependencies, use Python's `zipfile` and `xml.etree.ElementTree` to extract paragraphs from `word/document.xml` inside the DOCX archive. Inspect embedded images or tables separately when needed to understand the requirements.
+Keep team-authored application text, comments and documentation in English. Preserve official scientific place names and retained upstream source records in their original form.
 
 ## Project Structure & Module Organization
 

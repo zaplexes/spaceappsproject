@@ -48,6 +48,28 @@ test('static hosting loads the globe, all stop photos and both overlays inside i
     'href',
     `${location.pathname}branding/marsway-logo.png`,
   );
+  const docsLink = page.getByRole('link', {
+    name: 'Project documentation (opens in a new tab)',
+    exact: true,
+  });
+  await expect(docsLink).toHaveAttribute(
+    'href',
+    `${location.pathname}documentation/`,
+  );
+  const documentation = await page.context().newPage();
+  const docsResponse = await documentation.goto(
+    new URL('documentation/', location).href,
+  );
+  expect(docsResponse?.ok()).toBe(true);
+  await expect(documentation).toHaveTitle('Marsway · Project documentation');
+  await expect(
+    documentation.getByRole('link', { name: 'Open the app', exact: true }),
+  ).toHaveAttribute('href', '../');
+  const logoResponse = await request.get(
+    new URL('../branding/marsway-logo.png', documentation.url()).href,
+  );
+  expect(logoResponse.ok()).toBe(true);
+  await documentation.close();
   await expect(page.locator('canvas')).toBeVisible();
   await expect(
     page.getByRole('button', { name: 'Zoom in', exact: true }),

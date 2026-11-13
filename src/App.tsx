@@ -224,6 +224,14 @@ export default function App() {
           </a>
           <a href="#expedition-base">Plan</a>
           <a href="#trip-planner">Trip</a>
+          <a
+            href={localAssetUrl('/documentation/')}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Project documentation (opens in a new tab)"
+          >
+            Docs ↗
+          </a>
           <a className="source-nav" href="#sources">
             Data & sources ↗
           </a>

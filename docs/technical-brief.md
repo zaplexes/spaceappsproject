@@ -7,7 +7,7 @@ Status: proposed full architecture for team review. A local React + TypeScript +
 
 Accepted direction: Mars-wide destination comparison, source evidence and round-trip planning. Jezero provides detailed example science stops and local terrain context. Reviewed global CTX, THEMIS, MOLA/HRSC colour hillshade and global geology are available through feature-aware controls with viewport coverage labels; global slope and numerical global heights remain unavailable. Destination selection is the goal; walking, crewed-vehicle and robotic ground-rover modes are implemented with unconfigured capabilities.
 
-Based on `Space Apps.docx` and the discussion. The service endpoints and full system modules below are proposals. The current catalogue uses static search/region files and requires no application server; see [catalogue implementation](crater-catalogue.md).
+See [current project scope](project-scope.md) and [mission context](mission-science.md) for the current English requirements. The service endpoints and full system modules below are proposals. The current catalogue uses static search/region files and requires no application server; see [catalogue implementation](crater-catalogue.md).
 
 ## System architecture
 

@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Marsway project documentation: astronaut destination selection, user guide, NASA data, methods, limitations and source code."
+    />
+    <meta name="theme-color" content="#21332c" />
+    <title>Marsway · Project documentation</title>
+    <link rel="icon" type="image/png" href="../branding/marsway-logo.png" />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #21332c;
+        --muted: #596a61;
+        --paper: #f6f5ef;
+        --line: #d9ddd0;
+        --rust: #ad432c;
+        --violet: #69269c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 24px;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          16px/1.7 system-ui,
+          sans-serif;
+      }
+      a {
+        color: var(--rust);
+        text-underline-offset: 4px;
+        overflow-wrap: anywhere;
+      }
+      a:hover {
+        color: var(--violet);
+      }
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid var(--violet);
+        outline-offset: 5px;
+      }
+      .skip {
+        position: absolute;
+        top: -100px;
+        left: 20px;
+        padding: 12px;
+        background: white;
+        z-index: 2;
+      }
+      .skip:focus {
+        top: 12px;
+      }
+      header,
+      main,
+      footer {
+        max-width: 1120px;
+        margin: auto;
+        padding-inline: clamp(20px, 5vw, 56px);
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding-block: 24px;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+      .brand img {
+        width: 48px;
+        height: 48px;
+      }
+      .brand small {
+        display: block;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+      }
+      header nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-size: 14px;
+      }
+      .hero {
+        padding-block: 54px 30px;
+      }
+      .eyebrow {
+        color: var(--rust);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      h1 {
+        max-width: 850px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.13;
+        letter-spacing: -0.04em;
+        margin: 16px 0 24px;
+      }
+      h2 {
+        font-size: 27px;
+        line-height: 1.3;
+        margin: 0 0 18px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 0 0 10px;
+      }
+      p {
+        margin: 0 0 16px;
+      }
+      .lead {
+        font-size: 19px;
+        max-width: 760px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+      }
+      .button {
+        padding: 11px 20px;
+        border: 1px solid var(--ink);
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        color: var(--ink);
+      }
+      .button.primary {
+        background: var(--ink);
+        color: white;
+      }
+      .contents {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 24px;
+        padding-block: 22px;
+        margin-bottom: 24px;
+        border-block: 1px solid var(--line);
+        font-size: 14px;
+      }
+      section {
+        padding-block: 30px;
+      }
+      section + section {
+        border-top: 1px solid var(--line);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .card {
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fffef9;
+      }
+      .card p:last-child {
+        margin-bottom: 0;
+      }
+      .note {
+        padding: 18px 22px;
+        border-left: 4px solid var(--violet);
+        background: #efebf4;
+        margin-block: 20px;
+      }
+      ol,
+      ul {
+        padding-left: 24px;
+      }
+      li {
+        margin-block: 10px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 16px 12px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+      th {
+        background: #e9ece2;
+      }
+      td:first-child {
+        width: 28%;
+        font-weight: 600;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+        padding-block: 12px;
+      }
+      details {
+        border-bottom: 1px solid var(--line);
+      }
+      code {
+        background: #e9ece2;
+        padding: 2px 5px;
+        border-radius: 3px;
+        overflow-wrap: anywhere;
+      }
+      pre {
+        padding: 20px;
+        overflow-x: auto;
+        background: #21332c;
+        color: #f6f5ef;
+        border-radius: 8px;
+      }
+      pre code {
+        padding: 0;
+        background: transparent;
+      }
+      footer {
+        padding-block: 30px 44px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer p:last-child {
+        margin: 0;
+      }
+      @media (max-width: 620px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding-top: 32px;
+        }
+        table,
+        tbody,
+        tr,
+        td {
+          display: block;
+        }
+        thead {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip-path: inset(50%);
+        }
+        tr {
+          border: 1px solid var(--line);
+          border-radius: 8px;
+          margin-bottom: 16px;
+          padding: 8px;
+          background: #fffef9;
+        }
+        td,
+        td:first-child {
+          width: auto;
+          border: 0;
+          padding: 8px;
+        }
+        td:nth-child(2)::before,
+        td:nth-child(3)::before {
+          display: block;
+          font-weight: 600;
+          color: var(--ink);
+        }
+        td:nth-child(2)::before {
+          content: 'Contribution';
+        }
+        td:nth-child(3)::before {
+          content: 'Important limit';
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      @media print {
+        body {
+          background: white;
+          font-size: 11pt;
+        }
+        .skip,
+        .actions,
+        .contents,
+        header nav {
+          display: none;
+        }
+        header,
+        main,
+        footer {
+          max-width: none;
+          padding-inline: 0;
+        }
+        section {
+          break-inside: auto;
+        }
+        .card,
+        tr {
+          break-inside: avoid;
+        }
+        .hero {
+          padding-block: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to documentation</a>
+    <header>
+      <a class="brand" href="../" aria-label="Marsway app">
+        <img src="../branding/marsway-logo.png" alt="" width="48" height="48" />
+        <span>MARSWAY<small>PROJECT DOCUMENTATION</small></span>
+      </a>
+      <nav aria-label="Project links">
+        <a href="../">Open the app</a>
+        <a href="https://github.com/zaplexes/Marsway">Source code</a>
+      </nav>
+    </header>
+    <main id="main">
+      <div class="hero">
+        <p class="eyebrow">Purpose · Methods · Evidence</p>
+        <h1>Helping astronauts choose where to go next.</h1>
+        <p class="lead">
+          Marsway brings destination comparison, NASA imagery and published
+          scientific evidence into one workspace for planning a simulated Mars
+          expedition.
+        </p>
+        <p>
+          Set a base, compare nearby destinations, inspect the evidence, and
+          prepare a round trip. Crews choose their own interests; Jezero is a
+          worked example rather than a fixed water-finding mission.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="../">Explore Marsway</a>
+          <a class="button" href="https://github.com/zaplexes/Marsway"
+            >View source code</a
+          >
+        </div>
+      </div>
+      <nav class="contents" aria-label="Documentation sections">
+        <a href="#purpose">Purpose</a><a href="#guide">User guide</a
+        ><a href="#method">Ranking method</a><a href="#data">NASA data</a
+        ><a href="#architecture">Architecture</a
+        ><a href="#limitations">Limitations</a
+        ><a href="#credits">Credits & AI</a>
+      </nav>
+      <section id="purpose" aria-labelledby="purpose-heading">
+        <h2 id="purpose-heading">The decision Marsway supports</h2>
+        <p>
+          Mars observations are distributed across mission archives, maps and
+          sample reports. Marsway connects those sources to a practical
+          question: which destination should a crew investigate next, given its
+          starting point, priorities and available evidence?
+        </p>
+        <div class="grid">
+          <article class="card">
+            <h3>For the crew</h3>
+            <p>
+              Compare named Mars features by distance and adjustable study
+              interests. Review the imagery and evidence behind an option before
+              adding it to a field plan.
+            </p>
+          </article>
+          <article class="card">
+            <h3>For a reviewer</h3>
+            <p>
+              See the source products, assumptions and missing inputs behind a
+              recommendation. Observations, geological interpretations and user
+              preferences remain distinct.
+            </p>
+          </article>
+        </div>
+        <div class="note">
+          <strong>Prototype scope.</strong> Marsway provides decision support
+          for simulated exploration. Its distance lines are minimum surface
+          arcs, not verified traversable routes. It does not certify astronaut
+          access or safety.
+        </div>
+      </section>
+      <section id="guide" aria-labelledby="guide-heading">
+        <h2 id="guide-heading">Use Marsway in five steps</h2>
+        <ol>
+          <li>
+            <strong>Set a simulated base.</strong> Choose
+            <em>Place base on map</em> and click the surface, or enter latitude
+            and longitude. Coordinate entry works even when WebGL is
+            unavailable.
+          </li>
+          <li>
+            <strong>Compare destinations.</strong> Open
+            <em>Compare destinations</em>, choose a search radius and filter
+            feature types. The shortlist shows up to ten named features with
+            distance and score ranges. A search can legitimately return no
+            results.
+          </li>
+          <li>
+            <strong>Inspect your options.</strong> Select a result to see its
+            orbital overview and catalogue details. Open
+            <em>Inspect the evidence</em> to review sources and gaps. Expand
+            <em>Map status</em> for imagery diagnostics and retries.
+          </li>
+          <li>
+            <strong>Plan the return.</strong> Add the selected destination to a
+            trip, order your stops, and optionally supply speed, stop work time,
+            available time and reserve assumptions. Walking, crewed-vehicle and
+            robotic-rover modes do not supply validated capabilities.
+          </li>
+          <li>
+            <strong>Review and share.</strong> Save a browser-local draft,
+            export or import a validated JSON plan, or print a field plan.
+            Reloading clears unsaved session choices. Saving and loading a draft
+            are explicit actions.
+          </li>
+        </ol>
+        <p>
+          The built-in <em>How to use</em> walkthrough is skippable and can be
+          reopened. Map keyboard controls include arrow keys to pan, + / − to
+          zoom, and H to return to Jezero. No account, installation or download
+          is required to browse the public app.
+        </p>
+        <p>
+          Skinner Ridge, Wildcat Ridge and Amalik provide optional Perseverance
+          examples with surface photos and proposed activities. Their
+          approximate highlights are separate from verified drill coordinates.
+        </p>
+      </section>
+      <section id="method" aria-labelledby="method-heading">
+        <h2 id="method-heading">How destination suggestions work</h2>
+        <p>
+          Model <code>feature-value-v2</code> compares named features within the
+          selected radius. Every feature type begins with
+          <strong>50% study interest</strong>. Crews can change those interests
+          and the weights; the defaults do not favor valleys, craters or a
+          water-search mission.
+        </p>
+        <div class="grid">
+          <article class="card">
+            <h3>Study preference · default weight 50</h3>
+            <p>
+              Study points = study weight × feature-type interest / 100. These
+              are editable expedition preferences, not measurements of an
+              individual feature’s scientific importance.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Distance · default weight 30</h3>
+            <p>
+              Distance points = distance weight × max(0, 1 − one-way distance /
+              search radius). Distances use a 3,396.19 km Mars reference sphere
+              and feature centres.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Terrain · default weight 20</h3>
+            <p>
+              Terrain points remain unknown. The score shows an unresolved range
+              rather than awarding easy-terrain points from imagery, coverage
+              envelopes or relief colours.
+            </p>
+          </article>
+          <article class="card">
+            <h3>A provisional shortlist</h3>
+            <p>
+              Weights must total 100. Results sort by earned study and distance
+              points, then distance and catalogue identifier. Unknown terrain
+              can change the ordering. Equal study interests let distance
+              distinguish otherwise comparable candidates.
+            </p>
+          </article>
+        </div>
+        <p>
+          The round-trip planner includes the return to base. Travel time uses a
+          user-supplied constant speed; total scheduled time also needs work
+          time at each stop. Budget results reflect those assumptions and do not
+          establish terrain feasibility.
+        </p>
+      </section>
+      <section id="data" aria-labelledby="data-heading">
+        <h2 id="data-heading">NASA data and how it is used</h2>
+        <p>
+          The application combines mission imagery, mapped interpretations and
+          published observations. Its
+          <a href="../#sources">Data & sources registry</a> provides product
+          identifiers, credits, reviewed metadata, checksums and explicit
+          unknowns.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption>
+              Principal source families used in Marsway
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Source</th>
+                <th scope="col">Contribution</th>
+                <th scope="col">Important limit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a href="https://trek.nasa.gov/mars/">NASA Trek · MGS MOC</a>
+                </td>
+                <td>
+                  Global visible context and a bundled coarse fallback overview.
+                  Credit: NASA/JPL/MSSS.
+                </td>
+                <td>
+                  Low-detail reference imagery; no terrain measurements or
+                  positioning accuracy are inferred.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="https://murray-lab.caltech.edu/CTX/beta01.html"
+                    >MRO CTX · Caltech / Esri</a
+                  >
+                </td>
+                <td>
+                  Mars-wide visible imagery and feature-centred orbital
+                  previews. Credit: NASA/JPL/MSSS/The Caltech Murray Lab/Esri.
+                </td>
+                <td>
+                  The global mosaic is uncontrolled. Alignment and valid-pixel
+                  coverage remain unverified.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="https://trek.nasa.gov/tiles/apidoc/trekAPI.html?body=mars"
+                    >NASA Trek · Jezero CTX / HiRISE</a
+                  >
+                </td>
+                <td>
+                  Regional high-resolution imagery, with HiRISE prioritized when
+                  enabled. Credits include NASA/JPL-Caltech/USGS and University
+                  of Arizona.
+                </td>
+                <td>
+                  Detailed coverage is regional; service envelopes do not
+                  guarantee valid pixels or exact sample alignment.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="https://trek.nasa.gov/tiles/apidoc/trekAPI.html?body=mars"
+                    >Mars Odyssey · THEMIS</a
+                  >
+                </td>
+                <td>
+                  Optional daytime infrared context. Credit:
+                  NASA/JPL-Caltech/ASU.
+                </td>
+                <td>
+                  Infrared brightness is not a direct elevation or mineral
+                  measurement.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="https://astrogeology.usgs.gov/search/map/mars_mgs_mola_mex_hrsc_blended_shaded_relief_200m"
+                    >MOLA / HRSC relief</a
+                  >
+                </td>
+                <td>
+                  Global colour hillshade for regional relief context, combining
+                  NASA MGS and ESA Mars Express observations.
+                </td>
+                <td>
+                  Colour relief provides no numerical height readout or measured
+                  3D surface in the app.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="https://astrogeology.usgs.gov/search/map/mars_2020_terrain_relative_navigation_ctx_dtm_mosaic"
+                    >USGS · Jezero CTX DTM</a
+                  >
+                </td>
+                <td>
+                  Local elevation colours, derived exploratory gradients and
+                  sparse numerical terrain context from 20 m source cells.
+                </td>
+                <td>
+                  Registration, physical slope validation and height conversion
+                  remain unresolved. These products do not qualify routes for
+                  travel.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="https://pubs.usgs.gov/sim/3292/"
+                    >USGS global geology</a
+                  >
+                  /
+                  <a href="https://pubs.usgs.gov/publication/sim3464"
+                    >Jezero geology</a
+                  >
+                </td>
+                <td>
+                  Regional-scale geological interpretations and local map units.
+                </td>
+                <td>
+                  Mapped units differ from direct rover observations; scale and
+                  alignment limits remain visible.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="https://planetarynames.wr.usgs.gov/"
+                    >IAU / USGS nomenclature</a
+                  >
+                </td>
+                <td>
+                  Named features, catalogue centres, approximate dimensions and
+                  links to official feature records.
+                </td>
+                <td>
+                  Named features are not a complete obstacle inventory. A
+                  catalogue centre is not a chosen observation site.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="https://science.nasa.gov/mission/mars-2020-perseverance/mars-rock-samples/"
+                    >Perseverance sample records</a
+                  >
+                  /
+                  <a
+                    href="https://pds-geosciences.wustl.edu/missions/mars2020/places.htm"
+                    >PDS position evidence</a
+                  >
+                </td>
+                <td>
+                  Jezero sample facts, retained Navcam photographs and location
+                  dossiers. Image credit: NASA/JPL-Caltech.
+                </td>
+                <td>
+                  Sampling sites, rover positions and drill points are
+                  different. Exact drill coordinates remain unverified.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="https://www.jpl.nasa.gov/news/nasas-first-weather-report-from-jezero-crater-on-mars/"
+                    >Perseverance MEDA</a
+                  >
+                </td>
+                <td>
+                  Dated historical environmental observations from published
+                  NASA/JPL reports.
+                </td>
+                <td>
+                  Local, historical readings are not current weather or a
+                  Mars-wide forecast.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Individual acquisition dates, source versions and ground accuracy are
+          not established for every mosaic. Missing values stay unknown.
+          Metadata checksums identify retained bytes; they do not certify
+          scientific accuracy or freeze remote tile content.
+        </p>
+      </section>
+      <section id="architecture" aria-labelledby="architecture-heading">
+        <h2 id="architecture-heading">
+          Technical approach and reproducibility
+        </h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Browser application</h3>
+            <p>
+              React and TypeScript implement discovery, evidence review and trip
+              planning. CesiumJS renders the Mars reference globe. Vite builds
+              the static site and its public assets.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Scientific preparation</h3>
+            <p>
+              Bounded Python pipelines prepare local terrain, geology and
+              catalogue products. Source manifests retain provenance and
+              checksums. Bulk source rasters are separate from browser display
+              assets.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Persistence</h3>
+            <p>
+              Drafts stay in browser-local storage. JSON import/export supports
+              review and recovery. There is no application account, backend
+              database or multi-user synchronization service.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Hosting and checks</h3>
+            <p>
+              GitHub Pages serves the compiled site. Automated checks cover
+              source contracts, ranking, import validation, responsive controls,
+              failure recovery and repository-prefixed asset paths. Live imagery
+              is checked separately.
+            </p>
+          </article>
+        </div>
+        <details>
+          <summary>Run the source locally</summary>
+          <p>
+            Use the Node.js version in
+            <a href="https://github.com/zaplexes/Marsway/blob/master/.nvmrc"
+              >.nvmrc</a
+            >
+            and the committed lockfile. The package requires Node.js 22.17 or
+            newer.
+          </p>
+          <pre><code>npm ci
+npm run dev
+
+# Production build
+npm run build
+
+# Browser tests after building
+npm test
+
+# Scientific source contracts (Python 3)
+npm run check:data</code></pre>
+          <p>
+            See the
+            <a href="https://github.com/zaplexes/Marsway#readme">README</a> for
+            hosting, formatting, pipeline setup and additional verification
+            commands. Visitors to the published app do not need this setup.
+          </p>
+        </details>
+        <p>
+          This HTML documentation page works without JavaScript and does not
+          load the map engine, catalogue or external imagery. Its source is
+          <a
+            href="https://github.com/zaplexes/Marsway/blob/master/assets/documentation/index.html"
+            >available in the repository</a
+          >.
+        </p>
+      </section>
+      <section id="limitations" aria-labelledby="limitations-heading">
+        <h2 id="limitations-heading">Current limitations and next steps</h2>
+        <ul>
+          <li>
+            <strong>Location precision:</strong> catalogue centres and
+            approximate sample highlights are not verified field observation or
+            drill sites.
+          </li>
+          <li>
+            <strong>Routes:</strong> shortest surface arcs do not avoid craters,
+            dunes or other obstacles. Terrain-aware routing is not implemented.
+          </li>
+          <li>
+            <strong>Terrain:</strong> detailed numerical products are local to
+            Jezero. Cross-product alignment, physical slope validation and
+            areoid-to-radius conversion remain open.
+          </li>
+          <li>
+            <strong>Scientific interpretation:</strong> user interests are
+            preferences; imagery and geological maps do not supply direct
+            mineral measurements. Verified 3D terrain is not implemented.
+          </li>
+          <li>
+            <strong>Availability and saving:</strong> external imagery can fail;
+            the app provides retries and coarse fallback context. Browser drafts
+            can be lost when site data is cleared, so export important plans.
+          </li>
+        </ul>
+        <p>
+          The next engineering steps are to validate local locations and
+          terrain, establish a bounded analysis area, and evaluate
+          obstacle-aware routes against explicit crew or vehicle assumptions.
+        </p>
+      </section>
+      <section id="credits" aria-labelledby="credits-heading">
+        <h2 id="credits-heading">Credits, AI assistance and project status</h2>
+        <p>
+          NASA, JPL, USGS, IAU, ESA and the credited mission and data teams
+          produced the observations and source products used here. The app
+          retains product credits and Cesium attribution. Consult the
+          <a href="https://www.nasa.gov/nasa-brand-center/images-and-media/"
+            >NASA media guidelines</a
+          >,
+          <a href="https://www.jpl.nasa.gov/jpl-image-use-policy/"
+            >JPL image-use policy</a
+          >
+          and individual source terms.
+        </p>
+        <p>
+          OpenAI Codex assisted with implementation, documentation, source
+          investigation and automated checks. OpenAI image generation created
+          the app emblem using the team logo as a style reference. The team is
+          responsible for reviewing the results and scientific limitations. No
+          AI-generated scientific measurements are presented.
+        </p>
+        <p>
+          Marsway is an independent prototype, not a NASA operational system or
+          an endorsed mission-planning product. Work began before the official
+          event; competition eligibility remains unconfirmed. See the
+          <a href="https://github.com/nasa/spaceapps/discussions/1827"
+            >organizer’s timing clarification</a
+          >
+          and the project’s submission notes.
+        </p>
+      </section>
+    </main>
+    <footer>
+      <p><strong>Marsway</strong> · Project documentation · English</p>
+      <p>
+        <a href="../">Open the interactive app</a> ·
+        <a href="https://github.com/zaplexes/Marsway"
+          >Public source repository</a
+        >
+        ·
+        <a
+          href="https://github.com/zaplexes/Marsway/blob/master/docs/submission-draft.md"
+          >Submission notes</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>

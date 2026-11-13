@@ -172,3 +172,17 @@ worked examples. See `docs/presentation-guide.md` for the demonstration script.
 Map diagnostics and location details expand on demand. Both layer groups start
 collapsed; **Layers** opens the Mars-wide controls. Desktop side panels scroll
 within the workspace, while mobile controls stay in normal page flow.
+
+## Public HTML documentation
+
+[Read the project documentation](https://zaplexes.github.io/Marsway/documentation/)
+for the purpose, user guide, ranking method, NASA data usage, architecture,
+limitations and AI disclosure. The app’s **Docs** link opens it in a separate tab
+so unsaved planning choices remain available in the original tab.
+
+The page is maintained in `assets/documentation/index.html`, works without
+JavaScript and is copied unchanged into the static site. Relative asset and
+return links work at `/documentation/` locally and `/Marsway/documentation/`
+on GitHub Pages. Check it after a production build with
+`npm test -- tests/documentation.spec.ts`; the Pages smoke check also verifies
+the hosted-prefix documentation page.

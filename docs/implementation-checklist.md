@@ -25,7 +25,7 @@ The user authorized a full-checklist pass with default estimates and optional us
 
 ## 0. Readiness and essential decisions
 
-- [x] Read `AGENTS.md`, `Space Apps.docx`, `docs/project-scope.md`, and `docs/technical-brief.md`.
+- [x] Read `AGENTS.md`, the original project brief, `docs/project-scope.md`, and `docs/technical-brief.md`.
 - [x] Inspect existing files, Git state, runtime availability, and applicable instructions.
 - [x] Check official competition timing and rules; clarify intended use if implementation would precede the permitted start.
 - [x] Confirm frontend stack compatibility and choose exact dependency versions; ask about unresolved material choices.
@@ -206,7 +206,7 @@ Initial state: no implementation was verified before the work recorded below. Ex
 - Timing: this is explicitly recorded pre-event work begun at the user's direction; no submission eligibility is claimed. No credentials, cloud resources, deployment or paid services were added. DOCX unchanged. No Git commit created.
 
 - Final dev smoke check: a Playwright-driven Chromium session opened http://127.0.0.1:5174/, waited for live CTX imagery, selected Amalik and verified its information panel. Passed. Captured request hosts were only `127.0.0.1` and `trek.nasa.gov`; no ion/Earth-provider request occurred.
-- Final tracker validation: section 0 has 5/6 checked, section 1 has 11/12 checked, and all later sections remain unchecked. Python verified these counts and no trailing whitespace in new source/tooling/docs. `git diff --check` passed and `git diff --exit-code -- 'Space Apps.docx'` confirmed the tracked DOCX is unchanged.
+- Final tracker validation: section 0 has 5/6 checked, section 1 has 11/12 checked, and all later sections remain unchecked. Python verified these counts and no trailing whitespace in new source/tooling/docs. `git diff --check` passed and a Git comparison confirmed the original brief was unchanged at that time.
 
 ### 2026-11-11 — Commit checkpoint and bounded elevation milestone
 
@@ -351,7 +351,7 @@ Initial state: no implementation was verified before the work recorded below. Ex
 
 ### 2026-11-12 — Mars-wide named-feature catalogue and candidate additions
 
-- User selected discovery across Mars with region filters, then approved the static import/refresh option for existing GitHub Pages hosting. Read `Space Apps.docx` and repository instructions before implementation. No backend, account, paid service, new dependency, source-document edit, commit, push or deployment.
+- User selected discovery across Mars with region filters, then approved the static import/refresh option for existing GitHub Pages hosting. Read the original project brief and repository instructions before implementation. No backend, account, paid service, new dependency, source-document edit, commit, push or deployment.
 - Imported the official IAU/USGS Mars centre-point KMZ. The retained snapshot contains 2,054 unique adopted features, including 1,242 named craters, across 30 source quadrangles plus six unassigned features. One exactly duplicated Bohar row is collapsed and reported. Conflicting duplicate IDs, non-Mars data, invalid or inconsistent coordinates and invalid source contracts reject the import. Source zero dimensions and unassigned regions remain unknown.
 - Added `Discover Mars features` with an on-demand compact search index, accent-insensitive name search, source quadrangle/Jezero-envelope centre filters, all source feature types and eight-result pagination. Regional details load on selection; failures, timeouts, retry, cancellation and late requests preserve the original science records. No thousands-of-markers rendering, viewport query or clustering is claimed.
 - A selected feature shows source-backed details and a clearly labelled catalogue-centre highlight. Longitude wrapping and the existing Mars sphere are shared with the map; camera framing uses approximate feature dimension only. Users can add/remove session-only candidate science stops, reselect them from the candidate list and return to the original outcrop evidence. Reload clears additions. The catalogue does not assign observation sites, science tasks, composition, ages, imagery, access or ranking to imported candidates. All exploration modes retain unconfigured capabilities; the Jezero goal is unchanged.
@@ -362,7 +362,7 @@ Initial state: no implementation was verified before the work recorded below. Ex
 
 ### 2026-11-12 — Map layers for catalogue features across Mars
 
-- User asked to extend the Jezero-specific layer experience to all catalogue features and explicitly selected reviewed imagery, elevation/relief, slope and geology with visible coverage gaps. Read `Space Apps.docx` and repository instructions before implementation. Global discovery remains visual context for the approved Jezero mission; no new scientific goal or access capability is inferred.
+- User asked to extend the Jezero-specific layer experience to all catalogue features and explicitly selected reviewed imagery, elevation/relief, slope and geology with visible coverage gaps. Read the original project brief and repository instructions before implementation. Global discovery remains visual context for the approved Jezero mission; no new scientific goal or access capability is inferred.
 - Added four curated public products: uncontrolled global Caltech/Esri CTX, Mars Odyssey THEMIS daytime infrared, MGS MOLA/Mars Express HRSC colour hillshade and USGS SIM 3292 global geology. Eleven exact capabilities/catalogue/service/legend snapshots and source contracts are retained in `world-layers-review.json`. Confirmed representative tile images and browser access headers. CTX uses a reviewed 512-pixel geographic grid; relief is JPEG, other products PNG. Global geology uses the actual ArcGIS WMTS resource URL and nearest-neighbour categorical display.
 - Catalogue selection updates the explorer/layer heading, opens Mars-wide context and enables global CTX. All layers retain individual toggles, source notes, credits, status and retry. Controlled Jezero visible mosaics stay above global visible CTX; explicitly enabled THEMIS is an infrared alternative above visible imagery. Global relief/geology and the three local Jezero colour displays are mutually exclusive. New world services install on demand; map retry replays enabled layers, opacity and candidate selection.
 - Coverage labels follow the current viewport rather than the selected centre alone: inside service extent, partial, outside or unknown. Existing local Jezero products keep their names/extents. A dedicated message identifies the missing slope grid outside the reviewed local area. Polar zooms and longitude-seam views are covered. No global slope, numeric global heights, calibrated relief colour bar, physical 3D terrain, precise unit assignment, mineral measurements or route eligibility is fabricated. The sparse global HiRISE product was not connected because its high-level Trek grid dimensions conflict and no valid-pixel footprints were established.
@@ -423,3 +423,15 @@ Initial state: no implementation was verified before the work recorded below. Ex
 - Map diagnostics and location explanations now expand on demand. Both layer groups start collapsed and remain optional after selecting a stop; Layers opens the Mars-wide group. Desktop side panels scroll within the workspace. New desktop/mobile checks cover the compact layout, warnings, neutral interests and editable preferences.
 - Investigated the renamed repository. `/Marsway/` returned HTML but its old `/spaceappsproject/` script returned 404. Updated current links and hosting-test defaults; the workflow now derives its build prefix from the current repository name rather than stale Pages metadata.
 - Verification: build, lint, formatting and 64 source/display integrity contracts passed. Browser suites exercised destination selection, failures/retries, map tracking, keyboard/mobile operation, persistence and source evidence; affected checks were updated for deliberate expansion of compact controls and rechecked. Live NASA imagery rendered successfully. The repository-prefix hosting check exercises the real `/Marsway/` build. Publication is verified separately against public assets.
+
+
+### 2026-11-13 — English-only project documents
+
+- User requested removal of the Portuguese project brief and translation of any remaining Portuguese text. Removed the original brief, replaced active references with the English project scope and mission context, and updated the agent instructions accordingly. Historical log entries describe the brief as it existed at the time.
+- Scanned tracked text files and extracted text from every tracked PDF. No other Portuguese prose was found. Official place names such as São Paulo remain unchanged in retained USGS source records. The project-workflow PDF was regenerated from its updated English SVG to remove the obsolete document reference.
+
+### 2026-11-13 — Public HTML documentation
+
+- User requested a public English documentation page. Added `assets/documentation/index.html` with purpose, a user guide, neutral ranking method, principal NASA/partner data sources and usage, architecture, reproduction instructions, limitations, source-code links and AI disclosure.
+- The page is static and works without JavaScript, account access, the map engine or external imagery. Relative links preserve the local and Pages prefixes. The app's Docs link opens a separate tab to keep session planning choices available. Small screens stack source-table rows for readability.
+- Added no-JavaScript desktop/mobile browser checks, navigation/session preservation and hosted-prefix documentation checks, plus documentation screenshots. Updated README and submission links. Earlier requested removal of the Portuguese brief and its obsolete references is included in this release.

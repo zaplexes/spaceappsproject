@@ -8,7 +8,7 @@ Accepted November 12, 2026: the user approved the proposed science mission and r
 
 **Help astronauts choose their next destination on Mars.** Compare options from a simulated base using adjustable interests, distance, imagery and source evidence. Every feature type starts with equal 50% study interest. Terrain gaps remain unknown; the app does not establish route feasibility.
 
-This goal was approved November 13, 2026 and supersedes the earlier ancient-water mission. Jezero’s outcrop investigations below remain optional examples of activities a crew could choose, not the app-wide goal. The original DOCX is preserved as historical project context.
+This goal was approved November 13, 2026 and supersedes the earlier ancient-water mission. Jezero’s outcrop investigations below remain optional examples of activities a crew could choose, not the app-wide goal. The original Portuguese brief has been removed at the user’s request; the current English requirements are in [project scope](project-scope.md).
 
 ## Optional Jezero science example
 
