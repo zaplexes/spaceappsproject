@@ -1,3 +1,4 @@
+import { openMapStatus } from './map-controls';
 import { openJezeroControls } from './jezero-controls';
 import { expect, test } from '@playwright/test';
 import { worldSources, tileUrl } from '../src/data/layers';
@@ -85,6 +86,11 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   await page
     .getByRole('region', { name: 'Jezero map', exact: true })
     .screenshot({ path: 'docs/candidate-highlight-live.png' });
+  await page
+    .locator('.imagery-status')
+    .evaluate((details: HTMLDetailsElement) => {
+      details.open = false;
+    });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/preview-desktop.png', fullPage: true });
   await page.getByRole('button', { name: 'Mars globe', exact: true }).click();
@@ -93,28 +99,56 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
     .toBe(true);
   await page.getByRole('button', { name: 'Jezero view' }).click();
   await page.setViewportSize({ width: 390, height: 844 });
+  await page
+    .locator('.imagery-status')
+    .evaluate((details: HTMLDetailsElement) => {
+      details.open = false;
+    });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/preview-mobile.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.getByLabel('Jezero elevation colours').check();
+  await openMapStatus(page);
   await expect(page.getByTestId('elevation-status')).toContainText('loaded');
+  await page
+    .locator('.imagery-status')
+    .evaluate((details: HTMLDetailsElement) => {
+      details.open = false;
+    });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/elevation-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
+  await page
+    .locator('.imagery-status')
+    .evaluate((details: HTMLDetailsElement) => {
+      details.open = false;
+    });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/elevation-mobile.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.getByLabel('Jezero regional geology', { exact: false }).check();
+  await openMapStatus(page);
   await expect(page.getByTestId('geology-status')).toContainText('loaded');
   await expect(page.getByLabel('Jezero elevation colours')).not.toBeChecked();
   await page.getByText('Geological units (14)', { exact: true }).click();
+  await page
+    .locator('.imagery-status')
+    .evaluate((details: HTMLDetailsElement) => {
+      details.open = false;
+    });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/geology-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
+  await page
+    .locator('.imagery-status')
+    .evaluate((details: HTMLDetailsElement) => {
+      details.open = false;
+    });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'docs/geology-mobile.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.getByLabel('Jezero estimated slope', { exact: false }).check();
+  await openMapStatus(page);
   await expect(page.getByTestId('slope-status')).toContainText('loaded');
   await expect(
     page.getByLabel('Jezero regional geology', { exact: false }),
@@ -136,6 +170,7 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   const catalogue = page.getByRole('region', {
     name: 'Mars feature catalogue',
   });
+  await openMapStatus(page);
   await catalogue.getByText('Discover Mars features', { exact: true }).click();
   await catalogue.getByLabel('Search features').fill('Gale');
   await catalogue.getByRole('button', { name: /^Gale / }).click();

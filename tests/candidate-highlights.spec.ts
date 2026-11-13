@@ -61,10 +61,12 @@ for (const mobile of [false, true]) {
       );
       await expect.poll(centered).toBe(true);
       await expect(warning).toContainText('Approximate / unverified location');
+      await warning.locator('summary').click();
       await expect(warning.getByRole('link')).toHaveAttribute(
         'href',
         candidate.sourceUrl,
       );
+      await warning.locator('summary').click();
       const label = await marker.locator('.candidate-label').boundingBox();
       const note = await warning.boundingBox();
       expect(label && note && label.y + label.height < note.y).toBe(true);

@@ -39,7 +39,7 @@ test('static hosting loads the globe, all stop photos and both overlays inside i
     }),
   );
   await page.goto('./');
-  await expect(page).toHaveTitle('Marsway · Jezero Marswalk');
+  await expect(page).toHaveTitle('Marsway · Choose your next destination');
   await expect(page.locator('.brand-logo')).toHaveAttribute(
     'src',
     `${location.pathname}branding/marsway-logo.png`,

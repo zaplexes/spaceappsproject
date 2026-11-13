@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('approved goal and three exploration modes preserve unconfigured capabilities', () => {
-  expect(initialMission.goal).toBe('ancient-water');
+  expect(initialMission.goal).toBe('destination-selection');
   expect(initialMission.base).toBeNull();
   expect(mobilityProfiles.map((profile) => profile.id)).toEqual([
     'walking',

@@ -4,8 +4,7 @@ This is an editable handoff for the user, who will complete the submission. It i
 
 ## Project description draft
 
-Marsway brings Mars imagery, published science records and exploration planning into one visual workspace. Users explore the planet, search named features, set a simulated base and compare destinations using explainable study-interest and distance preferences. The Jezero example links Skinner Ridge, Wildcat Ridge and Amalik to Perseverance sample records, surface images and position evidence.
-
+Marsway helps astronauts decide where to go next on Mars. Crews set a simulated base, compare nearby destinations with adjustable interests and distance preferences, inspect NASA imagery and supporting evidence, and prepare a round-trip field plan. Every feature type starts with equal study interest; the app does not impose a water-finding mission. Jezero provides an optional worked example using Perseverance sample observations.
 The evidence inspector distinguishes documented observations, mapped interpretations and missing data. Orbital context includes Mars Global Surveyor MOC, Mars Reconnaissance Orbiter CTX/HiRISE, Mars Odyssey THEMIS, MOLA/HRSC relief and USGS geology. Local elevation and exploratory gradients retain source provenance. Historical MEDA reports are explicitly dated and local to the rover.
 
 The round-trip planner orders selected references and includes the return to base. It starts with minimum surface-distance estimates; users can supply speed, stop work time, available time and reserve assumptions. A field view includes proposed science tasks and Jezero reference photographs. Local drafts, validated JSON import/export and printing let users review and share a plan without an account.
@@ -16,13 +15,13 @@ The prototype does not certify astronaut access or safety. Exact sample location
 
 This sequence is a suggested walkthrough, not an assertion of the official required video duration or format.
 
-1. Open the app. Show the spotlight tutorial and Skip control, then reopen with How to use.
-2. Show the globe and Jezero view. Explain that imagery and scientific evidence have source references.
-3. Set a simulated base using coordinates. Open Compare destinations; show criterion scores, source links and unknown terrain.
-4. Select a Jezero stop. Open its evidence; distinguish approximate position, published sample facts, proposed tasks and missing information.
-5. Add the Jezero references to a trip. Show the return leg and minimum round-trip distance. Enter your own speed/work times/reserve, then demonstrate a budget overrun and the explanatory limitation.
-6. Open field view, review a task, save locally, export JSON and print. Do not describe a review checkmark as completed Mars fieldwork.
-7. Show the historical MEDA observation selector, its dated windows and missing readings. Finish with the data gaps and future work.
+1. State the decision: “Where should our crew go next, and what evidence supports that choice?”
+2. Set a simulated base and open Compare destinations. Show the shortlist, equal starting interests and distance from the base.
+3. Open one destination. Show its orbital overview and source evidence, then distinguish documented facts from unknown terrain.
+4. Add it to a round trip. Show the return leg and user-defined time/reserve assumptions. Explain that the line is a distance estimate, not an obstacle-avoiding route.
+5. Export the field plan. Finish with the next engineering step: verified local terrain and route analysis. Jezero surface photos are an optional example, not the central mission.
+
+A presentation-ready narration and slide outline are in [presentation guide](presentation-guide.md). Confirm the current official media requirements before recording.
 
 ## Challenge mapping
 
@@ -30,7 +29,7 @@ This sequence is a suggested walkthrough, not an assertion of the official requi
 | --- | --- | --- |
 | Multi-mission information | MOC, CTX/HiRISE, THEMIS, relief/geology and Perseverance references | Context products differ in scale, coverage and registration |
 | Local exploration | Jezero evidence and proposed investigations at three outcrops | Exact drill sites remain unverified |
-| Scientific purpose | Ancient-water questions and source-linked proposed observations | Type-interest scores are preferences, not scientific measurements |
+| Destination decision | Adjustable exploration interests, distance comparison and source-linked evidence | Type-interest scores are preferences, not scientific measurements |
 | Mobility planning | Optional mode/budget inputs, ordered stops, return leg and field plan | Distance-only lower bounds; no certified feasibility or hazard avoidance |
 | Accessibility | Keyboard controls, responsive UI, non-WebGL records/planning and skippable walkthrough | Interactive map needs WebGL; remote imagery can fail |
 | Reproducibility | Pinned dependencies, source checksums, pipeline manifests, tests and export model version | Some upstream metadata and full scientific validation remain unavailable |
@@ -46,7 +45,7 @@ Use the app’s Data & sources registry and [source registry guide](source-regis
 - Software: React, TypeScript, Vite and CesiumJS; retain their upstream notices and map credits.
 - NASA/JPL-Caltech surface photographs remain credited. Derived displays are identified as local processing rather than original observations.
 
-AI-assistance disclosure draft: “OpenAI Codex assisted with implementation, documentation, source investigation and automated checks. The team is responsible for reviewing the results and scientific limitations.” Adjust to accurately describe the team’s full use of AI and the final official rules. No AI-generated scientific measurements are presented.
+AI-assistance disclosure draft: “OpenAI Codex assisted with implementation, documentation, source investigation and automated checks. OpenAI image generation created the app emblem using the team logo as a style reference. The team is responsible for reviewing the results and scientific limitations.” Adjust to accurately describe the team’s full use of AI and the final official rules. No AI-generated scientific measurements are presented.
 
 ## Items the user completes
 

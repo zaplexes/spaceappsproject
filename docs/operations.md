@@ -17,7 +17,7 @@ npm run test:live
 npm run test:pages
 ```
 
-The ordinary tests use intercepted orbital tiles. `test:live` checks real NASA responses separately. `test:pages` rebuilds for `/spaceappsproject/` and tests the configured URL prefix; restore the ordinary root build with `npm run build` afterward if using the local root preview. The Pages smoke check covers the globe, local photographs, all three derived displays, the selected candidate highlight and Cesium runtime assets.
+The ordinary tests use intercepted orbital tiles. `test:live` checks real NASA responses separately. `test:pages` rebuilds for `/Marsway/` and tests the configured URL prefix; restore the ordinary root build with `npm run build` afterward if using the local root preview. The Pages smoke check covers the globe, local photographs, all three derived displays, the selected candidate highlight and Cesium runtime assets.
 
 The Pages workflow runs the retained-data gate before compiling. Only `dist/` is uploaded. Retain source/manifests/lockfiles in version control; do not upload raw rasters, local environments, source documents or secrets as the website. Workflow execution and the public site must be verified separately after publishing. Follow [Pages setup](github-pages.md) for the external account settings and recorded Git-credential blocker.
 
@@ -28,7 +28,7 @@ For the public site, inspect the browser console and network panel and exercise 
 3. Toggle HiRISE and CTX; inspect service-extent and loading/failure messages.
 4. Enable elevation, geology and estimated slope in turn; check their distinct legends and source limitations.
 5. Open Discover Mars features, search for Gale, select it and add/remove a candidate. Check the catalogue-centre label and source; verify the snapshot retrieval time.
-6. Check a narrow viewport and keyboard selection. Confirm that the ancient-water goal is selected, optional trip assumptions remain blank initially and the calculator is provisional. Add a trip, check the return leg, enter assumptions, export/import a plan and verify that terrain feasibility stays unknown.
+6. Check a narrow viewport and keyboard selection. Open Map status for diagnostics and retries; confirm it starts collapsed. Confirm that destination selection is the goal and feature interests start equally, optional trip assumptions remain blank initially and the calculator is provisional. Add a trip, check the return leg, enter assumptions, export/import a plan and verify that terrain feasibility stays unknown.
 
 Record the deployed source commit, Actions result, checked URL, verification date and remaining limitations in the implementation checklist. A local passing build alone does not complete public-release verification.
 

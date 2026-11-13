@@ -1,5 +1,8 @@
 # Mars feature catalogue
 
+**Current direction — November 13, 2026:** Help astronauts choose the next destination on Mars. Feature types start with equal 50% study interest and user-adjustable priorities. Jezero investigations are optional examples. This supersedes earlier ancient-water mission and Jezero-only scope decisions below; see [current scope](project-scope.md).
+
+
 The user selected Mars-wide discovery with region filters and a catalogue refreshed during publishing, using existing GitHub Pages hosting. No backend, account, API key or paid service is introduced.
 
 ## Use the catalogue
@@ -20,7 +23,7 @@ The region filter uses the source quadrangle assignment. **Jezero geology map ex
 - This is a catalogue of named features, not a complete impact-crater inventory. Unnamed craters, small hazards and dunes are not comprehensively represented.
 - Feature centres are **discovery references**, not exact observation sites. They are shown on the existing 3,396,190-metre Mars display sphere. Source east longitude is preserved and wrapped to −180…180 for display; KML point and attribute coordinates must agree. Position accuracy and alignment remain unverified. Camera height uses the approximate feature dimension only to frame the view, with no uncertainty circle, terrain or accessibility inference.
 - The source's zero dimensions become unknown. The name-origin text explains a name; it is not a scientific observation. No crater composition, age, water history, photograph or science ranking is invented.
-- A new candidate has no selected observation site, scientific question, instruments, work time or verified approach. The existing ancient-water goal and three mode-specific outcrop investigations remain Jezero-specific. Global discovery does not enable global routing or rank added features against those outcrops.
+- A new candidate has no selected observation site, scientific question, instruments, work time or verified approach. The three mode-specific outcrop investigations are optional Jezero examples within the destination-selection workflow. Global discovery does not enable global routing or rank added features against those outcrops.
 - The archive contains legacy XML describing 2012 coverage, 1,690 points and weekly updates; its projection sidecar describes an oblate Mars ellipsoid while the XML describes a sphere. These inconsistencies are disclosed. The documented KML angular convention is used for display. No independent registration or analysis CRS is claimed. Retrieval time is not a scientific observation, source publication or formal release date.
 
 The shared source registry now has fourteen products, including this catalogue. Each selected feature links its official source and exposes limitations and a download of the exact retained export. Every source remains ineligible for route/ranking analysis.

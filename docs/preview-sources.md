@@ -1,5 +1,8 @@
 # Local preview source verification
 
+**Current direction — November 13, 2026:** Help astronauts choose the next destination on Mars. Feature types start with equal 50% study interest and user-adjustable priorities. Jezero investigations are optional examples. This supersedes earlier ancient-water mission and Jezero-only scope decisions below; see [current scope](project-scope.md).
+
+
 Verified on November 11, 2026 (America/Sao_Paulo; server responses dated November 12 UTC). These are visualization sources, not validated analysis rasters or human route evidence. Scientific document `Space Apps.docx` is unchanged.
 
 ## Imagery
@@ -38,7 +41,7 @@ NASA's [Wildcat Ridge observations](https://science.nasa.gov/resource/sample-col
 
 All exact sample coordinates remain `null` / `pending_verification`. The user authorized selected-stop highlights at the dossier's published candidate positions, with an explicit approximate/unverified warning and source link. These are separate display-only references using reported N/E degrees on the shared Mars sphere; their latitude convention and accuracy remain unresolved. No base marker is created. Stop numbering does not define an excursion. Exact drill positions and approach suitability still require verification through [PDS PLACES](https://pds-geosciences.wustl.edu/missions/mars2020/places.htm) and appropriate instrument data.
 
-The camera context (18.4446° N, 77.4509° E) comes from the DOCX and is corroborated by [Bell et al., 2022, on NASA NTRS](https://ntrs.nasa.gov/api/citations/20230016428/downloads/Bell%20et%20al%202022sciadv.pdf). It is an approximate historical landing reference used only to orient the camera. Camera altitude/zoom are display settings, not terrain elevations or a crew base. The ancient-water investigation is the selected goal. Base and equipment capabilities remain unknown.
+The camera context (18.4446° N, 77.4509° E) comes from the DOCX and is corroborated by [Bell et al., 2022, on NASA NTRS](https://ntrs.nasa.gov/api/citations/20230016428/downloads/Bell%20et%20al%202022sciadv.pdf). It is an approximate historical landing reference used only to orient the camera. Camera altitude/zoom are display settings, not terrain elevations or a crew base. The selected goal is astronaut destination selection; Jezero investigations are examples. Base and equipment capabilities remain unknown.
 
 ## Elevation overlay extension
 

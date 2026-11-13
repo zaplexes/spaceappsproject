@@ -331,165 +331,189 @@ export function MarsMap({
               −
             </button>
           </div>
-          <div className="imagery-status" aria-live="polite">
-            {tileSources
-              .filter((source) => visible[source.id])
-              .map((source) => (
-                <div key={source.id}>
-                  <span className={`status-dot ${status[source.id]}`} />
-                  <span>
-                    {source.name}:{' '}
-                    {status[source.id] === 'ready'
-                      ? 'loaded'
-                      : status[source.id] === 'failed'
-                        ? 'unavailable — partial or no coverage'
-                        : 'loading…'}
-                  </span>
-                  {status[source.id] === 'failed' && (
-                    <button
-                      onClick={() => controller.current?.retry(source.id)}
-                    >
-                      Retry
-                    </button>
-                  )}
-                </div>
-              ))}
-            {tileSources
-              .filter(
+          <details className="imagery-status">
+            <summary aria-live="polite">
+              Map status ·{' '}
+              {tileSources.some(
                 (source) =>
-                  visible[source.id] &&
-                  !['global', 'jezero', 'hirise'].includes(source.id),
-              )
-              .map((source) => (
+                  visible[source.id] && status[source.id] === 'failed',
+              ) ||
+              (elevationEnabled && elevationState.status === 'failed') ||
+              (geologyEnabled && geologyState.status === 'failed') ||
+              (slopeEnabled && slopeState.status === 'failed')
+                ? 'Some layers unavailable'
+                : tileSources.some(
+                      (source) =>
+                        visible[source.id] && status[source.id] === 'loading',
+                    )
+                  ? 'Loading imagery…'
+                  : 'View layer details'}
+            </summary>
+            <div className="imagery-status-body">
+              {tileSources
+                .filter((source) => visible[source.id])
+                .map((source) => (
+                  <div key={source.id}>
+                    <span className={`status-dot ${status[source.id]}`} />
+                    <span>
+                      {source.name}:{' '}
+                      {status[source.id] === 'ready'
+                        ? 'loaded'
+                        : status[source.id] === 'failed'
+                          ? 'unavailable — partial or no coverage'
+                          : 'loading…'}
+                    </span>
+                    {status[source.id] === 'failed' && (
+                      <button
+                        onClick={() => controller.current?.retry(source.id)}
+                      >
+                        Retry
+                      </button>
+                    )}
+                  </div>
+                ))}
+              {tileSources
+                .filter(
+                  (source) =>
+                    visible[source.id] &&
+                    !['global', 'jezero', 'hirise'].includes(source.id),
+                )
+                .map((source) => (
+                  <p
+                    key={source.id}
+                    className="coverage-status"
+                    data-testid={`${source.id}-coverage`}
+                  >
+                    {source.name}: {coverageLabel(coverage[source.id])}
+                  </p>
+                ))}
+              {((visible.global && status.global === 'failed') ||
+                (visible['ctx-global'] &&
+                  status['ctx-global'] === 'failed')) && (
                 <p
-                  key={source.id}
                   className="coverage-status"
-                  data-testid={`${source.id}-coverage`}
+                  data-testid="imagery-fallback-note"
                 >
-                  {source.name}: {coverageLabel(coverage[source.id])}
+                  Some live tiles failed. Available imagery and a cached,
+                  low-resolution MOC overview provide fallback context.
                 </p>
-              ))}
-            {((visible.global && status.global === 'failed') ||
-              (visible['ctx-global'] && status['ctx-global'] === 'failed')) && (
-              <p
-                className="coverage-status"
-                data-testid="imagery-fallback-note"
-              >
-                Some live tiles failed. Available imagery and a cached,
-                low-resolution MOC overview provide fallback context.
-              </p>
-            )}
-            {visible['ctx-global'] && (
-              <p className="coverage-status">
-                Global CTX is uncontrolled · alignment and valid pixels
-                unverified
-              </p>
-            )}
-            {visible.hirise && (
-              <p className="coverage-status" data-testid="hirise-coverage">
-                {hiriseCoverage === 'inside'
-                  ? 'Within HiRISE service extent'
-                  : hiriseCoverage === 'partial'
-                    ? 'HiRISE covers part of this viewport'
-                    : hiriseCoverage === 'outside'
-                      ? 'Outside HiRISE coverage · context imagery below'
-                      : 'HiRISE coverage unknown'}
-              </p>
-            )}
-            {elevationEnabled && (
-              <div data-testid="elevation-status">
-                <span className={`status-dot ${elevationState.status}`} />
-                <span>
-                  Jezero elevation:{' '}
-                  {elevationState.status === 'ready'
-                    ? 'loaded'
-                    : elevationState.status === 'failed'
-                      ? 'unavailable'
-                      : 'loading…'}
-                </span>
-                {elevationState.status === 'failed' && (
-                  <button onClick={() => controller.current?.retryElevation()}>
-                    Retry elevation
-                  </button>
-                )}
-              </div>
-            )}
-            {elevationEnabled && (
-              <p className="coverage-status" data-testid="elevation-coverage">
-                {elevationState.coverage === 'inside'
-                  ? 'Elevation covers this viewport'
-                  : elevationState.coverage === 'partial'
-                    ? 'Elevation covers part of this viewport'
-                    : elevationState.coverage === 'outside'
-                      ? 'Outside elevation coverage'
-                      : 'Elevation coverage unknown'}
-              </p>
-            )}
-            {geologyEnabled && (
-              <>
-                <div data-testid="geology-status">
-                  <span className={`status-dot ${geologyState.status}`} />
-                  <span>
-                    Jezero geology:{' '}
-                    {geologyState.status === 'ready'
-                      ? 'loaded'
-                      : geologyState.status === 'failed'
-                        ? 'unavailable'
-                        : 'loading…'}
-                  </span>
-                  {geologyState.status === 'failed' && (
-                    <button onClick={() => controller.current?.retryGeology()}>
-                      Retry geology
-                    </button>
-                  )}
-                </div>
-                <p className="coverage-status" data-testid="geology-coverage">
-                  {geologyState.coverage === 'inside'
-                    ? 'Within geology map extent'
-                    : geologyState.coverage === 'partial'
-                      ? 'Geology map covers part of this viewport'
-                      : geologyState.coverage === 'outside'
-                        ? 'Outside geology map extent'
-                        : 'Geology map extent unknown'}
-                </p>
-              </>
-            )}
-            {slopeEnabled && (
-              <>
-                <div data-testid="slope-status">
-                  <span className={`status-dot ${slopeState.status}`} />
-                  <span>
-                    Jezero slope:{' '}
-                    {slopeState.status === 'ready'
-                      ? 'loaded'
-                      : slopeState.status === 'failed'
-                        ? 'unavailable'
-                        : 'loading…'}
-                  </span>
-                  {slopeState.status === 'failed' && (
-                    <button onClick={() => controller.current?.retrySlope()}>
-                      Retry slope
-                    </button>
-                  )}
-                </div>
-                <p className="coverage-status" data-testid="slope-coverage">
-                  {slopeState.coverage === 'inside'
-                    ? 'Within slope grid extent · edges/gaps unknown'
-                    : slopeState.coverage === 'partial'
-                      ? 'Slope grid covers part of this viewport'
-                      : slopeState.coverage === 'outside'
-                        ? 'Outside slope coverage'
-                        : 'Slope coverage unknown'}
-                </p>
-              </>
-            )}
-            {!tileSources.some((source) => visible[source.id]) &&
-              !elevationEnabled &&
-              !geologyEnabled &&
-              !slopeEnabled && (
-                <span>Imagery off · smooth reference globe</span>
               )}
-          </div>
+              {visible['ctx-global'] && (
+                <p className="coverage-status">
+                  Global CTX is uncontrolled · alignment and valid pixels
+                  unverified
+                </p>
+              )}
+              {visible.hirise && (
+                <p className="coverage-status" data-testid="hirise-coverage">
+                  {hiriseCoverage === 'inside'
+                    ? 'Within HiRISE service extent'
+                    : hiriseCoverage === 'partial'
+                      ? 'HiRISE covers part of this viewport'
+                      : hiriseCoverage === 'outside'
+                        ? 'Outside HiRISE coverage · context imagery below'
+                        : 'HiRISE coverage unknown'}
+                </p>
+              )}
+              {elevationEnabled && (
+                <div data-testid="elevation-status">
+                  <span className={`status-dot ${elevationState.status}`} />
+                  <span>
+                    Jezero elevation:{' '}
+                    {elevationState.status === 'ready'
+                      ? 'loaded'
+                      : elevationState.status === 'failed'
+                        ? 'unavailable'
+                        : 'loading…'}
+                  </span>
+                  {elevationState.status === 'failed' && (
+                    <button
+                      onClick={() => controller.current?.retryElevation()}
+                    >
+                      Retry elevation
+                    </button>
+                  )}
+                </div>
+              )}
+              {elevationEnabled && (
+                <p className="coverage-status" data-testid="elevation-coverage">
+                  {elevationState.coverage === 'inside'
+                    ? 'Elevation covers this viewport'
+                    : elevationState.coverage === 'partial'
+                      ? 'Elevation covers part of this viewport'
+                      : elevationState.coverage === 'outside'
+                        ? 'Outside elevation coverage'
+                        : 'Elevation coverage unknown'}
+                </p>
+              )}
+              {geologyEnabled && (
+                <>
+                  <div data-testid="geology-status">
+                    <span className={`status-dot ${geologyState.status}`} />
+                    <span>
+                      Jezero geology:{' '}
+                      {geologyState.status === 'ready'
+                        ? 'loaded'
+                        : geologyState.status === 'failed'
+                          ? 'unavailable'
+                          : 'loading…'}
+                    </span>
+                    {geologyState.status === 'failed' && (
+                      <button
+                        onClick={() => controller.current?.retryGeology()}
+                      >
+                        Retry geology
+                      </button>
+                    )}
+                  </div>
+                  <p className="coverage-status" data-testid="geology-coverage">
+                    {geologyState.coverage === 'inside'
+                      ? 'Within geology map extent'
+                      : geologyState.coverage === 'partial'
+                        ? 'Geology map covers part of this viewport'
+                        : geologyState.coverage === 'outside'
+                          ? 'Outside geology map extent'
+                          : 'Geology map extent unknown'}
+                  </p>
+                </>
+              )}
+              {slopeEnabled && (
+                <>
+                  <div data-testid="slope-status">
+                    <span className={`status-dot ${slopeState.status}`} />
+                    <span>
+                      Jezero slope:{' '}
+                      {slopeState.status === 'ready'
+                        ? 'loaded'
+                        : slopeState.status === 'failed'
+                          ? 'unavailable'
+                          : 'loading…'}
+                    </span>
+                    {slopeState.status === 'failed' && (
+                      <button onClick={() => controller.current?.retrySlope()}>
+                        Retry slope
+                      </button>
+                    )}
+                  </div>
+                  <p className="coverage-status" data-testid="slope-coverage">
+                    {slopeState.coverage === 'inside'
+                      ? 'Within slope grid extent · edges/gaps unknown'
+                      : slopeState.coverage === 'partial'
+                        ? 'Slope grid covers part of this viewport'
+                        : slopeState.coverage === 'outside'
+                          ? 'Outside slope coverage'
+                          : 'Slope coverage unknown'}
+                  </p>
+                </>
+              )}
+              {!tileSources.some((source) => visible[source.id]) &&
+                !elevationEnabled &&
+                !geologyEnabled &&
+                !slopeEnabled && (
+                  <span>Imagery off · smooth reference globe</span>
+                )}
+            </div>
+          </details>
         </>
       )}
       <div className="map-footnote">
@@ -516,20 +540,22 @@ export function MarsMap({
           role="status"
           data-testid="candidate-warning"
         >
-          <strong>
-            {candidate.name} ·{' '}
-            {catalogueCentre
-              ? 'Catalogue centre / observation site unverified'
-              : 'Approximate / unverified location'}
-          </strong>
-          <p>
-            {catalogueCentre
-              ? 'Published planetocentric / east-longitude reference. Alignment and accuracy unverified; this is not an observation site. Marker size does not indicate accuracy.'
-              : 'Latitude convention and precision unverified. Highlight is a visual reference; its size does not indicate accuracy.'}
-          </p>
-          <a href={candidate.sourceUrl} target="_blank" rel="noreferrer">
-            Published candidate position ↗
-          </a>
+          <details>
+            <summary>
+              {candidate.name} ·{' '}
+              {catalogueCentre
+                ? 'Catalogue centre / observation site unverified'
+                : 'Approximate / unverified location'}
+            </summary>
+            <p>
+              {catalogueCentre
+                ? 'Published planetocentric / east-longitude reference. Alignment and accuracy unverified; this is not an observation site. Marker size does not indicate accuracy.'
+                : 'Latitude convention and precision unverified. Highlight is a visual reference; its size does not indicate accuracy.'}
+            </p>
+            <a href={candidate.sourceUrl} target="_blank" rel="noreferrer">
+              Published candidate position ↗
+            </a>
+          </details>
         </div>
       )}
     </section>

@@ -1,6 +1,18 @@
 # Marsway
 
-A Mars exploration app with a local Jezero Marswalk preview with HiRISE/CTX orbital imagery and optional elevation, estimated-slope and regional geology overlays, built with React, TypeScript and CesiumJS. Walking astronauts, astronauts in a crew vehicle and robotic ground rovers share an ancient-water investigation; global imagery and feature-dependent layer controls provide context. This is pre-event work begun at the user's direction on November 11, 2026. The organizer's [timing clarification](https://github.com/nasa/spaceapps/discussions/1827) requires project work to begin at the official hackathon start; adding features during the event does not resolve use of pre-event work. Competition eligibility is not established.
+Marsway helps astronauts decide where to go next on Mars. Set a simulated base,
+compare nearby named features, inspect NASA imagery and supporting evidence,
+and prepare a round trip with your own mission assumptions. Every feature type
+starts with equal study interest; crews can adjust interests and weights.
+Jezero provides a worked example with Perseverance science stops, not a fixed
+mission to search for water.
+
+Built with React, TypeScript and CesiumJS. [Open Marsway](https://zaplexes.github.io/Marsway/).
+
+Project work began on November 11, 2026. The organizer’s
+[timing clarification](https://github.com/nasa/spaceapps/discussions/1827)
+requires project work to begin at the official hackathon start. Competition
+eligibility remains unconfirmed.
 
 ## Local preview
 
@@ -22,7 +34,7 @@ The production preview opens at **http://127.0.0.1:4173**. Cesium worker/static 
 
 ## What is implemented
 
-Interactive Mars reference globe, initial Mars globe view with automatic global CTX and Jezero detail off, global MOC, regional CTX and prioritized regional HiRISE imagery toggles, a local USGS elevation-colour toggle with opacity, datum legend and viewport coverage, an exploratory DEM slope display with degree legend and source/method links, a regional USGS geology toggle with unit legend, opacity, source-offset warning and extent, source-linked science records with local NASA Navcam photographs and expandable PDS position evidence, list-to-panel selection, keyboard map controls, responsive layouts, proposed walking-exploration science tasks for each stop and unavailable-data states. The ancient-water scientific goal is selected; the base is unset. Walking is the initial exploration mode. No speed, range, equipment or resource budget is assumed.
+Interactive Mars reference globe, initial Mars globe view with automatic global CTX and Jezero detail off, global MOC, regional CTX and prioritized regional HiRISE imagery toggles, a local USGS elevation-colour toggle with opacity, datum legend and viewport coverage, an exploratory DEM slope display with degree legend and source/method links, a regional USGS geology toggle with unit legend, opacity, source-offset warning and extent, source-linked science records with local NASA Navcam photographs and expandable PDS position evidence, list-to-panel selection, keyboard map controls, responsive layouts, proposed walking-exploration science tasks for each stop and unavailable-data states. Destination selection is the mission goal; the base is unset. Walking is the initial exploration mode. No speed, range, equipment or resource budget is assumed.
 
 Selecting Skinner Ridge, Wildcat Ridge or Amalik shows an **approximate, unverified highlight** at the primary sample's published candidate position. The selected highlight has a fixed screen size, a visible warning and a PDS source link. The reported N/E degrees are displayed on the shared Mars sphere; source latitude convention, point definition and accuracy remain unresolved. Exact sample coordinates remain null and unavailable for analysis. List numbering is only a list index, not route order. The initial camera shows the Mars globe; Jezero view uses the published approximate Perseverance landing location, not a simulated base or sample position. 3D terrain relief, direct mineralogy layers and terrain-aware rankings/routes remain unavailable. Preliminary distance-only round trips, optional mission assumptions, field view, local draft storage and JSON import/export are implemented; accounts/backend are deferred by agreement. No human route safety is claimed.
 
@@ -105,9 +117,9 @@ Enable **Jezero regional geology** for the USGS SIM 3464 interpretation, then op
 
 ## GitHub Pages
 
-The intended public URL is **https://zaplexes.github.io/spaceappsproject/**. Select **Settings → Pages → Source → GitHub Actions** and leave **Custom domain** empty. The included workflow builds the Vite app and deploys only `dist/`; publishing the source branch root causes a blank page. Remote publication is complete only after the Actions build/deploy jobs and the public-site smoke check succeed.
+The intended public URL is **https://zaplexes.github.io/Marsway/**. Select **Settings → Pages → Source → GitHub Actions** and leave **Custom domain** empty. The included workflow builds the Vite app and deploys only `dist/`; publishing the source branch root causes a blank page. Remote publication is complete only after the Actions build/deploy jobs and the public-site smoke check succeed.
 
-`npm run test:pages` verifies the `/spaceappsproject/` build, including Cesium, photographs and all three local overlays. `MARTIAN_MAP_BASE_PATH` controls the public prefix; `.env.example` contains its non-secret default. Ordinary local development stays at `/`. See [hosting setup and troubleshooting](docs/github-pages.md) for the exact workflow, permissions and verification steps.
+`npm run test:pages` verifies the `/Marsway/` build, including Cesium, photographs and all three local overlays. `MARTIAN_MAP_BASE_PATH` controls the public prefix; `.env.example` contains its non-secret default. Ordinary local development stays at `/`. See [hosting setup and troubleshooting](docs/github-pages.md) for the exact workflow, permissions and verification steps.
 
 Enable **Jezero HiRISE imagery** for finer orbital context above CTX; its service extent and loading/failure status are shown on the map. Enable **Jezero estimated slope** for the exploratory degree-valued DEM gradient. See [slope processing](docs/slope-processing.md) for the algorithm, reproducible build and limitations; it does not establish walking feasibility.
 
@@ -148,3 +160,15 @@ and browser favicon. See `assets/branding/logo-prompt.md` for provenance.
 Existing local-storage keys and the `MARTIAN_MAP_BASE_PATH` setting retain their
 original identifiers for compatibility with saved plans and hosting settings.
 Downloaded plans use the filename `marsway-trip.json`.
+
+## Presentation workflow
+
+Start with a base, open **Compare destinations**, inspect a result’s imagery and
+source evidence, and add it to a round trip. Feature interests start equally at
+50%; terrain uncertainty remains separate from earned points. A saved plan does
+not certify access or route safety. The Jezero sample investigations are optional
+worked examples. See `docs/presentation-guide.md` for the demonstration script.
+
+Map diagnostics and location details expand on demand. Both layer groups start
+collapsed; **Layers** opens the Mars-wide controls. Desktop side panels scroll
+within the workspace, while mobile controls stay in normal page flow.

@@ -1,15 +1,18 @@
 # Marsway — Team decisions still needed
 
-Updated: November 12, 2026.
+**Current direction — November 13, 2026:** Help astronauts choose the next destination on Mars. Feature types start with equal 50% study interest and user-adjustable priorities. Jezero investigations are optional examples. This supersedes earlier ancient-water mission and Jezero-only scope decisions below; see [current scope](project-scope.md).
 
-The ancient-water investigation is now the agreed scientific goal. Walking astronauts, astronauts in a crew vehicle and robotic ground rovers are the agreed exploration-mode choices. Detailed excursion assumptions remain undecided. Use this file to record choices when ready. An unchecked item has no agreed answer; examples below are prompts, not selected defaults.
+
+Updated: November 13, 2026.
+
+Helping astronauts choose the next destination is the agreed goal. Jezero science investigations remain examples. Walking astronauts, astronauts in a crew vehicle and robotic ground rovers are the agreed exploration-mode choices. Detailed excursion assumptions remain undecided. Use this file to record choices when ready. An unchecked item has no agreed answer; examples below are prompts, not selected defaults.
 
 Implementation progress and scientific verification belong in [the implementation checklist](implementation-checklist.md). This file tracks choices the team needs to make.
 
 ## 1. Scientific goal and stop activities
 
-- [x] **Main scientific goal:** Investigate ancient water in Jezero through a comparison of the three candidate science stops.
-  - Decision: User approved the proposed mission on November 12, 2026. See [mission science](mission-science.md).
+- [x] **Main goal:** Help astronauts decide their next destination on Mars using their priorities, location and source evidence.
+  - Decision: User changed the goal on November 13, 2026 and selected equal starting feature interests. See [mission science](mission-science.md).
 - [x] **Proposed outcome:** Produce a source-linked comparison distinguishing observations, interpretations and missing evidence.
   - Decision: Included in the approved mission direction. Detailed measurement requirements and numerical scoring criteria remain open.
 - [x] **Proposed questions and activities:** Define an investigation for each stop and adapt the proposed tasks to each exploration mode.
@@ -100,8 +103,8 @@ These choices can wait until the core walking excursion is defined. They are not
 
 ## Already agreed
 
-- Western Jezero is the detailed exploration region; Skinner Ridge, Wildcat Ridge and Amalik are candidate science stops.
-- Ancient-water investigation is the agreed scientific goal. Walking astronauts are the initial mode; crewed vehicles and robotic ground rovers are selectable alternatives. Base-to-stops-to-base planning and a field view remain the intended direction.
+- Mars-wide destination discovery is the main workflow; western Jezero provides detailed local examples and Skinner Ridge, Wildcat Ridge and Amalik are candidate science stops.
+- Destination selection is the agreed goal. Walking astronauts are the initial mode; crewed vehicles and robotic ground rovers are selectable alternatives. Base-to-stops-to-base planning and a field view remain the intended direction.
 - React, TypeScript and CesiumJS are selected; public credential-free imagery is used.
 - The regional geology display may show the accepted alignment warning.
 - Static hosting is GitHub Pages on the default repository URL, with no custom domain or paid hosting service in the accepted scope.
@@ -112,7 +115,7 @@ These need investigation or action rather than an invented team preference:
 
 - Exact stop coordinates: reference point, coordinate convention and uncertainty remain unresolved. See [stop evidence](stop-evidence.md).
 - Dataset coverage, alignment, height conversion and analysis suitability still need verification. See [the implementation checklist](implementation-checklist.md).
-- The last recorded Pages push was rejected because the existing Git credential lacked workflow permission. Publishing and live-version verification remain pending; see [hosting instructions](github-pages.md).
+- The repository was renamed to Marsway. The public HTML still referenced the old asset prefix during review; publishing the corrected build and verifying live assets remain pending; see [hosting instructions](github-pages.md).
 
 When a decision is made, replace its answer, record who agreed and the date, and update the implementation checklist where it changes the authorized scope. Choosing an answer does not by itself complete the corresponding implementation.
 
@@ -121,7 +124,7 @@ When a decision is made, replace its answer, record who agreed and the date, and
 - [x] Mars-wide catalogue discovery with region filters.
 - [x] Import the official IAU/USGS export and refresh during publication using existing GitHub Pages hosting. No separately hosted live API.
 
-Added catalogue candidates still need individual scientific questions, precise observation sites and mission/access review. Their existence does not expand the approved Jezero goal or choose an expedition base. See [catalogue workflow](crater-catalogue.md).
+Added catalogue candidates still need individual scientific questions, precise observation sites and mission/access review. Their existence does not validate access, choose an expedition base or assign a scientific question to a destination. See [catalogue workflow](crater-catalogue.md).
 
 
 ## Full-checklist pass — November 12, 2026

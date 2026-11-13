@@ -101,7 +101,8 @@ export function FeatureCalculator({
         <>
           <p>Find places worth investigating from your base.</p>
           <p className="quiet">
-            Ancient-water study · type-based study preferences · terrain unknown
+            Your exploration priorities · equal starting interests · terrain
+            unknown
           </p>
           {loading && <p role="status">Loading destinations…</p>}
           {failed && (
@@ -172,10 +173,10 @@ export function FeatureCalculator({
               available.
             </p>
             <p>
-              Starting type interests express questions to investigate: valleys
-              100, chaos 90, chasms 80, craters 70, plains/cavities/labyrinths
-              60; all others 40. They are model choices, not scientific
-              measurements.
+              Every feature type starts with 50% study interest. Adjust these
+              interests for your expedition. Equal interests leave distance to
+              distinguish candidates; they do not establish equal scientific
+              value or terrain suitability.
             </p>
             <details className="type-preferences">
               <summary>Study interest by feature type</summary>

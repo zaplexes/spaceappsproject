@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import {
   distanceKm,
+  defaultStudyInterest,
   initialStudyInterest,
   initialWeights,
   MARS_RADIUS_KM,
@@ -45,8 +46,12 @@ test('Mars distances handle identical positions, poles, the seam and antipodes',
   ).toBeCloseTo(0, 6);
 });
 
-test('value can outrank proximity; terrain remains unknown and weights change the outcome', () => {
-  const candidates = [entry('iau-1', 0.01), entry('iau-2', 0.1, 'VA')];
+test('default interests are equal across feature types and closer destinations lead', () => {
+  const candidates = [
+    entry('near-crater', 0.01, 'AA'),
+    entry('far-valley', 0.1, 'VA'),
+    entry('other-type', 0.2, 'MO'),
+  ];
   const ranked = rankFeatures(
     candidates,
     base,
@@ -54,6 +59,18 @@ test('value can outrank proximity; terrain remains unknown and weights change th
     initialWeights,
     initialStudyInterest,
   );
+  expect(defaultStudyInterest).toBe(50);
+  expect(ranked.map((result) => result.studyInterest)).toEqual([50, 50, 50]);
+  expect(ranked[0].entry.id).toBe('near-crater');
+});
+
+test('value can outrank proximity; terrain remains unknown and weights change the outcome', () => {
+  const candidates = [entry('iau-1', 0.01), entry('iau-2', 0.1, 'VA')];
+  const ranked = rankFeatures(candidates, base, 100, initialWeights, {
+    ...initialStudyInterest,
+    AA: 50,
+    VA: 100,
+  });
   expect(ranked[0].entry.id).toBe('iau-2');
   expect(ranked[0].studyPoints).toBe(50);
   expect(ranked[0].terrainPoints).toBeNull();
@@ -67,7 +84,7 @@ test('value can outrank proximity; terrain remains unknown and weights change th
   );
   expect(distanceOnly[0].entry.id).toBe('iau-1');
   expect(
-    rankFeatures(candidates, base, 100, initialWeights, initialStudyInterest),
+    rankFeatures(candidates, base, 100, initialWeights, { AA: 50, VA: 100 }),
   ).toEqual(ranked);
 });
 

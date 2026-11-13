@@ -1,5 +1,8 @@
 # Marsway — Implementation Checklist
 
+**Current direction — November 13, 2026:** Help astronauts choose the next destination on Mars. Feature types start with equal 50% study interest and user-adjustable priorities. Jezero investigations are optional examples. This supersedes earlier ancient-water mission and Jezero-only scope decisions below; see [current scope](project-scope.md).
+
+
 ## How the agent must use this checklist
 
 - Track unanswered team choices in [team-decisions.md](team-decisions.md); keep them distinct from implementation and evidence-verification tasks.
@@ -7,7 +10,7 @@
 - Update this file after each completed milestone. Record relevant commands, results, limitations, and changed scope in the progress log below.
 - For blocked items, keep the box unchecked and state the blocker in the progress log. Ask specific questions; do not invent an answer.
 - Complete work in milestone order. Begin with milestone 1 only; later sections describe the full intended scope and do not authorize paid services or deployment.
-- The ancient-water investigation is the agreed scientific goal. Scoring weights, exact base coordinates, and equipment capabilities remain undecided. Do not choose them silently.
+- Destination selection is the agreed goal. Feature interests start equally; scoring weights remain editable. Exact base coordinates and equipment capabilities are user inputs. Do not choose them silently.
 - Mark optional items explicitly deferred with the user's agreement; do not mark deferred work complete.
 
 ## Current release status — November 12, 2026
@@ -412,3 +415,11 @@ Initial state: no implementation was verified before the work recorded below. Ex
 - Verification: production build, ESLint, repository Prettier and `git diff --check` passed. Full deterministic browser suite: **77 passed, 1 intentionally skipped live check**. Final targeted planner suite after adding mode-reset, viewport, storage-blocked, corrupted-terrain and printable-PDF checks: **7 passed**. Development server/worker checks: **2 passed**. Repository-prefix Pages smoke check including numerical terrain and historical MEDA: **1 passed**. Terrain Python suite: **11 passed**; catalogue/data-gate Python suite: **15 passed**; Ruff checks/format passed. The retained-data gate verifies **64 files**. Sandbox port binding initially prevented dev/Pages servers; approved reruns outside the sandbox passed. Restored the root build after the Pages test. Existing Cesium bundle-size warning remains.
 
 - Final live verification: the existing smoke test initially waited for regional layers that are off at startup. Updated it to explicitly choose Jezero and enable CTX/HiRISE through the shared controls helper; rerun against real NASA/global services: **1 passed (22.9 s)**. This verifies current remote image delivery, not scientific alignment or analysis suitability. No dependency, commit, push or deployment was added.
+
+### 2026-11-13 — Destination-selection goal and presentation
+
+- User changed the app-wide goal to helping astronauts decide their next destination and selected equal feature interests. Replaced the ancient-water mission with `destination-selection`; Jezero investigations remain optional site-specific examples. Ranking model `feature-value-v2` starts every feature type at 50% study interest, retaining adjustable weights and unknown terrain ranges.
+- Updated the heading, metadata, tutorial, footer, scope and submission narrative. Added a destination-selection demonstration script and explicit distinctions between observations, user priorities and unresolved route feasibility. The original DOCX remains unchanged.
+- Map diagnostics and location explanations now expand on demand. Both layer groups start collapsed and remain optional after selecting a stop; Layers opens the Mars-wide group. Desktop side panels scroll within the workspace. New desktop/mobile checks cover the compact layout, warnings, neutral interests and editable preferences.
+- Investigated the renamed repository. `/Marsway/` returned HTML but its old `/spaceappsproject/` script returned 404. Updated current links and hosting-test defaults; the workflow now derives its build prefix from the current repository name rather than stale Pages metadata.
+- Verification: build, lint, formatting and 64 source/display integrity contracts passed. Browser suites exercised destination selection, failures/retries, map tracking, keyboard/mobile operation, persistence and source evidence; affected checks were updated for deliberate expansion of compact controls and rechecked. Live NASA imagery rendered successfully. The repository-prefix hosting check exercises the real `/Marsway/` build. Publication is verified separately against public assets.

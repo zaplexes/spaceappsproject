@@ -18,7 +18,9 @@ export function StopInvestigation({
       className="stop-investigation"
       aria-label={`${stop.name} science plan`}
     >
-      <span className="record-tag">ANCIENT WATER / PROPOSED INVESTIGATION</span>
+      <span className="record-tag">
+        JEZERO EXAMPLE / PROPOSED INVESTIGATION
+      </span>
       <h3>Question at this stop</h3>
       <p>{investigation.question}</p>
       <details>

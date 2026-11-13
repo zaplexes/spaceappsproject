@@ -1,16 +1,18 @@
-# Ancient-water investigation and exploration modes
+# Destination selection and exploration modes
 
 The old standalone Mission settings and disabled comparison panel were removed. The current round-trip planner has optional mission settings and updates mode-specific proposed tasks. It defaults to distance-only estimates; all capability inputs remain blank until the user supplies them. See [trip planning](trip-planning.md).
 
 Accepted November 12, 2026: the user approved the proposed science mission and requested options for astronauts in vehicles and robotic ground rovers. “Hovers” was clarified as **robotic ground rovers**. The available modes are walking astronauts, astronauts in a crew vehicle and a robotic ground rover; walking is the initial selection.
 
-## Scientific goal
+## Current mission goal
 
-**Investigate ancient water in Jezero.** Use orbital imagery, terrain context and published rover observations to plan observations at Skinner Ridge, Wildcat Ridge and Amalik.
+**Help astronauts choose their next destination on Mars.** Compare options from a simulated base using adjustable interests, distance, imagery and source evidence. Every feature type starts with equal 50% study interest. Terrain gaps remain unknown; the app does not establish route feasibility.
 
-Main question: how can sedimentary features at these three sites help investigate Jezero's ancient water environment?
+This goal was approved November 13, 2026 and supersedes the earlier ancient-water mission. Jezero’s outcrop investigations below remain optional examples of activities a crew could choose, not the app-wide goal. The original DOCX is preserved as historical project context.
 
-Expected result: a source-linked comparison distinguishing documented observations, interpretations and missing evidence. Defining the goal does not establish a scoring formula or prove a scientific conclusion.
+## Optional Jezero science example
+
+Published sedimentary observations at Skinner Ridge, Wildcat Ridge and Amalik illustrate how crews can review evidence and propose tasks at a selected destination. These site-specific facts do not imply a global water search.
 
 The [NASA Mars rock sample catalog](https://science.nasa.gov/mission/mars-2020-perseverance/mars-rock-samples/) identifies sedimentary cores associated with all three candidate stops. NASA also documents [Wildcat Ridge sampling and composition investigation](https://science.nasa.gov/resource/sample-collection-and-rock-analysis-at-wildcat-ridge/). Detailed context is linked from the reviewed [PDS sample dossier](https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_dossier/initial_reports/initial_reports_volume2.pdf).
 

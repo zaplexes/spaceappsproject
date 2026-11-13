@@ -1,12 +1,12 @@
 export const scientificGoal = {
-  id: 'ancient-water',
-  title: 'Investigate ancient water in Jezero',
+  id: 'destination-selection',
+  title: 'Choose the next destination on Mars',
   question:
-    'How do sedimentary features at Skinner Ridge, Wildcat Ridge and Amalik help us investigate Jezero’s ancient water environment?',
+    'Which destination should astronauts investigate next, given their location, priorities and available evidence?',
   objective:
-    'Use orbital imagery, terrain context and published rover observations to plan observations at the three candidate science stops.',
+    'Compare named Mars features by distance and adjustable study interests, inspect orbital imagery and terrain context, and prepare a round trip.',
   outcome:
-    'Produce a source-linked comparison of the stops, distinguishing documented observations, interpretations and missing evidence.',
+    'An explainable destination shortlist and a source-linked field plan, with missing evidence and travel assumptions visible.',
 } as const;
 
 export type MobilityMode = 'walking' | 'crewed-vehicle' | 'robotic-rover';
@@ -30,7 +30,8 @@ export const mobilityProfiles: readonly MobilityProfile[] = [
   {
     id: 'walking',
     label: 'Walking astronauts',
-    summary: 'Astronauts travel on foot and plan observations at each outcrop.',
+    summary:
+      'Astronauts travel on foot and review candidate destinations and plan observations.',
     requirements: [
       'Crew size, carried equipment and time for each science task',
       'Walking speed, terrain limits, suit duration and return reserve',

@@ -1,23 +1,15 @@
 import type { CatalogEntry } from '../catalog/catalog';
 import type { BasePosition } from './BasePoint';
 
-export const MODEL_VERSION = 'feature-value-v1';
+export const MODEL_VERSION = 'feature-value-v2';
 export const MARS_RADIUS_KM = 3396.19;
 export const initialWeights = { study: 50, distance: 30, terrain: 20 };
 export type Weights = typeof initialWeights;
 
-// Editable simulation preferences for investigating ancient-water questions.
-// These are hypotheses to investigate, not evidence of water at a feature.
-export const initialStudyInterest: Readonly<Record<string, number>> = {
-  VA: 100,
-  CH: 90,
-  CM: 80,
-  AA: 70,
-  PL: 60,
-  CB: 60,
-  LB: 60,
-};
-export const defaultStudyInterest = 40;
+// Equal starting interests avoid imposing a scientific mission on the crew.
+// Feature-specific interests are explicit user preferences, not measurements.
+export const initialStudyInterest: Readonly<Record<string, number>> = {};
+export const defaultStudyInterest = 50;
 
 export function distanceKm(a: BasePosition, b: BasePosition): number {
   const radians = Math.PI / 180;

@@ -478,7 +478,7 @@ h1 {
   border-radius: 3px;
   max-width: 290px;
 }
-.imagery-status > div {
+.imagery-status-body > div {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -2412,4 +2412,38 @@ summary:focus-visible {
 .jezero-rover-gallery > p {
   font-size: 12px;
   line-height: 1.6;
+}
+
+/* Keep the map readable while preserving diagnostics and evidence on demand. */
+.imagery-status > summary {
+  cursor: pointer;
+  min-height: 44px;
+  align-content: center;
+  font-size: 11px;
+}
+.imagery-status-body {
+  max-height: min(300px, 45vh);
+  overflow-y: auto;
+  padding-top: 8px;
+}
+.candidate-warning summary {
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 1.6;
+}
+@media (min-width: 701px) {
+  .workspace .explorer-panel {
+    align-self: start;
+    max-height: clamp(660px, calc(100vh - 16px), 900px);
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+}
+@media (min-width: 1151px) {
+  .workspace .details-panel {
+    align-self: start;
+    max-height: clamp(660px, calc(100vh - 16px), 900px);
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
 }

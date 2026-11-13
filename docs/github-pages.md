@@ -1,10 +1,10 @@
 # GitHub Pages hosting
 
-Target: https://zaplexes.github.io/spaceappsproject/. The repository is currently public, as verified through GitHub's public API on November 11, 2026. The user selected GitHub Pages and showed the Pages source changed to **GitHub Actions**, with the custom-domain field empty. No paid upgrade, custom domain or credentials are required by the application.
+Target: https://zaplexes.github.io/Marsway/. The repository is currently public, as verified through GitHub's public API on November 11, 2026. The user selected GitHub Pages and showed the Pages source changed to **GitHub Actions**, with the custom-domain field empty. No paid upgrade, custom domain or credentials are required by the application.
 
 ## Why the initial site was blank
 
-Publishing `master` / repository root served the source `index.html`, which requested `/src/main.tsx`. GitHub Pages does not compile a React/TypeScript application. A repository project site also needs its `/spaceappsproject/` prefix for bundled code and local assets.
+Publishing `master` / repository root served the source `index.html`, which requested `/src/main.tsx`. GitHub Pages does not compile a React/TypeScript application. A repository project site also needs its `/Marsway/` prefix for bundled code and local assets.
 
 The new workflow compiles and uploads **only `dist/`**. Vite's base and `CESIUM_BASE_URL` share the configured prefix. A local-asset helper applies that same prefix to stop photographs, elevation and geology while scientific manifests retain their stable asset identities. NASA imagery and source links remain external HTTPS URLs.
 
@@ -46,3 +46,19 @@ References: [Vite static deployment](https://vite.dev/guide/static-deploy.html),
 Catalogue discovery uses prefixed static index/region files and a retained source KMZ in `dist/catalog/`. No backend deployment is required. The Pages build refreshes the official source before validation; upstream failure stops publication and leaves the previously deployed snapshot intact. See [catalogue refresh](crater-catalogue.md).
 
 The hosting smoke check also enables the Mars-wide context layers at Gale and verifies global CTX, geology and relief while keeping local assets within the Pages prefix. These external tile endpoints require no backend deployment or credentials; the source metadata and global geology legend are bundled locally.
+
+## Repository rename — November 13, 2026
+
+GitHub’s public API resolves the old `zaplexes/spaceappsproject` repository to
+`zaplexes/Marsway`. The current Pages URL is `https://zaplexes.github.io/Marsway/`
+and returned HTTP 200 during review. The old `/spaceappsproject/` site returned
+404. The latest observed deployment for commit `ba7b9ea` succeeded. The workflow
+already derives its deployment prefix from GitHub Pages; local hosting checks
+now default to `/Marsway/` as well. Do not use the old URL for demonstrations.
+
+The HTTP 200 response alone did not establish a working release: its HTML still
+requested `/spaceappsproject/` bundles, which returned 404. The workflow now
+builds and tests with the current repository name as its Pages prefix, preventing
+stale Pages metadata from retaining the previous name. Publish the reviewed
+changes, then verify HTML, script, stylesheet, logo and a catalogue file at the
+new URL before calling deployment complete.

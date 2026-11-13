@@ -8,11 +8,11 @@ Set a simulated base by clicking **Place base on map**, then the Mars surface, o
 
 Open **Calculate best destinations · Top 10** directly in the explorer panel, or choose **Compare destinations** in the three-step guide. The calculator and **Discover Mars features** share one version-checked IAU/USGS index, loaded only when either control is opened. Its radius and feature-type filters operate independently of the alphabetical browser filters. The initial 100 km radius is an editable discovery setting, not a travel capability. Results recalculate when base, radius, types, weights or interests change. Selecting a result loads its validated details and map highlight using the existing abortable catalogue workflow. Compact result cards show score ranges and distance. Expand **Why this score?** for criterion points and source links; expand **Scoring rules & preferences → Study interest by feature type** to adjust type interests. Methodology and version details remain available under **How suggestions work & data sources**.
 
-## Model `feature-value-v1`
+## Model `feature-value-v2`
 
 All scores express simulation preferences. Weights must be nonnegative and total 100; type interest must lie between 0 and 100. Empty, invalid or incomplete inputs suppress results rather than retaining an old recommendation.
 
-- **Study points:** study weight × type interest / 100. Starting type interests are valleys 100, chaos 90, chasms 80, craters 70, plains/cavities/labyrinths 60, other types 40. These are editable priorities for questions relevant to the ancient-water theme, not evidence that an individual feature contains water, sediments, minerals or accessible study sites. Name-origin text never supplies scientific evidence. Feature size is not equated with science value.
+- **Study points:** study weight × type interest / 100. Starting interest is 50 for every feature type. These are editable astronaut priorities, not evidence that an individual feature contains water, sediments, minerals or accessible study sites. Name-origin text never supplies scientific evidence. Feature size is not equated with science value.
 - **Distance points:** distance weight × max(0, 1 − distance / radius). The haversine distance uses the same 3,396,190 m reference sphere as the map. The radius boundary is inclusive. Distances are to catalogue centres; twice the one-way surface distance is only a round-trip lower bound.
 - **Terrain points:** unknown. The retained slope product is exploratory and explicitly analysis-ineligible. No global numeric slope grid, validated obstacle map or route corridor is available. Bounding-box coverage and relief colours cannot supply easy-terrain points. Results retain a null terrain component and display its entire unresolved interval, from zero to the terrain weight.
 
@@ -27,3 +27,5 @@ The calculator expands global discovery with heuristic suggestions. It does not 
 Run `npm run build`, `npm run lint` and `npm test -- tests/feature-calculator.spec.ts tests/catalog-browser.spec.ts tests/mission.spec.ts`. The calculator checks cover Mars geometry, scoring sensitivity, reproducible ties, radius boundaries, invalid input, missing terrain, top-ten interaction, source/detail links, map placement, session reset, and mobile operation without WebGL.
 
 Verified locally: build, lint and repository formatting pass; all 13 calculator/catalogue/mission checks pass. Vite retains the existing Cesium bundle-size warning. Screenshots: [desktop](calculator-desktop.png), [mobile without WebGL](calculator-mobile.png). No remote publication was performed.
+
+Version 2 removes the previous ancient-water preference defaults. With equal interests, distance distinguishes otherwise comparable candidates; users can supply their own interests. No terrain points are awarded without reviewed evidence.

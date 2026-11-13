@@ -1,3 +1,4 @@
+import { openMapStatus } from './map-controls';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { mockWorldTiles } from './mock-world-tiles';
@@ -30,9 +31,11 @@ test('guided keyboard planning opens the calculator without opening catalogue br
   await expect(
     page.getByText('Starting the Mars map…', { exact: true }),
   ).toBeHidden();
+  await openMapStatus(page);
   await expect(
     page.getByText('Global MOC imagery: loaded', { exact: true }),
   ).toBeVisible();
+  await page.locator('.imagery-status > summary').click();
   await page.screenshot({ path: 'docs/ui-overview-desktop.png' });
   await page.getByText('Enter coordinates instead', { exact: true }).click();
   await page.getByLabel('Base latitude').fill('18.4446');

@@ -76,9 +76,10 @@ export function CatalogFeatureDetails({
         </strong>
         <p>
           Scientific question, observation site, tasks, instruments and access
-          remain undefined. The current ancient-water investigation concerns the
-          three Jezero outcrops; it does not assign scientific value to every
-          catalogue feature.
+          need review before an expedition. Compare this destination with your
+          other options, inspect its imagery and sources, then define the work
+          your crew would do here. Feature-type interests are preferences, not
+          measured scientific value.
         </p>
         <p>
           Global browsing does not establish local terrain coverage or route

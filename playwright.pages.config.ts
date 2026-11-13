@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test';
 import shared from './playwright.config';
-const base = process.env.MARTIAN_MAP_BASE_PATH ?? '/spaceappsproject/';
+const base = process.env.MARTIAN_MAP_BASE_PATH ?? '/Marsway/';
 const url = `http://127.0.0.1:4175${base}`;
 export default defineConfig({
   ...shared,

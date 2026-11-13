@@ -1,3 +1,4 @@
+import { openMapStatus, openWorldLayers } from './map-controls';
 import { openJezeroControls } from './jezero-controls';
 import { mockWorldTiles } from './mock-world-tiles';
 import { expect, test } from '@playwright/test';
@@ -18,7 +19,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('science constraints: confirmed goal, unknown positions and no assumed base', () => {
-  expect(initialMission.goal).toBe('ancient-water');
+  expect(initialMission.goal).toBe('destination-selection');
   expect(initialMission.base).toBeNull();
   expect(initialMission.mobility).toBe('walking');
   expect(stops).toHaveLength(3);
@@ -38,6 +39,11 @@ test('stop selection, science records and layer controls', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await expect(
     page.getByRole('heading', { name: 'Every stop has a story.' }),
   ).toBeVisible();
@@ -59,6 +65,7 @@ test('stop selection, science records and layer controls', async ({ page }) => {
   }
   await expect(page.locator('#mission-settings')).toHaveCount(0);
   await page.getByLabel('Global CTX imagery', { exact: false }).uncheck();
+  await page.locator('.regional-layer-controls > summary').click();
   await page.getByLabel('Global MOC imagery').uncheck();
   await page.getByLabel('Jezero CTX imagery').uncheck();
   await page.getByLabel('Jezero HiRISE imagery').uncheck();
@@ -72,6 +79,11 @@ test('stop selection, science records and layer controls', async ({ page }) => {
 
 test('keyboard navigation and viewport changes', async ({ page }) => {
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   const canvas = page.locator('canvas');
   await expect(canvas).toBeVisible();
   await canvas.focus();
@@ -105,6 +117,11 @@ test('narrow layout preserves access to stops, calculator and sources', async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page.getByRole('button', { name: /Wildcat Ridge/ }).click();
   await expect(
     page.getByRole('heading', { name: 'Wildcat Ridge', exact: true }),
@@ -129,6 +146,11 @@ test('unsupported WebGL keeps list-based science browsing usable', async ({
     });
   });
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await expect(
     page.getByRole('heading', { name: 'Map unavailable' }),
   ).toBeVisible();
@@ -155,6 +177,11 @@ test('imagery outage is explicit and retry recovers', async ({ page }) => {
         }),
   );
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page
     .getByRole('button', { name: 'Jezero view', exact: false })
     .waitFor();
@@ -212,6 +239,11 @@ test('imagery loading is visible before requests finish', async ({ page }) => {
     });
   });
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page
     .getByRole('button', { name: 'Jezero view', exact: false })
     .waitFor();
@@ -225,6 +257,11 @@ test('left-panel selection focuses the rendered map on the candidate, including 
   page,
 }) => {
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page
     .getByRole('button', { name: 'Jezero view', exact: false })
     .waitFor();

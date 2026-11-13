@@ -1,3 +1,4 @@
+import { openMapStatus, openWorldLayers } from './map-controls';
 import { expect, test, type Page } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 const detail = fileURLToPath(new URL('./fixtures/hirise.png', import.meta.url));
@@ -33,6 +34,11 @@ test('live base and CTX outages retain cached surface imagery, evidence and retr
       : route.fulfill({ path: detail, contentType: 'image/png' }),
   );
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page.getByRole('button', { name: /Skinner Ridge/ }).click();
   await expect(page.getByTestId('imagery-fallback-note')).toBeVisible();
   await expect(page.getByTestId('candidate-highlight')).toBeVisible();
@@ -68,6 +74,11 @@ test('one failed CTX ancestor does not block successful detailed tiles', async (
       : route.fulfill({ path: detail, contentType: 'image/png' }),
   );
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page.getByRole('button', { name: /Skinner Ridge/ }).click();
   await expect(page.getByTestId('imagery-fallback-note')).toBeVisible();
   await expect
@@ -105,6 +116,11 @@ test('stalled detail tiles keep loaded parent imagery after the timeout', async 
   });
   try {
     await page.goto('/');
+    await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+      'open',
+    );
+    await openWorldLayers(page);
+    await openMapStatus(page);
     await page.getByRole('button', { name: /Skinner Ridge/ }).click();
     await expect(page.getByTestId('imagery-fallback-note')).toBeVisible({
       timeout: 15000,

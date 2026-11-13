@@ -25,7 +25,7 @@ const steps = [
     location: 'Compare destinations',
     instructions:
       'Choose Compare destinations in the exploration steps to open the Top 10 calculator. With a base set, adjust the search radius and feature filters. Open Why this score? on a result to understand its distance and score range.',
-    tip: 'Discover Mars features lets you browse the named-feature catalogue separately. Suggestions are provisional: terrain is unknown and study potential is a simulation heuristic.',
+    tip: 'Discover Mars features lets you browse the named-feature catalogue separately. All feature types start with equal study interest. Adjust interests to match your expedition; terrain remains unknown.',
   },
   {
     target: '.world-layer-controls > summary',
@@ -33,7 +33,7 @@ const steps = [
     location: 'Map layers',
     instructions:
       'Expand Mars-wide context to switch imagery, relief and geology on or off. Open Base imagery & Jezero detail for regional elevation and estimated slope.',
-    tip: 'Check coverage labels and legends. Detailed Jezero products cover only that region.',
+    tip: 'Check coverage labels and legends. Map status opens imagery diagnostics and retry controls. Detailed Jezero products cover only that region.',
   },
   {
     target: '#evidence-inspector .evidence-heading',

@@ -1,3 +1,4 @@
+import { openMapStatus, openWorldLayers } from './map-controls';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { mockWorldTiles } from './mock-world-tiles';
@@ -45,6 +46,11 @@ test('Gale receives global layers, clear local gaps, a service legend and mutual
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   const catalogue = page.getByRole('region', {
     name: 'Mars feature catalogue',
   });
@@ -121,7 +127,7 @@ test('Gale receives global layers, clear local gaps, a service legend and mutual
   await page.getByLabel('THEMIS daytime infrared', { exact: false }).check();
   await expect
     .poll(() =>
-      page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => {
+      page.locator('.map-host canvas').evaluate((canvas: HTMLCanvasElement) => {
         const gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl');
         if (!gl) return false;
         const rgba = new Uint8Array(4);
@@ -155,6 +161,11 @@ test('global imagery and geology failures have working retries and keep candidat
         : route.fulfill({ path: tile, contentType: 'image/png' }),
   );
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page.getByLabel('Global CTX imagery', { exact: false }).check();
   const ctxFailure = page.getByText(
     'Global CTX imagery: unavailable — partial or no coverage',
@@ -199,11 +210,15 @@ test('global imagery and geology failures have working retries and keep candidat
     page.getByText('Global geological context: loaded', { exact: true }),
   ).toBeVisible();
   await page
-    .locator('canvas')
+    .locator('.map-host canvas')
     .evaluate((canvas) =>
       canvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true })),
     );
   await page.getByRole('button', { name: 'Retry map', exact: true }).click();
+  await expect(
+    page.getByRole('button', { name: 'Zoom in', exact: true }),
+  ).toBeVisible();
+  await openMapStatus(page);
   await expect(
     page.getByText('Global geological context: loaded', { exact: true }),
   ).toBeVisible();
@@ -215,6 +230,11 @@ test('mobile polar discovery labels THEMIS and slope gaps; controls remain usabl
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   const catalogue = page.getByRole('region', {
     name: 'Mars feature catalogue',
   });
@@ -252,6 +272,8 @@ test('mobile polar discovery labels THEMIS and slope gaps; controls remain usabl
     }),
   );
   await page.reload();
+  await openWorldLayers(page);
+  await openMapStatus(page);
   await page
     .getByRole('checkbox', { name: /^Global elevation context/ })
     .check();
@@ -272,6 +294,11 @@ for (const width of [1440, 390]) {
   }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
+    await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+      'open',
+    );
+    await openWorldLayers(page);
+    await openMapStatus(page);
     await expect(
       page.getByRole('heading', { name: 'Mars exploration', exact: true }),
     ).toBeVisible();
@@ -340,6 +367,11 @@ test('CTX follows zoom automatically and loads only at close range', async ({
       ctxRequests.push(request.url());
   });
   await page.goto('/');
+  await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+    'open',
+  );
+  await openWorldLayers(page);
+  await openMapStatus(page);
   const ctx = page.getByLabel('Global CTX imagery', { exact: false });
   const zoomIn = page.getByRole('button', { name: 'Zoom in', exact: true });
   await expect(zoomIn).toBeVisible();
@@ -357,7 +389,7 @@ test('CTX follows zoom automatically and loads only at close range', async ({
   for (let i = 0; i < 1; i++)
     await page.getByRole('button', { name: 'Zoom out', exact: true }).click();
   await expect(ctx).not.toBeChecked();
-  await page.locator('canvas').focus();
+  await page.locator('.map-host canvas').focus();
   await page.keyboard.press('+');
   await expect(ctx).toBeChecked();
   await page.keyboard.press('-');
@@ -373,6 +405,11 @@ for (const manual of [true, false]) {
     page,
   }) => {
     await page.goto('/');
+    await expect(page.locator('.world-layer-controls')).not.toHaveAttribute(
+      'open',
+    );
+    await openWorldLayers(page);
+    await openMapStatus(page);
     const ctx = page.getByLabel('Global CTX imagery', { exact: false });
     const jezero = page.getByRole('button', {
       name: 'Jezero view',
@@ -397,13 +434,14 @@ for (const manual of [true, false]) {
     ).toBeVisible();
     await expect(ctx).toBeChecked({ checked: manual });
     await page
-      .locator('canvas')
+      .locator('.map-host canvas')
       .evaluate((canvas) =>
         canvas.dispatchEvent(
           new Event('webglcontextlost', { cancelable: true }),
         ),
       );
     await page.getByRole('button', { name: 'Retry map', exact: true }).click();
+    await openMapStatus(page);
     await expect(
       page.getByRole('button', { name: 'Zoom in', exact: true }),
     ).toBeVisible();
@@ -411,6 +449,8 @@ for (const manual of [true, false]) {
     await page.getByRole('button', { name: 'Mars globe', exact: true }).click();
     await expect(ctx).toBeChecked({ checked: manual });
     await page.reload();
+    await openWorldLayers(page);
+    await openMapStatus(page);
     await expect(
       page.getByRole('button', { name: 'Zoom in', exact: true }),
     ).toBeVisible();

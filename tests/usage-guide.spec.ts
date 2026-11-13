@@ -11,7 +11,7 @@ test('first visit can skip, remembers dismissal and can reopen from the beginnin
   page,
 }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle('Marsway · Jezero Marswalk');
+  await expect(page).toHaveTitle('Marsway · Choose your next destination');
   const logo = page.locator('.brand-logo');
   await expect(logo).toBeVisible();
   expect(

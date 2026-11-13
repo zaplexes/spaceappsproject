@@ -211,7 +211,17 @@ export default function App() {
         </div>
         <nav className="main-nav" aria-label="Main navigation">
           <a href="#exploration-map">Map</a>
-          <a href="#map-layers">Layers</a>
+          <a
+            href="#map-layers"
+            onClick={() => {
+              const layers = document.querySelector<HTMLDetailsElement>(
+                '.world-layer-controls',
+              );
+              if (layers) layers.open = true;
+            }}
+          >
+            Layers
+          </a>
           <a href="#expedition-base">Plan</a>
           <a href="#trip-planner">Trip</a>
           <a className="source-nav" href="#sources">
@@ -223,10 +233,10 @@ export default function App() {
         <div className="intro">
           <div>
             <p className="eyebrow">HUMAN EXPLORATION / MARS</p>
-            <h1>Where will you explore next?</h1>
+            <h1>Choose your next destination on Mars.</h1>
             <p>
-              Set a base, compare destinations and explore the evidence behind
-              your next discovery on Mars.
+              Help your crew decide where to go next. Compare destinations from
+              your base, inspect NASA imagery and plan the return trip.
             </p>
           </div>
           <span className="preview-tag">
@@ -320,7 +330,7 @@ export default function App() {
                 Layer coverage follows the current viewport. Global products
                 provide regional context; detailed coverage varies.
               </p>
-              <details className="world-layer-controls" open>
+              <details className="world-layer-controls">
                 <summary>Mars-wide context</summary>
                 {worldSources.map((source) => (
                   <div key={source.id}>
@@ -388,7 +398,7 @@ export default function App() {
                   />
                 )}
               </details>
-              <details className="regional-layer-controls" open={!!selected}>
+              <details className="regional-layer-controls">
                 <summary>Base imagery & Jezero detail</summary>
                 {imagerySources.map((source) => (
                   <label className="layer-row" key={source.id}>
@@ -869,7 +879,7 @@ export default function App() {
           <p className="footer-bottom">
             MARSWAY / LOCAL PREVIEW{' '}
             <span>
-              Ancient water investigation · {mobilityProfile(mobility).label} ·
+              Destination planning · {mobilityProfile(mobility).label} ·
               {base ? 'Simulated base set' : 'Base unset'} · Distance estimates
               only
             </span>
