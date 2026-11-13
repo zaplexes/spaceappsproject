@@ -1,0 +1,31 @@
+1
+00:00:00,250 --> 00:00:03,700
+Where should astronauts explore next on Mars?
+
+2
+00:00:04,030 --> 00:00:08,850
+Marsway brings NASA imagery and scientific evidence into one workspace.
+
+3
+00:00:09,050 --> 00:00:12,500
+Compare destinations, distances, and scores.
+
+4
+00:00:12,500 --> 00:00:14,950
+Adjust your study interests.
+
+5
+00:00:15,050 --> 00:00:19,850
+Inspect the evidence. Terrain suitability stays unknown.
+
+6
+00:00:20,040 --> 00:00:23,400
+Plan a round trip from your simulated base.
+
+7
+00:00:23,400 --> 00:00:26,400
+Distance estimates, not verified routes.
+
+8
+00:00:26,600 --> 00:00:29,900
+Marsway. Explore with evidence.

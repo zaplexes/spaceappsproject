@@ -1,0 +1,7 @@
+file '/home/fles/Documents/spaceappsproject/artifacts/marsway-video/production/shot-0.mp4'
+file '/home/fles/Documents/spaceappsproject/artifacts/marsway-video/production/shot-1.mp4'
+file '/home/fles/Documents/spaceappsproject/artifacts/marsway-video/production/shot-2.mp4'
+file '/home/fles/Documents/spaceappsproject/artifacts/marsway-video/production/shot-3.mp4'
+file '/home/fles/Documents/spaceappsproject/artifacts/marsway-video/production/shot-4.mp4'
+file '/home/fles/Documents/spaceappsproject/artifacts/marsway-video/production/shot-5.mp4'
+file '/home/fles/Documents/spaceappsproject/artifacts/marsway-video/production/shot-6.mp4'

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "01-globe",
+    "start": 7.124289480000001,
+    "duration": 8.689679101
+  },
+  {
+    "name": "02-imagery",
+    "start": 23.872085188,
+    "duration": 5.281108787999997
+  },
+  {
+    "name": "03-compare",
+    "start": 30.59556219,
+    "duration": 4.855076506
+  },
+  {
+    "name": "04-interests",
+    "start": 36.274818397999994,
+    "duration": 2.9226800670000017
+  },
+  {
+    "name": "05-evidence",
+    "start": 44.864108345,
+    "duration": 4.825134792
+  },
+  {
+    "name": "06-trip",
+    "start": 50.579554211,
+    "duration": 5.227802441999998
+  }
+]

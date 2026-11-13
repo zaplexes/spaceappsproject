@@ -1,0 +1,488 @@
+Skip to science stops
+MARSWAY
+EXPLORATION STARTS WITH EVIDENCE
+MARS EXPLORATION
+/
+LOCAL PREVIEW
+Map
+Layers
+Plan
+Trip
+Docs ↗
+Data & sources ↗
+
+HUMAN EXPLORATION / MARS
+
+Choose your next destination on Mars.
+
+Help your crew decide where to go next. Compare destinations from your base, inspect NASA imagery and plan the return trip.
+
+SIMULATED CREW EXPLORATION
+How to use
+1
+Choose your base
+Pick a starting point on Mars
+2
+Compare destinations
+See your top 10 and their scores
+3
+Inspect the evidence
+Explore features, images and sources
+YOUR EXPLORATION WORKSPACE
+Belva exploration
+
+Plan a visit or browse Mars at your own pace.
+
+1
+Set your base
+Base set
+
+Where will your exploration begin?
+
+Place base on map
+Edit base coordinates
+
+Simulated base: 18.44460° N, 77.45090° E
+
+Clear base
+
+Simulated base · saved for this session.
+
+About base placement
+2 Calculate best destinations · Top 10
+
+Find places worth investigating from your base.
+
+Your exploration priorities · equal starting interests · terrain unknown
+
+Search radius from base (km)
+Rank feature types
+All named feature types
+Albedo Feature
+Catena, catenae
+Cavus, cavi
+Chaos, chaoses
+Chasma, chasmata
+Collis, colles
+Crater, craters
+Dorsum, dorsa
+Fluctus, fluctūs
+Fossa, fossae
+Labes, labēs
+Labyrinthus, labyrinthi
+Lingula, lingulae
+Macula, maculae
+Mensa, mensae
+Mons, montes
+Palus, paludes
+Patera, paterae
+Planitia, planitiae
+Planum, plana
+Rupes, rupēs
+Scopulus, scopuli
+Serpens, serpentes
+Sulcus, sulci
+Terra, terrae
+Tholus, tholi
+Unda, undae
+Vallis, valles
+Vastitas, vastitates
+Scoring rules & preferences
+
+42 destinations within radius · showing 10 of up to 10.
+
+Provisional recommendation: Belva
+
+69.9 earned points: 40.0 study + 29.9 distance. Highest score under your preferences; terrain is unknown.
+
+Score ranges overlap. Terrain evidence could change the recommendation.
+
+1
+Belva ↗
+
+Crater, craters · MC13
+
+69.9–89.9 / 100 points
+
+4.5 km from base · Terrain unknown
+
+Why this score?
+Study potential
+40.0 / 50 · type interest 80%
+Distance
+29.9 / 30 · 4.5 km one way
+Terrain
+Unknown · 0–20 points unresolved
+
+9.0 km out-and-back surface-distance lower bound; actual route and access unknown.
+
+Feature data & source ↗
+2
+Jezero ↗
+
+Crater, craters · MC13
+
+69.6–89.6 / 100 points
+
+13.5 km from base · Terrain unknown
+
+Why this score?
+3
+Hartwell ↗
+
+Crater, craters · MC13
+
+69.5–89.5 / 100 points
+
+16.0 km from base · Terrain unknown
+
+Why this score?
+4
+Marysville ↗
+
+Crater, craters · MC13
+
+69.3–89.3 / 100 points
+
+24.1 km from base · Terrain unknown
+
+Why this score?
+5
+Dacono ↗
+
+Crater, craters · MC13
+
+69.1–89.1 / 100 points
+
+28.7 km from base · Terrain unknown
+
+Why this score?
+6
+Angelica ↗
+
+Crater, craters · MC13
+
+69.1–89.1 / 100 points
+
+30.7 km from base · Terrain unknown
+
+Why this score?
+7
+Sedona ↗
+
+Crater, craters · MC13
+
+68.9–88.9 / 100 points
+
+36.2 km from base · Terrain unknown
+
+Why this score?
+8
+Ulricehamn ↗
+
+Crater, craters · MC13
+
+68.7–88.7 / 100 points
+
+42.3 km from base · Terrain unknown
+
+Why this score?
+9
+Hargraves ↗
+
+Crater, craters · MC13
+
+65.0–85.0 / 100 points
+
+166.0 km from base · Terrain unknown
+
+Why this score?
+10
+Koshoba ↗
+
+Crater, craters · MC13
+
+62.0–82.0 / 100 points
+
+266.9 km from base · Terrain unknown
+
+Why this score?
+How suggestions work & data sources
+Discover Mars features
+Map layers · Belva
+
+Layer coverage follows the current viewport. Global products provide regional context; detailed coverage varies.
+
+Mars-wide context
+Base imagery & Jezero detail
+Candidate science stops
+3
+
+Select a stop to highlight its approximate location. Exact coordinates remain unverified.
+
+01
+Skinner Ridge
+Swift Run · sedimentary
+↗
+02
+Wildcat Ridge
+Hazeltop · sedimentary
+↗
+03
+Amalik
+Shuyak · sedimentary
+↗
+
+Explore Mars-wide context, then zoom in to investigate local science evidence.
+
+Cyan dashed lines: hypothetical shortest-distance trip · not a validated route or historical rover track
+
+Data attribution
+Belva
+Catalogue centre / site unverified
+MARS / DISCOVERY
+Catalogue reference
+Named feature · coverage varies
+↗ Jezero view
+Mars globe
++
+−
+Map status · Some layers unavailable
+Drag to pan · scroll to zoom · keyboard controls available
+APPROXIMATE CANDIDATE REFERENCE · SMOOTH GLOBE
+Belva · Catalogue centre / observation site unverified
+◎
+Look closer. Keep the unknowns visible.
+
+These images support exploration. They do not establish a feasible human route.
+
+SOURCE-LINKED
+02 / UNDERSTANDInspect this destination’s evidence ↓
+IAU / USGS · CATALOGUE FEATURE
+Belva
+
+A named surface feature. Its catalogue centre is a reference for discovery; an exact science observation site has not been selected.
+
+ORBITAL OVERVIEW
++
+
+Global MOC imagery · 2.813° geographic field · North up.
+
+Detailed imagery unavailable; showing a wider MOC overview.
+
+Credit: NASA/JPL/MSSS · NASA Trek
+
+Cross: catalogue centre. This geographic crop may show only part of an elongated feature. Gaps and image alignment remain unverified; individual acquisition dates are not established for these mosaics.
+
+Orbital imagery source ↗
+Feature type
+Crater, craters
+Map region
+Syrtis Major
+Centre latitude
+18.48° · planetocentric
+Centre longitude
+77.38° E
+Approx. diameter / longest dimension
+0.9 km
+Catalogue identifier
+iau-15872
+Name origin
+
+Town in West Virginia, USA.
+
+This explains the name, not the feature’s geology.
+
+Add candidate science stop
+
+Candidate list changes last for this page session; reloading clears them.
+
+Science planning still needed
+
+Scientific question, observation site, tasks, instruments and access need review before an expedition. Compare this destination with your other options, inspect its imagery and sources, then define the work your crew would do here. Feature-type interests are preferences, not measured scientific value.
+
+Global browsing does not establish local terrain coverage or route feasibility for walking astronauts, crew vehicles or robotic rovers.
+
+Official feature record ↗
+Catalogue provenance & limitations
+Add selected destination to trip
+Add three Jezero references to trip
+
+Added to your round trip. Review the order and mission settings below.
+
+PLAN / RETURN TO BASE
+
+Your round trip
+
+Build a preliminary trip from the selected destination or science stops. Stops are visited in the order below.
+
+Open field view
+
+Distance estimate only · terrain feasibility unknown · simulated positions
+
+9.01 km minimum round-trip distance
+
+Base → Belva → Base
+
+Travel time: enter your speed to estimate.
+
+Total time: enter speed and work time at every stop.
+
+Mode: Walking astronauts. Base: 18.44460° N, 77.45090° E (simulated).
+
+Define mission settings (optional)
+Belva
+Catalogue centre · observation site unverified
+
+18.48000° N, 77.38000° E · simulated display reference
+
+From base: 4.50 km minimum
+
+↑ Earlier
+↓ Later
+Inspect Belva
+Remove Belva
+Work time at Belva (min)
+
+Proposed science checklist · your review progress, not completed Mars fieldwork
+
+Define a scientific question and exact observation site.
+Review imagery, terrain gaps, instruments and access before fieldwork.
+Reference for Belva ↗
+
+Return: Belva → Base · 4.50 km minimum. Return travel is included above.
+
+Sampled terrain context · exploratory
+Shortest surface arcs between display references; no obstacle avoidance or terrain-aware routing.
+Approximate sample references and catalogue centres are not verified observation sites.
+Times use your constant-speed and work-time assumptions; terrain access and safe return remain unknown.
+Save local draft
+Load saved draft
+Delete saved draft
+Export plan JSON
+Import plan JSON
+Print field plan
+
+Model round-trip-v1 · drafts stay in this browser until exported · no accounts or server storage
+03 / INSPECT THE EVIDENCE
+Belva · evidence
+
+Review what is documented, explore context products and keep missing evidence visible.
+
+Return to map ↑
+10
+context products with an envelope match
+Not linked
+local rover observations in this app
+Unverified
+exact observation site and terrain access
+Documented observations
+Imagery & maps
+Missing evidence
+What is documented
+
+This catalogue identifies Belva as Crater, craters in Syrtis Major.
+
+Published approximate dimension: 0.9 km.
+
+The feature-type study score is a planning preference. No measured scientific value, composition or evidence of water is assigned by this catalogue.
+
+Catalogue evidence for this feature ↗
+
+Display reference: 18.48000° N, 77.38000° E. Catalogue centre; not a selected observation site.
+
+What is still unknown
+Verified observation-site coordinates, accuracy and access.
+Numeric site elevation, validated surface slope and a mapped approach route.
+Direct mineral measurements in the current app.
+Site-specific scientific observations, a study question and the required instruments.
+
+Missing evidence earns no favorable terrain points. These context products do not certify a destination or route as safe.
+
+Local surface observations
+
+No rover surface record is linked to this catalogue feature in the app. Nearby Jezero sample photographs are not assigned to it by proximity.
+
+Explore the context products
+
+Coverage is checked at the selected reference point, not the camera viewport. Expand a product for detail, source and limitations. Map actions open existing layers; they do not make a site measurement.
+
+Imagery
+5
+
+Use orbital images to inspect regional context. Image detail and alignment limit what can be inferred.
+
+Global CTX imagery
+Reference point inside source envelope
+THEMIS daytime infrared
+Reference point inside source envelope
+Global MOC imagery
+Reference point inside source envelope
+Jezero CTX imagery
+Reference point inside source envelope
+Jezero HiRISE imagery
+Reference point inside source envelope
+Terrain
+3
+
+Relief colours and derived displays provide context. Numeric site height, validated surface slope and approach difficulty are not established.
+
+Global elevation context
+Reference point inside source envelope
+Jezero CTX elevation
+Reference point inside source envelope
+Jezero estimated slope
+Reference point inside source envelope
+Geology
+2
+
+These maps are published interpretations. A service envelope does not identify the geological unit or minerals at this point.
+
+Global geological context
+Reference point inside source envelope
+Jezero regional geology
+Reference point inside source envelope
+Catalogue
+1
+
+Names, centre coordinates and dimensions are discovery metadata, separate from scientific observations.
+
+Mars named surface features
+Reference point inside source envelope
+
+PERSEVERANCE / MEDA / HISTORICAL
+
+Jezero environment observations
+
+Historical readings at the rover, not current weather or a global forecast. These observations do not change your trip score or budget.
+
+Observation period
+February 19, 2021 · first 30-minute observing session
+April 3–4, 2021 · sols 43–44 as reported by JPL
+
+February 19, 2021 · first 30-minute observing session
+
+Temperature during first session
+Just below -20°C → -25.6°C
+Pressure
+718 Pa
+Wind gusts
+Not reported for this window
+
+At Perseverance in Jezero crater during each observation period; exact sensor coordinates are not established by the report.
+
+NASA/JPL report · published 2021-04-06 ↗
+Observation provenance and limitations
+DATA & PROVENANCE
+Know what you’re looking at.
+
+Public imagery via NASA Trek and Caltech/Esri, global relief and geological context, plus local Jezero elevation and estimated slope. Feature-value suggestions use editable simulation preferences; terrain-aware routing and 3D relief remain unavailable.
+
+Orbital images show regional context. Rover images show local surface observations. Elevation and slope colours are derived from a DEM; geological units are mapped interpretations. Direct mineral measurements remain unavailable. The IAU/USGS feature catalogue provides names and discovery centres; it does not supply verified observation sites. Global colour hillshade provides relief context without numeric heights.
+
+Review sources and limitations (15)
+NASA media usage guidelines ↗
+JPL image use policy ↗
+
+MARSWAY / LOCAL PREVIEW
+Destination planning · Walking astronauts ·Simulated base set · Distance estimates only
