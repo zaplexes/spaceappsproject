@@ -23,7 +23,7 @@ The region filter uses the source quadrangle assignment. **Jezero geology map ex
 - A new candidate has no selected observation site, scientific question, instruments, work time or verified approach. The existing ancient-water goal and three mode-specific outcrop investigations remain Jezero-specific. Global discovery does not enable global routing or rank added features against those outcrops.
 - The archive contains legacy XML describing 2012 coverage, 1,690 points and weekly updates; its projection sidecar describes an oblate Mars ellipsoid while the XML describes a sphere. These inconsistencies are disclosed. The documented KML angular convention is used for display. No independent registration or analysis CRS is claimed. Retrieval time is not a scientific observation, source publication or formal release date.
 
-The shared source registry now has ten products, including this catalogue. Each selected feature links its official source and exposes limitations and a download of the exact retained export. Every source remains ineligible for route/ranking analysis.
+The shared source registry now has fourteen products, including this catalogue. Each selected feature links its official source and exposes limitations and a download of the exact retained export. Every source remains ineligible for route/ranking analysis.
 
 ## Refresh and publish
 
@@ -59,3 +59,5 @@ Use the manifest's actual retrieval timestamp to reproduce its exact metadata; t
 Implementation: `pipelines/catalog/import_nomenclature.py`, `src/catalog/`, the shared candidate-highlight controller and `data/manifests/nomenclature-review.json`.
 
 Review screenshots: [desktop browsing](catalogue-desktop.png), [mobile catalogue](catalogue-mobile.png) and [catalogue centre over live NASA imagery](catalogue-live.png).
+
+The selected feature also opens [Mars-wide map layers](feature-map-layers.md), enables the reviewed global CTX mosaic and updates the explorer heading. Coverage follows the actual viewport; local Jezero products keep their own extents.

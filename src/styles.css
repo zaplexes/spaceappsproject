@@ -1232,6 +1232,88 @@ footer p {
   padding-top: 18px;
   font-size: 12px;
 }
+
+.world-layer-controls {
+  border-block: 1px solid var(--line);
+  padding-block: 14px;
+  margin-top: 14px;
+}
+.world-layer-controls > summary {
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.regional-layer-controls {
+  margin-top: 18px;
+}
+.regional-layer-controls > summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.layer-availability {
+  font-size: 10px;
+  line-height: 1.6;
+  margin: -7px 0 11px 26px;
+  color: var(--muted);
+}
+.layer-row .layer-availability {
+  margin: 4px 0 0;
+}
+.layer-source-note {
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 5px 0 12px 26px;
+}
+.layer-source-note summary {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.layer-source-note p {
+  margin: 8px 0;
+}
+.layer-source-note a {
+  color: var(--rust);
+  text-decoration: underline;
+}
+.layer-gap {
+  font-size: 11px;
+  margin: 8px 0 14px;
+  padding: 8px;
+  border-left: 2px solid var(--rust);
+  background: #efe8db;
+}
+.world-layer-legend {
+  padding: 12px;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  background: #eeefe6;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.world-layer-legend p,
+.world-layer-legend label,
+.world-layer-legend a {
+  display: block;
+  margin-top: 12px;
+}
+.world-layer-legend input {
+  width: 100%;
+  margin-top: 6px;
+}
+.world-layer-legend summary {
+  cursor: pointer;
+  margin-top: 14px;
+  text-decoration: underline;
+}
+.world-layer-legend a {
+  text-decoration: underline;
+}
+.world-layer-legend .geology-units img {
+  flex: 0 0 20px;
+}
 .catalog-browser summary {
   cursor: pointer;
   font-size: 13px;
@@ -1324,7 +1406,7 @@ footer p {
 }
 
 @media (min-width: 701px) {
-  .catalogue-workspace .map-column {
+  .workspace .map-column {
     position: sticky;
     top: 8px;
     align-self: start;
@@ -1339,4 +1421,12 @@ footer p {
     max-height: calc(100vh - 16px);
     overflow-y: auto;
   }
+}
+
+.explorer-panel > .catalog-browser {
+  margin: 0 0 18px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f6f5ef;
 }

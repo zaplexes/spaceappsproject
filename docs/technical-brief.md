@@ -2,7 +2,7 @@
 
 Status: proposed full architecture for team review. A local React + TypeScript + CesiumJS frontend preview, source-linked NASA surface references/PDS position review, and local elevation-colour/regional-geology pipelines are now implemented, along with controlled HiRISE imagery and an exploratory estimated-slope display; see `implementation-checklist.md` for verified scope. Mars-wide named-feature discovery, filters and session-only candidate additions are implemented through a retained IAU/USGS export, refreshed during the static Pages build. No backend, cloud resources, scoring formula or verified deployment has been implemented. The ancient-water investigation is selected; walking, crewed-vehicle and robotic ground-rover modes are implemented with unconfigured capabilities.
 
-Accepted direction: a Jezero Marswalk with local science stops, a round-trip excursion and a field-use view. Global crater discovery is supporting scope. The ancient-water investigation is selected; walking, crewed-vehicle and robotic ground-rover modes are implemented with unconfigured capabilities.
+Accepted direction: a Jezero Marswalk with local science stops, a round-trip excursion and a field-use view. Global crater discovery is supporting scope. Reviewed global CTX, THEMIS, MOLA/HRSC colour hillshade and global geology are available through feature-aware controls with viewport coverage labels; global slope and numerical global heights remain unavailable. The ancient-water investigation is selected; walking, crewed-vehicle and robotic ground-rover modes are implemented with unconfigured capabilities.
 
 Based on `Space Apps.docx` and the discussion. The service endpoints and full system modules below are proposals. The current catalogue uses static search/region files and requires no application server; see [catalogue implementation](crater-catalogue.md).
 
@@ -192,3 +192,5 @@ Browser → CDN for the frontend; browser → API for metadata and analysis; bro
 The November 5, 2026 organizer clarification permits pre-event research and resource review, while project work begins at the official hackathon start. Confirm treatment of pre-event design artifacts with the organizer before using them in the submission.
 
 Source: https://github.com/nasa/spaceapps/discussions/1827
+
+Current static implementation: [feature map layers](feature-map-layers.md) connect four public services with retained metadata, source legends and failure/coverage states. This is a curated visual layer registry rather than the proposed analysis API or global image-archive search.

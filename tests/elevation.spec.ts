@@ -1,3 +1,5 @@
+import { mockWorldTiles } from './mock-world-tiles';
+import { openJezeroControls } from './jezero-controls';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
@@ -6,6 +8,7 @@ import { classifyCoverage } from '../src/data/coverage';
 import elevation from '../src/data/generated/elevation.json' with { type: 'json' };
 const tile = fileURLToPath(new URL('./fixtures/imagery.png', import.meta.url));
 test.beforeEach(async ({ page }) => {
+  await mockWorldTiles(page);
   await page.route('https://trek.nasa.gov/tiles/**', (route) =>
     route.fulfill({
       path: tile,
@@ -37,6 +40,11 @@ test('elevation overlay has a source-based datum legend, opacity and limited cov
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   const toggle = page.getByLabel('Jezero elevation colours');
   await expect(toggle).not.toBeChecked();
   await toggle.check();
@@ -72,6 +80,11 @@ test('local elevation failure is explicit and can recover', async ({
 }) => {
   await page.route('**/jezero-elevation.png', (route) => route.abort());
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   await page.getByLabel('Jezero elevation colours').check();
   await expect(page.getByTestId('elevation-status')).toContainText(
     'unavailable',
@@ -95,6 +108,11 @@ test('turning elevation off while loading ignores the stale result', async ({
     await route.continue();
   });
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   const toggle = page.getByLabel('Jezero elevation colours');
   await toggle.check();
   await expect(page.getByTestId('elevation-status')).toContainText('loading');
@@ -108,6 +126,11 @@ test('turning elevation off while loading ignores the stale result', async ({
 test('elevation controls and legend fit a narrow display', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   await page.getByLabel('Jezero elevation colours').check();
   await expect(page.getByLabel('Elevation colour legend')).toBeVisible();
   expect(

@@ -44,3 +44,5 @@ Python processing environments, raw GIS/raster downloads, source documents and r
 References: [Vite static deployment](https://vite.dev/guide/static-deploy.html), [GitHub custom Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [publishing source configuration](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
 Catalogue discovery uses prefixed static index/region files and a retained source KMZ in `dist/catalog/`. No backend deployment is required. The Pages build refreshes the official source before validation; upstream failure stops publication and leaves the previously deployed snapshot intact. See [catalogue refresh](crater-catalogue.md).
+
+The hosting smoke check also enables the Mars-wide context layers at Gale and verifies global CTX, geology and relief while keeping local assets within the Pages prefix. These external tile endpoints require no backend deployment or credentials; the source metadata and global geology legend are bundled locally.

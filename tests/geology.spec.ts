@@ -1,8 +1,11 @@
+import { mockWorldTiles } from './mock-world-tiles';
+import { openJezeroControls } from './jezero-controls';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import geology from '../src/data/generated/geology.json' with { type: 'json' };
 const tile = fileURLToPath(new URL('./fixtures/imagery.png', import.meta.url));
 test.beforeEach(async ({ page }) => {
+  await mockWorldTiles(page);
   await page.route('https://trek.nasa.gov/tiles/**', (route) =>
     route.fulfill({
       path: tile,
@@ -18,6 +21,11 @@ test('geology exposes the source units, offset warning, opacity and extent witho
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   const toggle = page.getByLabel('Jezero regional geology', { exact: false });
   await expect(toggle).not.toBeChecked();
   await toggle.check();
@@ -78,6 +86,11 @@ test('geology loading, failure and retry preserve source evidence', async ({
     } else await route.continue();
   });
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   await page.getByLabel('Jezero regional geology', { exact: false }).check();
   await expect(page.getByTestId('geology-status')).toContainText('loading');
   release();
@@ -102,6 +115,11 @@ test('turning geology off while pending ignores its late result and can load aga
     await route.continue();
   });
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   const toggle = page.getByLabel('Jezero regional geology', { exact: false });
   await toggle.check();
   await expect(page.getByTestId('geology-status')).toContainText('loading');
@@ -122,6 +140,11 @@ test('geology legend remains readable on mobile and without WebGL', async ({
     });
   });
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page);
   await expect(
     page.getByRole('heading', { name: 'Map unavailable' }),
   ).toBeVisible();

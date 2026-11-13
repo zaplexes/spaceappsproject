@@ -9,3 +9,7 @@ package-lock.json
 # Preserve exact upstream bytes covered by metadata checksums.
 data/manifests/imagery-*-catalog.json
 assets/catalog/
+data/manifests/world-layers-*-catalog.json
+data/manifests/world-layers-ctx-service.json
+data/manifests/world-layers-geology-service.json
+data/manifests/world-layers-geology-legend.json

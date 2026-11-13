@@ -5,6 +5,7 @@ import geology from './generated/geology.json' with { type: 'json' };
 import slope from './generated/slope.json' with { type: 'json' };
 import { capabilitiesUrl, imagerySources } from './layers';
 import nomenclature from '../../data/manifests/nomenclature-review.json' with { type: 'json' };
+import worldLayers from '../../data/manifests/world-layers-review.json' with { type: 'json' };
 
 export type EvidenceKind =
   | 'Orbital image'
@@ -12,7 +13,8 @@ export type EvidenceKind =
   | 'Derived elevation'
   | 'Derived slope'
   | 'Geological interpretation'
-  | 'Feature catalogue';
+  | 'Feature catalogue'
+  | 'Shaded relief';
 
 export interface SourceRecord {
   id: string;
@@ -42,6 +44,40 @@ export interface SourceRecord {
 
 // Reuse reviewed manifests; unknown source values remain explicit.
 export const sourceRecords: readonly SourceRecord[] = [
+  ...worldLayers.sources.map((source): SourceRecord => ({
+    id: source.layerId,
+    title: source.name,
+    kind: source.kind as EvidenceKind,
+    mission: source.mission,
+    productId: source.productId,
+    sourceUrl: source.sourcePage,
+    citation: source.credit,
+    rights:
+      source.layerId === 'ctx-global'
+        ? 'NASA Trek catalogue grants free use of the beta01 mosaic for all purposes with the listed credit.'
+        : 'See the credited source page and publisher usage policy; no additional product-specific licence was established in this review.',
+    reviewedDate: worldLayers.reviewDateUtc,
+    publicationDate: source.publicationDate,
+    observationDate: null,
+    dateNote:
+      'Service catalog timestamps and protocol versions are not observation dates or scientific release versions. Global geology identifies the 2014 published map.',
+    version: source.sourceVersion,
+    resolution: source.detail,
+    bounds: source.extent,
+    coordinateNote: worldLayers.coordinateNote,
+    verticalDatum: null,
+    checksums: source.snapshots.map((snapshot) => ({
+      scope: 'Metadata snapshot',
+      sha256: snapshot.sha256,
+    })),
+    analysisEligible: false,
+    limitations: [
+      ...source.limitations,
+      ...(source.layerId === 'relief-global'
+        ? [worldLayers.limitations[0]]
+        : []),
+    ],
+  })),
   {
     id: 'mars-nomenclature',
     title: nomenclature.title,

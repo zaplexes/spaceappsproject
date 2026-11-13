@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { imagerySources, type LayerId } from '../data/layers';
+import {
+  initialLayerVisibility,
+  tileSources,
+  type LayerId,
+} from '../data/layers';
+import { coverageLabel, type LayerCoverage } from './layer-coverage';
 import {
   candidateLocations,
   type CandidateLocation,
@@ -15,6 +20,9 @@ export function MarsMap({
   focusRequest = 0,
   selectedStopId = null,
   catalogCandidate = null,
+  worldOpacity = 0.65,
+  onCoverageChange,
+  onCameraHeightChange,
   visible,
   elevationEnabled = false,
   elevationOpacity = 0.65,
@@ -26,6 +34,9 @@ export function MarsMap({
   focusRequest?: number;
   selectedStopId?: string | null;
   catalogCandidate?: CandidateLocation | null;
+  worldOpacity?: number;
+  onCoverageChange?: (coverage: LayerCoverage) => void;
+  onCameraHeightChange?: (height: number) => void;
   visible: Record<LayerId, boolean>;
   elevationEnabled?: boolean;
   elevationOpacity?: number;
@@ -34,6 +45,8 @@ export function MarsMap({
   slopeEnabled?: boolean;
   slopeOpacity?: number;
 }) {
+  const cameraHeightCallback = useRef(onCameraHeightChange);
+  cameraHeightCallback.current = onCameraHeightChange;
   const host = useRef<HTMLDivElement>(null);
   const highlightElement = useRef<HTMLDivElement>(null);
   const candidate =
@@ -47,11 +60,18 @@ export function MarsMap({
   const [mapState, setMapState] = useState<'loading' | 'ready' | 'failed'>(
     'loading',
   );
-  const [status, setStatus] = useState<Record<LayerId, LayerStatus>>({
-    global: 'loading',
-    jezero: 'loading',
-    hirise: 'loading',
-  });
+  const [status, setStatus] = useState<Record<LayerId, LayerStatus>>(
+    () =>
+      Object.fromEntries(
+        tileSources.map((source) => [
+          source.id,
+          initialLayerVisibility[source.id] ? 'loading' : 'hidden',
+        ]),
+      ) as Record<LayerId, LayerStatus>,
+  );
+  const [coverage, setCoverage] = useState<LayerCoverage>({});
+  const worldOpacityRef = useRef(worldOpacity);
+  worldOpacityRef.current = worldOpacity;
   const [hiriseCoverage, setHiRISECoverage] = useState<Coverage>('unknown');
   const elevationRef = useRef({
     enabled: elevationEnabled,
@@ -116,6 +136,19 @@ export function MarsMap({
             (next) => {
               if (!disposed) setSlopeState(next);
             },
+            (next) => {
+              if (!disposed) {
+                setCoverage((previous) =>
+                  JSON.stringify(previous) === JSON.stringify(next)
+                    ? previous
+                    : next,
+                );
+                onCoverageChange?.(next);
+              }
+            },
+            (height) => {
+              if (!disposed) cameraHeightCallback.current?.(height);
+            },
           );
           controller.current = active;
           active.setElevationOpacity(elevationRef.current.opacity);
@@ -124,8 +157,9 @@ export function MarsMap({
           active.setGeology(geologyRef.current.enabled);
           active.setSlopeOpacity(slopeRef.current.opacity);
           active.setSlope(slopeRef.current.enabled);
-          for (const source of imagerySources)
-            if (!visibleRef.current[source.id]) active.toggle(source.id, false);
+          active.setWorldOpacity(worldOpacityRef.current);
+          for (const source of tileSources)
+            active.toggle(source.id, visibleRef.current[source.id]);
           setMapState('ready');
         } catch {
           host.current?.replaceChildren();
@@ -142,9 +176,12 @@ export function MarsMap({
     };
   }, [attempt]);
   useEffect(() => {
-    for (const source of imagerySources)
+    for (const source of tileSources)
       controller.current?.toggle(source.id, visible[source.id]);
   }, [visible]);
+  useEffect(() => {
+    controller.current?.setWorldOpacity(worldOpacity);
+  }, [worldOpacity]);
   useEffect(() => {
     controller.current?.setElevationOpacity(elevationOpacity);
     controller.current?.setElevation(elevationEnabled);
@@ -168,7 +205,7 @@ export function MarsMap({
   return (
     <section
       className="map-section"
-      aria-label={catalogueCentre ? 'Mars discovery map' : 'Jezero map'}
+      aria-label={selectedStopId ? 'Jezero map' : 'Mars discovery map'}
     >
       <div ref={host} className="map-host" data-testid="map-host" />
       <div className="candidate-overlay" hidden={mapState !== 'ready'}>
@@ -199,15 +236,21 @@ export function MarsMap({
       </div>
       <div className="map-caption">
         <span className="eyebrow">
-          {catalogueCentre ? 'MARS / DISCOVERY' : 'MARS / JEZERO'}
+          {selectedStopId ? 'MARS / JEZERO' : 'MARS / DISCOVERY'}
         </span>
         <strong>
-          {catalogueCentre ? 'Catalogue reference' : 'Western delta'}
+          {catalogueCentre
+            ? 'Catalogue reference'
+            : selectedStopId
+              ? 'Western delta'
+              : 'Mars-wide context'}
         </strong>
         <span>
           {catalogueCentre
             ? 'Named feature · coverage varies'
-            : 'Orbital imagery · regional context'}
+            : selectedStopId
+              ? 'Orbital imagery · regional context'
+              : 'Global imagery · discover Mars features'}
         </span>
       </div>
       {mapState === 'loading' && (
@@ -239,7 +282,7 @@ export function MarsMap({
             </button>
           </div>
           <div className="imagery-status" aria-live="polite">
-            {imagerySources
+            {tileSources
               .filter((source) => visible[source.id])
               .map((source) => (
                 <div key={source.id}>
@@ -261,6 +304,37 @@ export function MarsMap({
                   )}
                 </div>
               ))}
+            {tileSources
+              .filter(
+                (source) =>
+                  visible[source.id] &&
+                  !['global', 'jezero', 'hirise'].includes(source.id),
+              )
+              .map((source) => (
+                <p
+                  key={source.id}
+                  className="coverage-status"
+                  data-testid={`${source.id}-coverage`}
+                >
+                  {source.name}: {coverageLabel(coverage[source.id])}
+                </p>
+              ))}
+            {((visible.global && status.global === 'failed') ||
+              (visible['ctx-global'] && status['ctx-global'] === 'failed')) && (
+              <p
+                className="coverage-status"
+                data-testid="imagery-fallback-note"
+              >
+                Some live tiles failed. Available imagery and a cached,
+                low-resolution MOC overview provide fallback context.
+              </p>
+            )}
+            {visible['ctx-global'] && (
+              <p className="coverage-status">
+                Global CTX is uncontrolled · alignment and valid pixels
+                unverified
+              </p>
+            )}
             {visible.hirise && (
               <p className="coverage-status" data-testid="hirise-coverage">
                 {hiriseCoverage === 'inside'
@@ -359,9 +433,7 @@ export function MarsMap({
                 </p>
               </>
             )}
-            {!visible.global &&
-              !visible.jezero &&
-              !visible.hirise &&
+            {!tileSources.some((source) => visible[source.id]) &&
               !elevationEnabled &&
               !geologyEnabled &&
               !slopeEnabled && (
@@ -373,15 +445,19 @@ export function MarsMap({
       <div className="map-footnote">
         <span>Drag to pan · scroll to zoom · keyboard controls available</span>
         <strong>
-          {geologyEnabled
-            ? 'Regional geology · alignment unverified'
-            : elevationEnabled
-              ? 'Elevation colours only · no 3D relief'
-              : slopeEnabled
-                ? 'Estimated DEM gradient · no walkability assessment'
-                : candidate
-                  ? 'Approximate candidate reference · smooth globe'
-                  : 'Smooth globe · select a science stop'}
+          {visible['geology-global']
+            ? 'Global geology · regional scale 1:20,000,000'
+            : visible['relief-global']
+              ? 'Global colour hillshade · no height readout or 3D relief'
+              : geologyEnabled
+                ? 'Regional geology · alignment unverified'
+                : elevationEnabled
+                  ? 'Elevation colours only · no 3D relief'
+                  : slopeEnabled
+                    ? 'Estimated DEM gradient · no walkability assessment'
+                    : candidate
+                      ? 'Approximate candidate reference · smooth globe'
+                      : 'Smooth globe · select a science stop'}
         </strong>
       </div>
       {candidate && mapState === 'ready' && (

@@ -1,6 +1,6 @@
 # Scientific source registry and local integrity checks
 
-The current preview has ten registered spatial/reference products: three orbital imagery services, DEM-derived elevation and slope displays, a regional geological interpretation three rover surface photographs and the IAU/USGS Mars named-feature catalogue. Open **Data & provenance → Review sources and limitations (10)** to inspect them. The registry shows source links, credits, dates, detail, coverage, coordinate context, known limitations and scoped SHA-256 records.
+The current preview has fourteen registered spatial/reference products: five orbital imagery services, DEM-derived elevation and slope displays, regional and global geological interpretations, global colour hillshade, three rover surface photographs and the IAU/USGS Mars named-feature catalogue. Open **Data & provenance → Review sources and limitations (14)** to inspect them. The registry shows source links, credits, dates, detail, coverage, coordinate context, known limitations and scoped SHA-256 records.
 
 `src/data/sources.ts` combines existing reviewed manifests. `src/data/layers.ts` now gets its imagery product IDs, footprints and maximum zoom levels from `data/manifests/imagery-review.json`, so rendering and provenance use the same records.
 
@@ -8,14 +8,15 @@ The current preview has ten registered spatial/reference products: three orbital
 
 | Type | Current products | Meaning |
 | --- | --- | --- |
-| Orbital image | MGS/MOC, MRO/CTX and MRO/HiRISE mosaics | Regional surface observations; delivered detail depends on zoom. |
+| Orbital image | MGS/MOC, local and global MRO/CTX, controlled Jezero HiRISE and THEMIS daytime infrared | Regional surface observations; delivered detail depends on zoom. |
 | Rover image | Swift Run, Hazeltop and Shuyak Navcam references | Local surface observations; their geographic footprints are unverified. |
 | Derived elevation | USGS CTX DEM colour overlay | Heights relative to the source Mars areoid, represented as colours on a smooth sphere. |
 | Derived slope | Local Horn gradient of the CTX DEM | Exploratory areoid-height gradient in degrees; no walking thresholds. |
+| Shaded relief | Global MOLA/HRSC colour hillshade | Visual regional relief; no validated numeric colour scale or height readout. |
 | Feature catalogue | IAU/USGS Mars named-feature export | Published feature centres and names; exact observation sites and scientific value remain unverified. |
 | Geological interpretation | USGS SIM 3464 | Regional mapped interpretation, with the accepted approximately 100–200 m offset warning. |
 
-All ten records remain ineligible for route or stop-ranking analysis. These categories do not introduce direct mineral measurements, exact stop positions or terrain feasibility.
+All fourteen records remain ineligible for route or stop-ranking analysis. These categories do not introduce direct mineral measurements, exact stop positions or terrain feasibility.
 
 ## Retained imagery metadata
 
@@ -51,10 +52,12 @@ python3 -m unittest discover -s tests/catalog -v
 
 The gate uses the Python standard library and performs no network access or writes. Python is only needed for this check and the optional scientific pipelines; it is not required to browse the compiled frontend. The Pages build workflow runs the gate before building the site.
 
-The gate verifies 51 retained metadata/display files against their reviewed hashes, including the imagery snapshots, existing DEM metadata, geology metadata/CRS snapshots, three local overlays and three surface photographs. It checks imagery identity, Mars CRS, bounds, format, style and zoom-matrix dimensions against the rendering configuration; checks the CTX and HiRISE catalogs' sphere definitions; and rejects unsupported analysis/registration flags, invalid planetary bounds and inconsistent pixel accounting in derived manifests.
+The gate verifies 62 retained metadata/display files against their reviewed hashes, including the imagery snapshots, existing DEM metadata, geology metadata/CRS snapshots, three local overlays and three surface photographs. It checks imagery identity, Mars CRS, bounds, format, style and zoom-matrix dimensions against the rendering configuration; checks the CTX and HiRISE catalogs' sphere definitions; and rejects unsupported analysis/registration flags, invalid planetary bounds and inconsistent pixel accounting in derived manifests.
 
 Failures stop the check with a file or source-contract error. Restore the reviewed file or investigate the changed source. Do not update a hash merely to make the check pass. A legitimate refresh needs source review, relevant pipeline regeneration, renewed limitations/eligibility review and the affected checks before replacing the published artifacts.
 
 Bulk rasters and PDS tables remain outside Git. The small Mars nomenclature KMZ is retained and published with the catalogue. Use the existing [terrain](terrain-processing.md), [geology](geology-processing.md) and [stop-evidence](stop-evidence.md) workflows to reproduce or verify those inputs. This gate does not inspect remote availability, independent spatial registration, scientific correctness or walking suitability.
 
 The [Mars feature catalogue](crater-catalogue.md) adds a retained exact export, a hash-named search index and 31 regional files. The integrity gate rebuilds these from the export and compares their bytes and manifest. It also verifies named-feature filtering, duplicate handling and coordinate consistency through the catalogue tests. Pages refreshes the export before validation/build, and each published release serves its own source export for provenance.
+
+Four [feature map layers](feature-map-layers.md) add eleven exact metadata snapshots and viewport coverage states. The integrity gate checks JPEG/PNG endpoints, 256/512-pixel geographic grids, product identities, envelopes, CTX Mars WKT and the retained 44-unit global geology legend.

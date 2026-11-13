@@ -1,0 +1,144 @@
+{
+ "currentVersion": 10.61,
+ "serviceDescription": "",
+ "mapName": "Layers",
+ "description": "",
+ "copyrightText": "",
+ "supportsDynamicLayers": false,
+ "layers": [
+  {
+   "id": 0,
+   "name": "SIM3292_Global_Geology",
+   "parentLayerId": -1,
+   "defaultVisibility": true,
+   "subLayerIds": null,
+   "minScale": 0,
+   "maxScale": 0
+  }
+ ],
+ "tables": [],
+ "spatialReference": {
+  "wkid": 104905,
+  "latestWkid": 104905
+ },
+ "singleFusedMapCache": true,
+ "tileInfo": {
+  "rows": 256,
+  "cols": 256,
+  "dpi": 96,
+  "format": "PNG",
+  "compressionQuality": 0,
+  "origin": {
+   "x": -180,
+   "y": 90
+  },
+  "spatialReference": {
+   "wkid": 104905,
+   "latestWkid": 104905
+  },
+  "lods": [
+   {
+    "level": 0,
+    "resolution": 0.7031250000000001,
+    "scale": 2.9549759305875E8
+   },
+   {
+    "level": 1,
+    "resolution": 0.35156250000000006,
+    "scale": 1.47748796529375E8
+   },
+   {
+    "level": 2,
+    "resolution": 0.17578125000000003,
+    "scale": 7.38743982646875E7
+   },
+   {
+    "level": 3,
+    "resolution": 0.0878906249999999,
+    "scale": 3.69371991323437E7
+   },
+   {
+    "level": 4,
+    "resolution": 0.04394531250000006,
+    "scale": 1.84685995661719E7
+   },
+   {
+    "level": 5,
+    "resolution": 0.02197265625000001,
+    "scale": 9234299.78308594
+   },
+   {
+    "level": 6,
+    "resolution": 0.010986328125000005,
+    "scale": 4617149.89154297
+   },
+   {
+    "level": 7,
+    "resolution": 0.0054931640624999905,
+    "scale": 2308574.94577148
+   },
+   {
+    "level": 8,
+    "resolution": 0.0027465820312499952,
+    "scale": 1154287.47288574
+   },
+   {
+    "level": 9,
+    "resolution": 0.0013732910156250002,
+    "scale": 577143.736442871
+   },
+   {
+    "level": 10,
+    "resolution": 6.866455078125012E-4,
+    "scale": 288571.868221436
+   },
+   {
+    "level": 11,
+    "resolution": 3.433227539062506E-4,
+    "scale": 144285.934110718
+   }
+  ]
+ },
+ "initialExtent": {
+  "xmin": -227.70560806673456,
+  "ymin": -201.21640690153754,
+  "xmax": 245.33123989232496,
+  "ymax": 180.44913843363923,
+  "spatialReference": {
+   "wkid": 104905,
+   "latestWkid": 104905
+  }
+ },
+ "fullExtent": {
+  "xmin": -179.99999001642675,
+  "ymin": -89.99996889507656,
+  "xmax": 179.99999001642672,
+  "ymax": 89.99996889507656,
+  "spatialReference": {
+   "wkid": 104905,
+   "latestWkid": 104905
+  }
+ },
+ "minScale": 2.9549759305875E8,
+ "maxScale": 144285.934110718,
+ "units": "esriDecimalDegrees",
+ "supportedImageFormatTypes": "PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP",
+ "documentInfo": {
+  "Title": "",
+  "Author": "",
+  "Comments": "",
+  "Subject": "",
+  "Category": "",
+  "AntialiasingMode": "None",
+  "TextAntialiasingMode": "Force",
+  "Keywords": ""
+ },
+ "capabilities": "Map,Query,Data",
+ "supportedQueryFormats": "JSON, AMF, geoJSON",
+ "exportTilesAllowed": false,
+ "supportsDatumTransformation": true,
+ "maxRecordCount": 1000,
+ "maxImageHeight": 2048,
+ "maxImageWidth": 2048,
+ "supportedExtensions": "KmlServer"
+}

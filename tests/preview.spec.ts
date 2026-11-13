@@ -1,3 +1,5 @@
+import { openJezeroControls } from './jezero-controls';
+import { mockWorldTiles } from './mock-world-tiles';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { initialMission, stops } from '../src/data/stops';
@@ -5,6 +7,7 @@ import { marsReferenceEllipsoid } from '../src/map/create-mars-viewer';
 import { Cartesian3, Cartographic, Math as CesiumMath } from 'cesium';
 const tile = fileURLToPath(new URL('./fixtures/imagery.png', import.meta.url));
 test.beforeEach(async ({ page }) => {
+  await mockWorldTiles(page);
   await page.route('https://trek.nasa.gov/tiles/**', (route) =>
     route.fulfill({
       path: tile,
@@ -64,6 +67,7 @@ test('stop selection, confirmed goal, exploration mode and layer controls', asyn
   await expect(page.getByTestId('active-mobility')).toHaveText(
     'Astronauts in a crew vehicle',
   );
+  await page.getByLabel('Global CTX imagery', { exact: false }).uncheck();
   await page.getByLabel('Global MOC imagery').uncheck();
   await page.getByLabel('Jezero CTX imagery').uncheck();
   await page.getByLabel('Jezero HiRISE imagery').uncheck();
@@ -163,6 +167,10 @@ test('imagery outage is explicit and retry recovers', async ({ page }) => {
         }),
   );
   await page.goto('/');
+  await page
+    .getByRole('button', { name: 'Jezero view', exact: false })
+    .waitFor();
+  await openJezeroControls(page, true);
   await expect(
     page.getByText('Jezero CTX imagery: unavailable — partial or no coverage'),
   ).toBeVisible();
@@ -216,6 +224,10 @@ test('imagery loading is visible before requests finish', async ({ page }) => {
     });
   });
   await page.goto('/');
+  await page
+    .getByRole('button', { name: 'Jezero view', exact: false })
+    .waitFor();
+  await openJezeroControls(page, true);
   await expect(page.getByText('Jezero CTX imagery: loading…')).toBeVisible();
   release();
   await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible();
@@ -225,6 +237,10 @@ test('left-panel selection focuses the rendered map on the candidate, including 
   page,
 }) => {
   await page.goto('/');
+  await page
+    .getByRole('button', { name: 'Jezero view', exact: false })
+    .waitFor();
+  await openJezeroControls(page, true);
   await expect(page.locator('canvas')).toBeVisible();
   const canvas = page.locator('canvas');
   const corner = () =>

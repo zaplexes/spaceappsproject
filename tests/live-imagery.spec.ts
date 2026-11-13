@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { worldSources, tileUrl } from '../src/data/layers';
 test('live NASA imagery renders, navigates and produces review screenshots', async ({
   page,
 }) => {
@@ -9,13 +10,37 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   test.setTimeout(90000);
   const tiles: string[] = [];
   const errors: string[] = [];
+  const worldImages = new Map<string, Set<string>>();
+  const worldFailures: string[] = [];
   page.on('response', (response) => {
+    for (const source of worldSources) {
+      if (response.url().startsWith(tileUrl(source).split('{z}')[0])) {
+        if (
+          response.ok() &&
+          response.headers()['content-type']?.startsWith('image/')
+        ) {
+          const images = worldImages.get(source.id) ?? new Set<string>();
+          images.add(response.url());
+          worldImages.set(source.id, images);
+        } else if (response.status() >= 400)
+          worldFailures.push(`${response.status()} ${response.url()}`);
+      }
+    }
     if (
       response.url().startsWith('https://trek.nasa.gov/tiles/') &&
       response.ok() &&
       response.headers()['content-type']?.includes('image')
     )
       tiles.push(response.url());
+  });
+  page.on('requestfailed', (request) => {
+    if (
+      worldSources.some((source) =>
+        request.url().startsWith(tileUrl(source).split('{z}')[0]),
+      ) &&
+      !request.failure()?.errorText.includes('ERR_ABORTED')
+    )
+      worldFailures.push(`${request.failure()?.errorText} ${request.url()}`);
   });
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
@@ -144,5 +169,68 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   await page
     .getByRole('region', { name: 'Mars discovery map' })
     .screenshot({ path: 'docs/catalogue-live.png' });
+  await expect
+    .poll(() => worldImages.get('ctx-global')?.size ?? 0, { timeout: 60000 })
+    .toBeGreaterThan(0);
+  await expect(
+    page.getByText(/^Global CTX imagery: (loaded|unavailable)/),
+  ).toBeVisible({ timeout: 60000 });
+  await page
+    .getByRole('region', { name: 'Mars discovery map' })
+    .screenshot({ path: 'docs/world-ctx-live.png' });
+  await page
+    .getByRole('checkbox', { name: /^Global geological context/ })
+    .check();
+  await expect
+    .poll(() => worldImages.get('geology-global')?.size ?? 0, {
+      timeout: 60000,
+    })
+    .toBeGreaterThan(0);
+  await expect(
+    page.getByText(/^Global geological context: (loaded|unavailable)/),
+  ).toBeVisible({ timeout: 60000 });
+  await page
+    .getByRole('region', { name: 'Mars discovery map' })
+    .screenshot({ path: 'docs/world-geology-live.png' });
+  await page
+    .getByRole('checkbox', { name: /^Global elevation context/ })
+    .check();
+  await expect
+    .poll(() => worldImages.get('relief-global')?.size ?? 0, { timeout: 60000 })
+    .toBeGreaterThan(0);
+  await expect(
+    page.getByText(/^Global elevation context: (loaded|unavailable)/),
+  ).toBeVisible({ timeout: 60000 });
+  await page
+    .getByRole('region', { name: 'Mars discovery map' })
+    .screenshot({ path: 'docs/world-relief-live.png' });
+  await page
+    .getByRole('checkbox', { name: /^Global elevation context/ })
+    .uncheck();
+  await page
+    .getByRole('checkbox', { name: /^THEMIS daytime infrared/ })
+    .check();
+  await expect
+    .poll(() => worldImages.get('themis')?.size ?? 0, { timeout: 60000 })
+    .toBeGreaterThan(0);
+  await expect(
+    page.getByText(/^THEMIS daytime infrared: (loaded|unavailable)/),
+  ).toBeVisible({ timeout: 60000 });
+  await page
+    .getByRole('region', { name: 'Mars discovery map' })
+    .screenshot({ path: 'docs/world-themis-live.png' });
+  await test.info().attach('global-layer-requests', {
+    body: JSON.stringify(
+      {
+        successfulTileCounts: Object.fromEntries(
+          [...worldImages].map(([id, images]) => [id, images.size]),
+        ),
+        failures: worldFailures,
+      },
+      null,
+      2,
+    ),
+    contentType: 'application/json',
+  });
   expect(errors).toEqual([]);
 });

@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import math
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -103,6 +104,93 @@ def check_imagery(source: dict, snapshots: dict):
         raise ValueError("Catalog does not define the reviewed Mars sphere")
 
 
+def check_world_layer(source, snapshots):
+    capabilities = ET.fromstring(snapshots["capabilities"])
+    layer = capabilities.find("w:Contents/w:Layer", NS)
+    matrix_set = capabilities.find("w:Contents/w:TileMatrixSet", NS)
+    if (
+        layer is None
+        or matrix_set is None
+        or layer.findtext("o:Identifier", namespaces=NS) != source["productId"]
+    ):
+        raise ValueError("World layer identity differs from capabilities")
+    if source["analysisEligible"] is not False:
+        raise ValueError("World layer analysis eligibility requires review")
+    if (
+        matrix_set.findtext("o:SupportedCRS", namespaces=NS)
+        != "urn:ogc:def:crs:EPSG::104905"
+    ):
+        raise ValueError("World layer must use Mars geographic CRS")
+    bounds = layer.find("o:BoundingBox", NS)
+    extent = [
+        float(v)
+        for corner in ("o:LowerCorner", "o:UpperCorner")
+        for v in bounds.findtext(corner, namespaces=NS).split()
+    ]
+    if extent != source["extent"]:
+        raise ValueError("World layer extent differs from capabilities")
+    matrices = matrix_set.findall("w:TileMatrix", NS)
+    if len(matrices) != source["maxLevel"] + 1 or source["tileSize"] not in {256, 512}:
+        raise ValueError("World layer tile size or level count differs")
+    for level, matrix in enumerate(matrices):
+        expected = {
+            "o:Identifier": level,
+            "w:TileWidth": source["tileSize"],
+            "w:TileHeight": source["tileSize"],
+            "w:MatrixWidth": 2 ** (level + 1),
+            "w:MatrixHeight": 2**level,
+        }
+        if any(
+            float(matrix.findtext(key, namespaces=NS)) != value
+            for key, value in expected.items()
+        ) or matrix.findtext("w:TopLeftCorner", namespaces=NS).split() != [
+            "-180.0",
+            "90.0",
+        ]:
+            raise ValueError(
+                "World layer tile grid differs from reviewed geographic grid"
+            )
+    resource = layer.find("w:ResourceURL", NS)
+    template = resource.get("template").replace("//{Style}", "/{Style}")
+    for old, new in {
+        "{Style}": "default",
+        "{TileMatrixSet}": "default028mm",
+        "{TileMatrix}": "{z}",
+        "{TileRow}": "{y}",
+        "{TileCol}": "{x}",
+    }.items():
+        template = template.replace(old, new)
+    if template != source["tileTemplate"] or resource.get("format") != source["format"]:
+        raise ValueError("World layer endpoint or format differs from capabilities")
+    response = json.loads(snapshots["catalog"])["response"]
+    if (
+        response["numFound"] != 1
+        or len(response["docs"]) != 1
+        or response["docs"][0]["productLabel"] != source["productId"]
+    ):
+        raise ValueError("World layer catalog identity mismatch")
+    catalog_extent = [float(v) for v in response["docs"][0]["bbox"].split(",")]
+    if any(abs(a - b) > 0.0001 for a, b in zip(catalog_extent, extent)):
+        raise ValueError("World layer service/catalog extents disagree")
+    if source["layerId"] == "ctx-global":
+        service = json.loads(snapshots["ctx-service"])
+        grid = service["tileInfo"]
+        if (
+            "3396190.0,0.0" not in service["spatialReference"]["wkt"]
+            or grid["rows"] != source["tileSize"]
+            or grid["origin"] != {"x": -180, "y": 90}
+        ):
+            raise ValueError("Global CTX service does not match Mars sphere/grid")
+        for level in range(source["maxLevel"] + 1):
+            if grid["lods"][level]["level"] != level or not math.isclose(
+                grid["lods"][level]["resolution"],
+                180 / source["tileSize"] / 2**level,
+                rel_tol=0,
+                abs_tol=1e-9,
+            ):
+                raise ValueError("Global CTX service resolution grid mismatch")
+
+
 def validate(root: Path):
     verified = set()
 
@@ -129,6 +217,33 @@ def validate(root: Path):
         if set(snapshots) != {"catalog", "capabilities"}:
             raise ValueError("Missing imagery catalog or capabilities snapshot")
         check_imagery(source, snapshots)
+
+    world = read_json(root, "data/manifests/world-layers-review.json")
+    if (
+        world["schemaVersion"] != 1
+        or {s["layerId"] for s in world["sources"]}
+        != {"ctx-global", "themis", "relief-global", "geology-global"}
+        or len(world["sources"]) != 4
+    ):
+        raise ValueError("Expected four reviewed world context layers")
+    for source in world["sources"]:
+        snapshots = {
+            snapshot["kind"]: verify(
+                snapshot["path"], snapshot["sha256"], snapshot["bytes"]
+            )
+            for snapshot in source["snapshots"]
+        }
+        check_world_layer(source, snapshots)
+        if source["layerId"] == "geology-global":
+            units = json.loads(snapshots["geology-legend"])["layers"][0]["legend"]
+            expected = [
+                {k: unit[k] for k in ("label", "imageData", "width", "height")}
+                for unit in units
+            ]
+            if expected != world["geologyLegend"] or len(
+                {u["label"] for u in units}
+            ) != len(units):
+                raise ValueError("Global geology legend differs from source")
 
     for name, checksum in read_json(
         root, "data/manifests/metadata-checksums.json"

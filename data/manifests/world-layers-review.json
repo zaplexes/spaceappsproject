@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "reviewDateUtc": "2026-11-12",
+  "coordinateNote": "Reviewed geographic Mars services use planetocentric latitude / east-positive longitude on the shared 3396190-metre display sphere. Source WKT is explicit for global CTX and global geology; relief and THEMIS declare Mars EPSG:104905 without a full WKT here. No independent cross-product alignment is claimed.",
+  "sources": [
+    {
+      "layerId": "ctx-global",
+      "name": "Global CTX imagery",
+      "kind": "Orbital image",
+      "mission": "MRO / CTX",
+      "credit": "NASA/JPL/MSSS/The Caltech Murray Lab/Esri",
+      "productId": "CTX_beta01_uncontrolled_5m_Caltech",
+      "extent": [-180.0, -90.0, 180.0, 90.0],
+      "tileTemplate": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/{z}/{y}/{x}",
+      "format": "image/png",
+      "tileSize": 512,
+      "maxLevel": 11,
+      "sourcePage": "https://murray-lab.caltech.edu/CTX/beta01.html",
+      "detail": "Uncontrolled visible mosaic. Source imagery approximately 5 m/pixel; reviewed served levels reach roughly 10 m per equatorial pixel. Registration and valid-pixel coverage remain unverified.",
+      "publicationDate": null,
+      "sourceVersion": null,
+      "analysisEligible": false,
+      "snapshots": [
+        {
+          "kind": "capabilities",
+          "path": "data/manifests/world-layers-ctx-capabilities.xml",
+          "url": "https://trek.nasa.gov/tiles/Mars/EQ/CTX_beta01_uncontrolled_5m_Caltech/1.0.0/WMTSCapabilities.xml",
+          "sha256": "16919bec258e3292e07f4a1b42d9d847accc929a0d93fa6cb0989b2ba50aafcf",
+          "bytes": 8057
+        },
+        {
+          "kind": "catalog",
+          "path": "data/manifests/world-layers-ctx-catalog.json",
+          "url": "https://trek.nasa.gov/mars/TrekServices/ws/index/eq/searchItems?start=0&rows=1&facetKeys=productLabel&facetValues=CTX_beta01_uncontrolled_5m_Caltech",
+          "sha256": "02ef2f9cb77c5333fc5ec34cf8f610b11a304d3b09f204d2c4c263f5c6d8e4ed",
+          "bytes": 6211
+        },
+        {
+          "kind": "ctx-service",
+          "path": "data/manifests/world-layers-ctx-service.json",
+          "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer?f=pjson",
+          "sha256": "bce4cb3727f38dfe8c7bf89513140d10eb0f8706a702b70ecbea5b65bd2093e6",
+          "bytes": 5608
+        }
+      ],
+      "probe": {
+        "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/135/451",
+        "httpStatus": 200,
+        "bytes": 105635,
+        "sha256": "4afb8a0c432a63cca8b6b7f1837601dc3ccbb36419a909631d7da59a3ee9f3dc",
+        "cors": "Access-Control-Allow-Origin: *"
+      },
+      "limitations": [
+        "Service extent is an envelope; missing or blank tiles do not establish absence of terrain or obstacles.",
+        "Alignment and suitability for routing or scientific scoring have not been verified.",
+        "Catalog timestamps and WMTS/ArcGIS protocol versions are not scientific publication dates or release versions."
+      ]
+    },
+    {
+      "layerId": "themis",
+      "name": "THEMIS daytime infrared",
+      "kind": "Orbital image",
+      "mission": "Mars Odyssey / THEMIS",
+      "credit": "NASA/JPL-Caltech/ASU",
+      "productId": "THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018",
+      "extent": [-179.9999997, -65.0006576, 179.9998849, 65.0007535],
+      "tileTemplate": "https://trek.nasa.gov/tiles/Mars/EQ/THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018/1.0.0/default/default028mm/{z}/{y}/{x}.png",
+      "format": "image/png",
+      "tileSize": 256,
+      "maxLevel": 9,
+      "sourcePage": "https://trek.nasa.gov/tiles/apidoc/trekAPI.html?body=mars",
+      "detail": "Approximately 100 m source pixels; equatorial-to-midlatitude mosaic. Infrared brightness varies with temperature and illumination; it is not a measured elevation or mineral layer. When enabled, this infrared alternative is drawn above visible imagery where it has coverage.",
+      "publicationDate": null,
+      "sourceVersion": null,
+      "analysisEligible": false,
+      "snapshots": [
+        {
+          "kind": "capabilities",
+          "path": "data/manifests/world-layers-themis-capabilities.xml",
+          "url": "https://trek.nasa.gov/tiles/Mars/EQ/THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018/1.0.0/WMTSCapabilities.xml",
+          "sha256": "7b1b8f2fd04dc53bfa4f27ac99e05b90f3fd72963a252ef7705258d5e73a62c7",
+          "bytes": 7667
+        },
+        {
+          "kind": "catalog",
+          "path": "data/manifests/world-layers-themis-catalog.json",
+          "url": "https://trek.nasa.gov/mars/TrekServices/ws/index/eq/searchItems?start=0&rows=1&facetKeys=productLabel&facetValues=THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018",
+          "sha256": "d9fdc411ff38f23681f8bba4b86354f08b14aa11bb029c6fbd677fe8b4d5c9ab",
+          "bytes": 6476
+        }
+      ],
+      "probe": {
+        "url": "https://trek.nasa.gov/tiles/Mars/EQ/THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018/1.0.0/default/default028mm/7/67/225.png",
+        "httpStatus": 200,
+        "bytes": 60714,
+        "sha256": "594bade303dec1d634baadb1e3467f69a36fa20d27322ac9444e4253d3292739",
+        "cors": "Access-Control-Allow-Origin: *"
+      },
+      "limitations": [
+        "Service extent is an envelope; missing or blank tiles do not establish absence of terrain or obstacles.",
+        "Alignment and suitability for routing or scientific scoring have not been verified.",
+        "Catalog timestamps and WMTS/ArcGIS protocol versions are not scientific publication dates or release versions."
+      ]
+    },
+    {
+      "layerId": "relief-global",
+      "name": "Global elevation context",
+      "kind": "Shaded relief",
+      "mission": "MGS / MOLA + Mars Express / HRSC",
+      "credit": "NASA/JPL-Caltech/USGS/ESA/DLR/FU Berlin",
+      "productId": "Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw",
+      "extent": [-180.0, -89.999224, 179.9984479, 90.0],
+      "tileTemplate": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw/1.0.0/default/default028mm/{z}/{y}/{x}.jpg",
+      "format": "image/jpeg",
+      "tileSize": 256,
+      "maxLevel": 8,
+      "sourcePage": "https://astrogeology.usgs.gov/search/map/mars_mgs_mola_mex_hrsc_blended_shaded_relief_200m",
+      "detail": "Colour hillshade from the MOLA/HRSC blend; product name describes a 200 m grid. This is a visual relief product, not queried heights, a slope model or 3D terrain. Numerical colour mapping is not established here.",
+      "publicationDate": null,
+      "sourceVersion": null,
+      "analysisEligible": false,
+      "snapshots": [
+        {
+          "kind": "capabilities",
+          "path": "data/manifests/world-layers-relief-capabilities.xml",
+          "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw/1.0.0/WMTSCapabilities.xml",
+          "sha256": "cbb492177312dc5e828a0236e3598859a047de5fb45ab5e2794b4615d53a4f30",
+          "bytes": 7417
+        },
+        {
+          "kind": "catalog",
+          "path": "data/manifests/world-layers-relief-catalog.json",
+          "url": "https://trek.nasa.gov/mars/TrekServices/ws/index/eq/searchItems?start=0&rows=1&facetKeys=productLabel&facetValues=Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw",
+          "sha256": "ee89d76a9ffe9f1858dd43d15ed11d11c7d301df5644a8ebd408b88cceb2f867",
+          "bytes": 7032
+        }
+      ],
+      "probe": {
+        "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw/1.0.0/default/default028mm/7/67/225.jpg",
+        "httpStatus": 200,
+        "bytes": 68662,
+        "sha256": "3f5d9e0e0b51b11219c3586d3fd85717d29611e186171f7acab283477a049d57",
+        "cors": "Access-Control-Allow-Origin: *"
+      },
+      "limitations": [
+        "Service extent is an envelope; missing or blank tiles do not establish absence of terrain or obstacles.",
+        "Alignment and suitability for routing or scientific scoring have not been verified.",
+        "Catalog timestamps and WMTS/ArcGIS protocol versions are not scientific publication dates or release versions."
+      ]
+    },
+    {
+      "layerId": "geology-global",
+      "name": "Global geological context",
+      "kind": "Geological interpretation",
+      "mission": "Multi-mission orbital mapping",
+      "credit": "USGS · Tanaka et al. (2014) · SIM 3292",
+      "productId": "SIM3292_Global_Geology",
+      "extent": [
+        -179.99999001642675, -89.99996889507656, 179.99999001642672,
+        89.99996889507656
+      ],
+      "tileTemplate": "https://trek.nasa.gov/mars/trekarcgis/rest/services/SIM3292_Global_Geology/MapServer/WMTS/tile/1.0.0/SIM3292_Global_Geology/default/default028mm/{z}/{y}/{x}.png",
+      "format": "image/png",
+      "tileSize": 256,
+      "maxLevel": 11,
+      "sourcePage": "https://pubs.usgs.gov/sim/3292/",
+      "detail": "Global geological interpretation at 1:20,000,000. Units are broad regional context, not site-scale rock or mineral measurements. No unit is assigned to a candidate centre.",
+      "publicationDate": "2014",
+      "sourceVersion": null,
+      "analysisEligible": false,
+      "snapshots": [
+        {
+          "kind": "capabilities",
+          "path": "data/manifests/world-layers-geology-capabilities.xml",
+          "url": "https://trek.nasa.gov/tiles/Mars/EQ/SIM3292_Global_Geology/1.0.0/WMTSCapabilities.xml",
+          "sha256": "1e97125731624da42a5b4cb9d1cdeb54e40e96848e4feb1187920b7657275546",
+          "bytes": 6984
+        },
+        {
+          "kind": "catalog",
+          "path": "data/manifests/world-layers-geology-catalog.json",
+          "url": "https://trek.nasa.gov/mars/TrekServices/ws/index/eq/searchItems?start=0&rows=1&facetKeys=productLabel&facetValues=SIM3292_Global_Geology",
+          "sha256": "bdab8346ce7f873eaacc82c25a6e8dbc882247261d58fce99405823f6447f623",
+          "bytes": 6055
+        },
+        {
+          "kind": "geology-service",
+          "path": "data/manifests/world-layers-geology-service.json",
+          "url": "https://trek.nasa.gov/mars/trekarcgis/rest/services/SIM3292_Global_Geology/MapServer?f=pjson",
+          "sha256": "ab15f6a871a8eaed9e65a8da4a244bc0341ce7b08a738d730a601135074bce42",
+          "bytes": 2926
+        },
+        {
+          "kind": "geology-legend",
+          "path": "data/manifests/world-layers-geology-legend.json",
+          "url": "https://trek.nasa.gov/mars/trekarcgis/rest/services/SIM3292_Global_Geology/MapServer/legend?f=pjson",
+          "sha256": "7b944238604a181455e59cd8035d260f92a02aff733160fd2d89b71ae671c939",
+          "bytes": 21230
+        }
+      ],
+      "probe": {
+        "url": "https://trek.nasa.gov/mars/trekarcgis/rest/services/SIM3292_Global_Geology/MapServer/WMTS/tile/1.0.0/SIM3292_Global_Geology/default/default028mm/7/67/225.png",
+        "httpStatus": 200,
+        "bytes": 1052,
+        "sha256": "d01fe21871e2b94a203376d3bc8d39a9717cdc002542d78dbd80c037b8455062",
+        "cors": "Origin echoed by service; browser access verified separately"
+      },
+      "limitations": [
+        "Service extent is an envelope; missing or blank tiles do not establish absence of terrain or obstacles.",
+        "Alignment and suitability for routing or scientific scoring have not been verified.",
+        "Catalog timestamps and WMTS/ArcGIS protocol versions are not scientific publication dates or release versions."
+      ]
+    }
+  ],
+  "geologyLegend": [
+    {
+      "label": "Amazonian and Hesperian impact unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6c1DKZbMPyanIZGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgC8dwwcJGoDpwAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian and Hesperian transition undivided unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6sKc8m27CWzqkMDAy09PKogaMGjho4aiBOA2FFEDlg8uTJjCgGwgQoBQDWLQxnkjnYTwAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian and Hesperian volcanic",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAERJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7s1vhDtmGlNyBG0c7LowaOGjhq4KiBOA2EFUHkgMmTJzOiGAgToBQAALrXDBbLKoXFAAAAAElFTkSuQmCC",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian and Noachian apron unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC4MsDxBtmEbjlswMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA2y4MdKg63RsAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian apron unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC5sTFlOtmH1cyIZGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgDGlAw5KV5LUAAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian polar undivided unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7Ucw8k27BLO9czMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAACrAM/2IUB84AAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian polar unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6crB9HtmG5FxcxMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA61kMpRJSWuEAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian volcanic edifice",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6M539NtmELP4oyMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA2IIMbIBRDN4AAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Amazonian volcanic unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7stjUk27DSw+cZGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgD4nAzMZoXYbAAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Early Amazonian basin unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7USQ8i27ArM9cxMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAAAsM4NW0gagAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Early Hesperian basin unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC68aupItmHap/czMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA3DIMeqyOPVYAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Early Hesperian highland unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6sjXci27DmhfsYGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgDsAwynPnJBBwAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Early Hesperian transition unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC4sdt5JtmG9e90ZGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgDQrAxW62B6BAAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Early Hesperian volcanic unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC505fUg27Ddn3cwMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAGbANKxq6QtYAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Early Noachian highland massif unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC5UUBQl27AH918zMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAMQINbyDrOoEAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Early Noachian highland unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC70kfpEtmFbnvExMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA2PQMbXP1PLEAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian and Noachian basin unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAENJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMqC60NCLftOPnGBgYaOnlUQNHDRw1cNRA3AZCiyBywOTJkxlRDIQJUAoAfK0LWp4jr0sAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian and Noachian highland undivided unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6MDw0i27CFq9cxMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA9HEMvzLts34AAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian and Noachian transition unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7ss1xHtmFFx4MYGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgDOdgxQJGnp6wAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian polar edifice unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6cLJNMtmG5T+YyMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA8C4Ms0vUh2kAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian polar undivided unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC4Udggg27C3BzYwMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAFtINIvXFo2oAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian polar unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6crO9KtmG5F3czMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA89gMvjRx6lsAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian transition outflow unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC60Lekl27DDPcUMDAy09PKogaMGjho4aiBOA2FFEDlg8uTJjCgGwgQoBQDhjgyHyMKJSAAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian transition undivided unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7Mz0gl27CJM2YzMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA4eQMiQ4dSYEAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian transition unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6cVGBGtmF5E04xMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAA4vIMjeFsU/oAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Hesperian volcanic edifice unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC5sY9pCtmFV/3wYGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgDiHAyJV+/HFgAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Amazonian apron unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6clDWZbMPypuUyMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAxWcMNijIg58AAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Amazonian polar cap unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAERJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7MbZ1AvmHVBQwMDLT08qiBowaOGjhqIE4DYUUQOWDy5MmMKAbCBCgFAMoBDEMK8MT8AAAAAElFTkSuQmCC",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Amazonian polar dunes unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6cWOtLtmH5zZsZGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgDXAgxq3kvGYgAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Amazonian volcanic field unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6Md7Yk27CFe48zMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAAy8M6qONfxgAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Amazonian volcanic unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEVJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC7sDfQi27Di9dsYGBho6eVRA0cNHDVw1ECcBsKKIHLA5MmTGVEMhAlQCgDoiwyd7xYNJQAAAABJRU5ErkJggg==",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Hesperian basin unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC40cjMi27Bzu84xMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAFC0NGxe2ak4AAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Hesperian lowland unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgT3HHP5TYlCJ1QFGFAOpBUYNHDVw1MBRA+lsIKw8o5qB1AIALV4FwP0tw8oAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Hesperian transition unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6cFDePbMPyFiUxMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAxcoMN7lL5BMAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Hesperian volcanic field unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6MN1Qi27CF5+8xMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAETANE6dUPXAAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Hesperian volcanic unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6MN1Qi27CF5+8xMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAETANE6dUPXAAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Noachian highland unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC5MdJQm27D5+58yMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAADV8NCD0Y3OQAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Late Noachian volcanic unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6UFg0g27CnrzcwMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAItINRYw8jAwAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Middle Amazonian lowland unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgXsPGP6nxCBnh/OMKAZSC4waOGrgqIGjBtLZQFh5RjUDqQUAI34FpD0mAg0AAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Middle Noachian highland massif unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC40Ntcm27CzJ68yMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAG10NMEVulkoAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Middle Noachian highland unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC5MMBAm27AFF94yMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAAFkgNIutb4mcAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Noachian highland edifice unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC60PPiAbMOO2yswMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAArEUL65NHXi8AAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Noachian highland undivided unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC70sLUk27Adh48zMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAADT4NB2+X6csAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "label": "Noachian volcanic edifice unit",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUOI1jYaAyYKGZgbm5uf8pNWzy5MmMKC6M2XmQbMOWuNszMDDQ0sujBo4aOGrgqIE4DYQVQeSAyZMnM6IYCBOgFAAArWML77cj3ScAAAAASUVORK5CYII=",
+      "width": 20,
+      "height": 20
+    }
+  ],
+  "limitations": [
+    "Global elevation context is colour hillshade only. Numerical height values, a validated numeric colour bar, a global slope raster and physical 3D terrain are not supplied.",
+    "Global CTX is an uncontrolled beta mosaic. The sparse global HiRISE mosaic is not enabled: its reviewed WMTS high-level matrix dimensions conflict with the expected grid and no valid-pixel footprints have been verified.",
+    "The local Jezero elevation, slope and geology products retain their own extents, higher detail and known limitations."
+  ]
+}

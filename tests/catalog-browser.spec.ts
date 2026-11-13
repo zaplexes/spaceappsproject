@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import review from '../data/manifests/nomenclature-review.json' with { type: 'json' };
+import { mockWorldTiles } from './mock-world-tiles';
 
 const tile = fileURLToPath(new URL('./fixtures/imagery.png', import.meta.url));
 const index = JSON.parse(
@@ -13,6 +14,7 @@ const index = JSON.parse(
 const indexPattern = '**/catalog/index-*.json';
 
 test.beforeEach(async ({ page }) => {
+  await mockWorldTiles(page);
   await page.route('https://trek.nasa.gov/tiles/**', (route) =>
     route.fulfill({ path: tile, contentType: 'image/png' }),
   );
@@ -105,9 +107,9 @@ test('real catalogue supports bounded browsing, region/type filters and candidat
   await expect(details).toContainText('226.1975° E');
   await expect(marker).toBeVisible();
   await expect(marker).toContainText('Olympus Mons');
-  await expect(page.getByTestId('hirise-coverage')).toContainText(
-    'Outside HiRISE coverage',
-  );
+  await expect(
+    page.getByLabel('Jezero HiRISE imagery').locator('..'),
+  ).toContainText('Outside this viewport');
   await page.getByRole('button', { name: 'Mars globe', exact: true }).click();
   await browser.getByRole('button', { name: /^Olympus Mons / }).click();
   await expect(marker).toBeVisible();

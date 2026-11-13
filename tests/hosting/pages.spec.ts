@@ -1,7 +1,9 @@
+import { openJezeroControls } from '../jezero-controls';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import catalogueReview from '../../data/manifests/nomenclature-review.json' with { type: 'json' };
+import { mockWorldTiles } from '../mock-world-tiles';
 const tile = fileURLToPath(new URL('../fixtures/imagery.png', import.meta.url));
 
 test('static hosting loads the globe, all stop photos and both overlays inside its URL prefix', async ({
@@ -10,6 +12,7 @@ test('static hosting loads the globe, all stop photos and both overlays inside i
   baseURL,
 }) => {
   if (!baseURL) throw new Error('Missing hosting base URL');
+  await mockWorldTiles(page);
   const location = new URL(baseURL.endsWith('/') ? baseURL : baseURL + '/');
   const errors: string[] = [];
   const escapedAssets: string[] = [];
@@ -40,6 +43,7 @@ test('static hosting loads the globe, all stop photos and both overlays inside i
   await expect(
     page.getByRole('button', { name: 'Zoom in', exact: true }),
   ).toBeVisible();
+  await openJezeroControls(page, true);
   await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible();
   await expect(page.getByText('Jezero HiRISE imagery: loaded')).toBeVisible();
   for (const name of ['Skinner Ridge', 'Wildcat Ridge', 'Amalik']) {
@@ -83,6 +87,27 @@ test('static hosting loads the globe, all stop photos and both overlays inside i
     .click();
   await expect(page.locator('#science-stops .count')).toHaveText('4');
   await expect(page.getByTestId('candidate-highlight')).toContainText('Gale');
+  await expect(
+    page.getByText('Global CTX imagery: loaded', { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('checkbox', { name: /^Global geological context/ })
+    .check();
+  await expect(
+    page.getByRole('region', { name: 'Global geology legend' }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Global geological context: loaded', { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('checkbox', { name: /^Global elevation context/ })
+    .check();
+  await expect(
+    page.getByText('Global elevation context: loaded', { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('checkbox', { name: /^Global geological context/ }),
+  ).not.toBeChecked();
   await feature
     .getByText('Catalogue provenance & limitations', { exact: true })
     .click();

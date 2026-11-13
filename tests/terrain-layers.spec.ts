@@ -1,3 +1,5 @@
+import { mockWorldTiles } from './mock-world-tiles';
+import { openJezeroControls } from './jezero-controls';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import slope from '../src/data/generated/slope.json' with { type: 'json' };
@@ -9,6 +11,7 @@ const hiriseTile = fileURLToPath(
   new URL('./fixtures/hirise.png', import.meta.url),
 );
 test.beforeEach(async ({ page }) => {
+  await mockWorldTiles(page);
   await page.route('https://trek.nasa.gov/tiles/**', (route) =>
     route.fulfill({
       path: route.request().url().includes('JEZ_hirise')
@@ -23,6 +26,11 @@ test('HiRISE stays above CTX after retries and exposes regional extent', async (
   page,
 }) => {
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page, true);
   await expect(page.getByText('Jezero HiRISE imagery: loaded')).toBeVisible();
   const blueDominates = () =>
     page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => {
@@ -88,6 +96,11 @@ test('HiRISE outage leaves context imagery usable and retry restores detail', as
         : route.fulfill({ path: hiriseTile, contentType: 'image/png' }),
   );
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page, true);
   const failure = page.getByText(
     'Jezero HiRISE imagery: unavailable — partial or no coverage',
   );
@@ -107,6 +120,11 @@ test('estimated slope has a physical scale, source, opacity, coverage and separa
   page,
 }) => {
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page, true);
   await page.getByLabel('Jezero elevation colours').check();
   await page.getByLabel('Jezero estimated slope', { exact: false }).check();
   await expect(page.getByLabel('Jezero elevation colours')).not.toBeChecked();
@@ -154,6 +172,11 @@ test('slope failure, stale result and retry retain source evidence', async ({
     } else await route.continue();
   });
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page, true);
   const toggle = page.getByLabel('Jezero estimated slope', { exact: false });
   await toggle.check();
   await expect(page.getByTestId('slope-status')).toContainText('loading');
@@ -180,6 +203,11 @@ test('slope evidence and keyboard controls work on mobile without WebGL', async 
     }),
   );
   await page.goto('/');
+  if (!test.info().title.includes('without WebGL'))
+    await page
+      .getByRole('button', { name: 'Jezero view', exact: false })
+      .waitFor();
+  await openJezeroControls(page, true);
   const toggle = page.getByLabel('Jezero estimated slope', { exact: false });
   await toggle.focus();
   await page.keyboard.press('Space');

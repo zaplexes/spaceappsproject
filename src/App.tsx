@@ -1,11 +1,19 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import elevation from './data/generated/elevation.json' with { type: 'json' };
-import { imagerySources, type LayerId } from './data/layers';
+import {
+  imagerySources,
+  initialLayerVisibility,
+  globalCtxMaximumAutoHeight,
+  isWorldColour,
+  worldSources,
+  type LayerId,
+} from './data/layers';
+import { coverageLabel, type LayerCoverage } from './map/layer-coverage';
+import { WorldLayerLegend } from './WorldLayerLegend';
 import { stops } from './data/stops';
 import {
   initialMission,
   mobilityProfile,
-  scientificGoal,
   type MobilityMode,
 } from './data/mission';
 import { MissionSettings } from './MissionSettings';
@@ -22,6 +30,15 @@ export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusRequest, setFocusRequest] = useState(0);
   const [catalogOpen, setCatalogOpen] = useState(false);
+  const [mapCoverage, setMapCoverage] = useState<LayerCoverage>({});
+  const onCoverageChange = useCallback(
+    (next: LayerCoverage) =>
+      setMapCoverage((previous) =>
+        JSON.stringify(previous) === JSON.stringify(next) ? previous : next,
+      ),
+    [],
+  );
+  const [worldOpacity, setWorldOpacity] = useState(0.65);
   const [catalogFeature, setCatalogFeature] = useState<CatalogFeature | null>(
     null,
   );
@@ -37,11 +54,25 @@ export default function App() {
     setSelectedId(null);
     setFocusRequest((request) => request + 1);
   }
-  const [visible, setVisible] = useState<Record<LayerId, boolean>>({
-    global: true,
-    jezero: true,
-    hirise: true,
-  });
+  const [visible, setVisible] = useState<Record<LayerId, boolean>>(
+    initialLayerVisibility,
+  );
+  const [ctxOverride, setCtxOverride] = useState<boolean | null>(null);
+  const [ctxCloseEnough, setCtxCloseEnough] = useState(false);
+  const onCameraHeightChange = useCallback((height: number) => {
+    setCtxCloseEnough(height <= globalCtxMaximumAutoHeight);
+  }, []);
+  const mapVisible = useMemo(
+    () => ({ ...visible, 'ctx-global': ctxOverride ?? ctxCloseEnough }),
+    [visible, ctxOverride, ctxCloseEnough],
+  );
+  function clearWorldColours() {
+    setVisible((previous) => ({
+      ...previous,
+      'relief-global': false,
+      'geology-global': false,
+    }));
+  }
   const [mobility, setMobility] = useState<MobilityMode>(
     initialMission.mobility,
   );
@@ -68,7 +99,7 @@ export default function App() {
           </span>
         </a>
         <div className="header-context">
-          <span className="live-dot" /> JEZERO SCIENCE MISSION{' '}
+          <span className="live-dot" /> MARS EXPLORATION{' '}
           <span className="separator">/</span> LOCAL PREVIEW
         </div>
         <a className="source-nav" href="#sources">
@@ -79,10 +110,10 @@ export default function App() {
         <div className="intro">
           <div>
             <p className="eyebrow">HUMAN EXPLORATION / MARS</p>
-            <h1>One region. A world to explore.</h1>
+            <h1>A world to explore.</h1>
             <p>
-              {scientificGoal.title}. Explore the evidence and plan observations
-              across Jezero’s western delta.
+              Discover named features across Mars, explore global imagery and
+              geology, and investigate the evidence at Jezero’s western delta.
             </p>
           </div>
           <span className="preview-tag">
@@ -97,143 +128,256 @@ export default function App() {
           <aside className="explorer-panel">
             <div className="panel-heading">
               <span className="eyebrow">01 / EXPLORE</span>
-              <h2>Jezero exploration</h2>
+              <h2>
+                {catalogFeature
+                  ? `${catalogFeature.name} exploration`
+                  : selected
+                    ? 'Jezero exploration'
+                    : 'Mars exploration'}
+              </h2>
               <p>
-                {mobilityProfile(mobility).label}. Start with the places
-                Perseverance studied.
+                Explore across Mars or select a Jezero science stop for a closer
+                look.
               </p>
             </div>
+            <CatalogBrowser
+              onSelect={selectFeature}
+              selectedId={catalogFeature?.id ?? null}
+              selectionRevision={focusRequest}
+              onOpenChange={setCatalogOpen}
+            />
             <section className="layer-panel" aria-labelledby="layers-heading">
-              <h3 id="layers-heading">Map layers</h3>
-              {imagerySources.map((source) => (
-                <label className="layer-row" key={source.id}>
-                  <input
-                    type="checkbox"
-                    checked={visible[source.id]}
-                    onChange={(event) =>
-                      setVisible((previous) => ({
-                        ...previous,
-                        [source.id]: event.target.checked,
-                      }))
-                    }
-                  />
-                  <span>
-                    {source.name}
-                    <small>{source.mission}</small>
-                  </span>
-                </label>
-              ))}
-              <label className="layer-row">
-                <input
-                  type="checkbox"
-                  checked={elevationEnabled}
-                  onChange={(event) => {
-                    setElevationEnabled(event.target.checked);
-                    if (event.target.checked) {
-                      setGeologyEnabled(false);
-                      setSlopeEnabled(false);
-                    }
-                  }}
-                />
-                <span>
-                  Jezero elevation colours
-                  <small>MRO / CTX · 20 m source pixels</small>
-                </span>
-              </label>
-              {elevationEnabled && (
-                <div
-                  className="elevation-legend"
-                  aria-label="Elevation colour legend"
-                >
-                  <strong>Elevation relative to Mars areoid</strong>
-                  <div className="elevation-ramp" />
-                  <div className="legend-values">
-                    <span>{elevation.minimumMetres.toFixed(0)} m</span>
-                    <span>{elevation.maximumMetres.toFixed(0)} m</span>
+              <h3 id="layers-heading">
+                Map layers{catalogFeature ? ` · ${catalogFeature.name}` : ''}
+              </h3>
+              <p className="quiet">
+                Layer coverage follows the current viewport. Global products
+                provide regional context; detailed coverage varies.
+              </p>
+              <details className="world-layer-controls" open>
+                <summary>Mars-wide context</summary>
+                {worldSources.map((source) => (
+                  <div key={source.id}>
+                    <label className="layer-row">
+                      <input
+                        type="checkbox"
+                        checked={mapVisible[source.id]}
+                        onChange={(event) => {
+                          const checked = event.target.checked;
+                          if (source.id === 'ctx-global')
+                            setCtxOverride(checked);
+                          setVisible((previous) => ({
+                            ...previous,
+                            ...(checked && isWorldColour(source.id)
+                              ? {
+                                  'relief-global': false,
+                                  'geology-global': false,
+                                }
+                              : {}),
+                            [source.id]: checked,
+                          }));
+                          if (checked && isWorldColour(source.id)) {
+                            setElevationEnabled(false);
+                            setGeologyEnabled(false);
+                            setSlopeEnabled(false);
+                          }
+                        }}
+                      />
+                      <span>
+                        {source.name}
+                        <small>{source.mission}</small>
+                      </span>
+                    </label>
+                    <p
+                      className="layer-availability"
+                      data-testid={`control-${source.id}-coverage`}
+                    >
+                      {coverageLabel(mapCoverage[source.id])}
+                    </p>
+                    {source.id === 'ctx-global' && (
+                      <p className="layer-availability" data-testid="ctx-mode">
+                        {ctxOverride === null
+                          ? 'Automatic · on when closer than 500 km. Change the checkbox to take control.'
+                          : 'Manual · your choice stays on zoom.'}
+                      </p>
+                    )}
+                    <details className="layer-source-note">
+                      <summary>Detail & limitations · {source.name}</summary>
+                      <p>{source.detail}</p>
+                      <a
+                        href={source.sourcePage}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Source ↗
+                      </a>
+                    </details>
                   </div>
-                  <p>
-                    Colour indicates elevation, not risk. This overlay does not
-                    show 3D relief.
-                  </p>
-                  <label>
-                    Elevation opacity
+                ))}
+                {(visible['relief-global'] || visible['geology-global']) && (
+                  <WorldLayerLegend
+                    geology={visible['geology-global']}
+                    opacity={worldOpacity}
+                    onOpacity={setWorldOpacity}
+                  />
+                )}
+              </details>
+              <details className="regional-layer-controls" open={!!selected}>
+                <summary>Base imagery & Jezero detail</summary>
+                {imagerySources.map((source) => (
+                  <label className="layer-row" key={source.id}>
                     <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      step="5"
-                      value={Math.round(elevationOpacity * 100)}
+                      type="checkbox"
+                      checked={mapVisible[source.id]}
                       onChange={(event) =>
-                        setElevationOpacity(Number(event.target.value) / 100)
+                        setVisible((previous) => ({
+                          ...previous,
+                          [source.id]: event.target.checked,
+                        }))
                       }
                     />
+                    <span>
+                      {source.name}
+                      <small>{source.mission}</small>
+                      {source.id !== 'global' && (
+                        <small className="layer-availability">
+                          {coverageLabel(mapCoverage[source.id])}
+                        </small>
+                      )}
+                    </span>
                   </label>
-                  <a
-                    href={elevation.sourcePage}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    USGS source & limitations ↗
-                  </a>
-                </div>
-              )}
-              <label className="layer-row">
-                <input
-                  type="checkbox"
-                  checked={geologyEnabled}
-                  onChange={(event) => {
-                    setGeologyEnabled(event.target.checked);
-                    if (event.target.checked) {
-                      setElevationEnabled(false);
-                      setSlopeEnabled(false);
-                    }
-                  }}
-                />
-                <span>
-                  Jezero regional geology
-                  <small>USGS · Sun & Stack (2020) · 1:75,000</small>
-                </span>
-              </label>
-              {geologyEnabled && (
-                <GeologyLegend
-                  opacity={geologyOpacity}
-                  onOpacity={setGeologyOpacity}
-                />
-              )}
-              <label className="layer-row">
-                <input
-                  type="checkbox"
-                  checked={slopeEnabled}
-                  onChange={(event) => {
-                    setSlopeEnabled(event.target.checked);
-                    if (event.target.checked) {
-                      setElevationEnabled(false);
-                      setGeologyEnabled(false);
-                    }
-                  }}
-                />
-                <span>
-                  Jezero estimated slope
-                  <small>Derived CTX gradient · 20 m source cells</small>
-                </span>
-              </label>
-              {slopeEnabled && (
-                <SlopeLegend
-                  opacity={slopeOpacity}
-                  onOpacity={setSlopeOpacity}
-                />
-              )}
-              {(geologyEnabled || elevationEnabled || slopeEnabled) && (
-                <p className="quiet">
-                  Geology, elevation and slope colours are viewed separately.
+                ))}
+                <label className="layer-row">
+                  <input
+                    type="checkbox"
+                    checked={elevationEnabled}
+                    onChange={(event) => {
+                      setElevationEnabled(event.target.checked);
+                      if (event.target.checked) {
+                        clearWorldColours();
+                        setGeologyEnabled(false);
+                        setSlopeEnabled(false);
+                      }
+                    }}
+                  />
+                  <span>
+                    Jezero elevation colours
+                    <small>MRO / CTX · 20 m source pixels</small>
+                  </span>
+                </label>
+                <p className="layer-availability">
+                  {coverageLabel(mapCoverage.elevation)}
                 </p>
-              )}
-              <p className="quiet">
-                3D terrain relief awaits verified height conversion.
-              </p>
-              <p className="quiet">
-                Direct mineralogy layers are not available in this preview.
-              </p>
+                {elevationEnabled && (
+                  <div
+                    className="elevation-legend"
+                    aria-label="Elevation colour legend"
+                  >
+                    <strong>Elevation relative to Mars areoid</strong>
+                    <div className="elevation-ramp" />
+                    <div className="legend-values">
+                      <span>{elevation.minimumMetres.toFixed(0)} m</span>
+                      <span>{elevation.maximumMetres.toFixed(0)} m</span>
+                    </div>
+                    <p>
+                      Colour indicates elevation, not risk. This overlay does
+                      not show 3D relief.
+                    </p>
+                    <label>
+                      Elevation opacity
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={Math.round(elevationOpacity * 100)}
+                        onChange={(event) =>
+                          setElevationOpacity(Number(event.target.value) / 100)
+                        }
+                      />
+                    </label>
+                    <a
+                      href={elevation.sourcePage}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      USGS source & limitations ↗
+                    </a>
+                  </div>
+                )}
+                <label className="layer-row">
+                  <input
+                    type="checkbox"
+                    checked={geologyEnabled}
+                    onChange={(event) => {
+                      setGeologyEnabled(event.target.checked);
+                      if (event.target.checked) {
+                        clearWorldColours();
+                        setElevationEnabled(false);
+                        setSlopeEnabled(false);
+                      }
+                    }}
+                  />
+                  <span>
+                    Jezero regional geology
+                    <small>USGS · Sun & Stack (2020) · 1:75,000</small>
+                  </span>
+                </label>
+                <p className="layer-availability">
+                  {coverageLabel(mapCoverage.geology)}
+                </p>
+                {geologyEnabled && (
+                  <GeologyLegend
+                    opacity={geologyOpacity}
+                    onOpacity={setGeologyOpacity}
+                  />
+                )}
+                <label className="layer-row">
+                  <input
+                    type="checkbox"
+                    checked={slopeEnabled}
+                    onChange={(event) => {
+                      setSlopeEnabled(event.target.checked);
+                      if (event.target.checked) {
+                        clearWorldColours();
+                        setElevationEnabled(false);
+                        setGeologyEnabled(false);
+                      }
+                    }}
+                  />
+                  <span>
+                    Jezero estimated slope
+                    <small>Derived CTX gradient · 20 m source cells</small>
+                  </span>
+                </label>
+                <p className="layer-availability">
+                  {coverageLabel(mapCoverage.slope)}
+                </p>
+                {mapCoverage.slope === 'outside' && (
+                  <p className="layer-gap" role="status">
+                    Slope unavailable in this viewport. No reviewed global slope
+                    grid is connected.
+                  </p>
+                )}
+                {slopeEnabled && (
+                  <SlopeLegend
+                    opacity={slopeOpacity}
+                    onOpacity={setSlopeOpacity}
+                  />
+                )}
+                {(geologyEnabled || elevationEnabled || slopeEnabled) && (
+                  <p className="quiet">
+                    Local and global geology, elevation and slope colours are
+                    viewed separately.
+                  </p>
+                )}
+                <p className="quiet">
+                  3D terrain relief awaits verified height conversion.
+                </p>
+                <p className="quiet">
+                  Direct mineralogy layers are not available in this preview.
+                </p>
+              </details>
             </section>
             <section id="science-stops" aria-labelledby="stops-heading">
               <div className="section-title">
@@ -299,16 +443,9 @@ export default function App() {
                 </p>
               )}
             </section>
-            <CatalogBrowser
-              onSelect={selectFeature}
-              selectedId={catalogFeature?.id ?? null}
-              selectionRevision={focusRequest}
-              onOpenChange={setCatalogOpen}
-            />
             <p className="scope-note">
-              Global imagery provides context.
-              <br />
-              <strong>The local science expedition is the focus.</strong>
+              Explore Mars-wide context, then zoom in to investigate local
+              science evidence.
             </p>
           </aside>
           <div className="map-column">
@@ -316,7 +453,10 @@ export default function App() {
               focusRequest={focusRequest}
               selectedStopId={selectedId}
               catalogCandidate={catalogCandidate}
-              visible={visible}
+              worldOpacity={worldOpacity}
+              onCoverageChange={onCoverageChange}
+              visible={mapVisible}
+              onCameraHeightChange={onCameraHeightChange}
               elevationEnabled={elevationEnabled}
               elevationOpacity={elevationOpacity}
               geologyEnabled={geologyEnabled}
@@ -450,9 +590,9 @@ export default function App() {
             <span className="eyebrow">DATA & PROVENANCE</span>
             <h2>Know what you’re looking at.</h2>
             <p>
-              Public imagery via NASA Trek, plus local USGS elevation and
-              estimated slope colours and regional geological interpretation. No
-              3D relief, ranking or route analysis.
+              Public imagery via NASA Trek and Caltech/Esri, global relief and
+              geological context, plus local Jezero elevation and estimated
+              slope. No 3D relief, ranking or route analysis.
             </p>
           </div>
           <SourceRegistry />

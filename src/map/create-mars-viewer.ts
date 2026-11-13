@@ -1,3 +1,4 @@
+import { addImageryFallback } from './imagery-fallback';
 import { localAssetUrl } from '../data/asset-url';
 import {
   Cartesian3,
@@ -7,6 +8,8 @@ import {
   GeographicProjection,
   GeographicTilingScheme,
   Globe,
+  TextureMagnificationFilter,
+  TextureMinificationFilter,
   Math as CesiumMath,
   Rectangle,
   SingleTileImageryProvider,
@@ -14,9 +17,10 @@ import {
   Viewer,
 } from 'cesium';
 import {
-  imagerySources,
+  tileSources,
   jezeroView,
   tileUrl,
+  initialLayerVisibility,
   type LayerId,
 } from '../data/layers';
 import elevation from '../data/generated/elevation.json' with { type: 'json' };
@@ -25,6 +29,8 @@ import { createGeologyOverlay } from './create-geology-overlay';
 import { createCandidateHighlight } from './create-candidate-highlight';
 import { createRasterOverlay } from './create-raster-overlay';
 import slope from '../data/generated/slope.json' with { type: 'json' };
+import { layerCoverage, type LayerCoverage } from './layer-coverage';
+import { isWorldColour } from '../data/layers';
 export interface RasterOverlayState {
   status: LayerStatus;
   coverage: Coverage;
@@ -43,6 +49,8 @@ export function createMarsViewer(
   candidateElement?: HTMLElement,
   onHiRISECoverage?: (coverage: Coverage) => void,
   onSlopeChange?: (state: RasterOverlayState) => void,
+  onLayerCoverage?: (coverage: LayerCoverage) => void,
+  onCameraHeightChange?: (height: number) => void,
 ) {
   const mars = marsReferenceEllipsoid;
   Ellipsoid.default = mars;
@@ -101,15 +109,18 @@ export function createMarsViewer(
   > | null = null;
   let elevationRequest = 0;
   let elevationOpacity = 0.65;
+  let worldOpacity = 0.65;
   function reportElevation() {
+    onCameraHeightChange?.(viewer.camera.positionCartographic.height);
     const rectangle = viewer.camera.computeViewRectangle(mars);
     const view: Extent | null = rectangle
       ? ([rectangle.west, rectangle.south, rectangle.east, rectangle.north].map(
           CesiumMath.toDegrees,
         ) as [number, number, number, number])
       : null;
-    const hirise = imagerySources.find((source) => source.id === 'hirise');
+    const hirise = tileSources.find((source) => source.id === 'hirise');
     if (hirise) onHiRISECoverage?.(classifyCoverage(view, hirise.extent));
+    onLayerCoverage?.(layerCoverage(view));
     onElevationChange?.({
       status: elevationStatus,
       coverage: classifyCoverage(
@@ -119,7 +130,15 @@ export function createMarsViewer(
     });
   }
   function orderLayers() {
-    for (const id of ['jezero', 'hirise'] as const) {
+    for (const id of [
+      'global',
+      'ctx-global',
+      'jezero',
+      'hirise',
+      'themis',
+      'relief-global',
+      'geology-global',
+    ] as const) {
       const regional = entries.get(id);
       if (regional) viewer.imageryLayers.raiseToTop(regional.layer);
     }
@@ -174,9 +193,11 @@ export function createMarsViewer(
   }
   const removeCameraChanged =
     viewer.camera.changed.addEventListener(reportElevation);
+  const removeCameraMoveEnd =
+    viewer.camera.moveEnd.addEventListener(reportElevation);
   viewer.camera.percentageChanged = 0.05;
   function install(id: LayerId, show = true) {
-    const source = imagerySources.find((s) => s.id === id)!;
+    const source = tileSources.find((s) => s.id === id)!;
     const previous = entries.get(id);
     if (previous) {
       clearTimeout(previous.timer);
@@ -189,11 +210,16 @@ export function createMarsViewer(
       tilingScheme: new GeographicTilingScheme({ ellipsoid: mars }),
       rectangle: Rectangle.fromDegrees(...source.extent),
       maximumLevel: source.maxLevel,
-      tileWidth: 256,
-      tileHeight: 256,
+      tileWidth: source.tileSize ?? 256,
+      tileHeight: source.tileSize ?? 256,
       credit: source.credit,
     });
     const layer = viewer.imageryLayers.addImageryProvider(provider);
+    if (isWorldColour(id)) layer.alpha = worldOpacity;
+    if (id === 'geology-global') {
+      layer.magnificationFilter = TextureMagnificationFilter.NEAREST;
+      layer.minificationFilter = TextureMinificationFilter.NEAREST;
+    }
     layer.show = show;
     const fail = () => {
       const entry = entries.get(id);
@@ -203,6 +229,8 @@ export function createMarsViewer(
         onStatus(id, 'failed');
       }
     };
+    if (id === 'global' || id === 'ctx-global')
+      addImageryFallback(provider, id === 'global', fail);
     const timer = setTimeout(fail, 20000);
     const removeError = provider.errorEvent.addEventListener(fail);
     const removeProgress =
@@ -247,6 +275,7 @@ export function createMarsViewer(
       if (action === 'west') camera.moveLeft(step);
       if (action === 'east') camera.moveRight(step);
     }
+    reportElevation();
     viewer.scene.requestRender();
   }
   const keys: Record<string, MapCommand> = {
@@ -275,10 +304,10 @@ export function createMarsViewer(
   canvas.addEventListener('webglcontextlost', onLost);
   const removeRenderError =
     viewer.scene.renderError.addEventListener(onMapFailure);
-  command('jezero');
-  install('global');
-  install('jezero');
-  install('hirise');
+  command('global');
+  for (const source of tileSources) {
+    if (initialLayerVisibility[source.id]) install(source.id);
+  }
   return {
     command,
     highlightCandidate: candidateHighlight?.select,
@@ -288,6 +317,12 @@ export function createMarsViewer(
     setSlope: slopeOverlay.setEnabled,
     setSlopeOpacity: slopeOverlay.setOpacity,
     retrySlope: slopeOverlay.retry,
+    setWorldOpacity(opacity: number) {
+      worldOpacity = Math.max(0, Math.min(1, opacity));
+      for (const [id, entry] of entries)
+        if (isWorldColour(id)) entry.layer.alpha = worldOpacity;
+      viewer.scene.requestRender();
+    },
     setElevationOpacity(opacity: number) {
       elevationOpacity = Math.max(0, Math.min(1, opacity));
       if (elevationLayer) {
@@ -316,6 +351,10 @@ export function createMarsViewer(
     },
     toggle(id: LayerId, show: boolean) {
       const entry = entries.get(id);
+      if (!entry && show) {
+        install(id);
+        return;
+      }
       if (entry && entry.layer.show !== show) {
         entry.layer.show = show;
         onStatus(id, show ? (entry.failed ? 'failed' : 'loading') : 'hidden');
@@ -329,6 +368,7 @@ export function createMarsViewer(
       alive = false;
       elevationRequest++;
       removeCameraChanged();
+      removeCameraMoveEnd();
       geologyOverlay.destroy();
       slopeOverlay.destroy();
       candidateHighlight?.destroy();

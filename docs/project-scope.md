@@ -44,3 +44,5 @@ This records the accepted direction and updates the briefs. The local React + Ty
 See [mission science and exploration modes](mission-science.md) for the agreed goal, proposed stop activities and remaining analysis gates.
 
 Mars-wide named-feature discovery with source region/type filters and session-only candidate additions is implemented from a retained IAU/USGS export, refreshed during Pages publication. Catalogue centres remain separate from verified observation sites. See [catalogue scope and limits](crater-catalogue.md).
+
+The layer controls now apply to every browsed feature using reviewed global CTX, THEMIS, MOLA/HRSC relief and global geological context, with viewport coverage/gap labels and retained Jezero detail. A global slope grid, numeric global heights and highest-resolution archive-wide image discovery remain unavailable. See [feature layers](feature-map-layers.md).

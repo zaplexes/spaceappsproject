@@ -1,0 +1,19 @@
+{
+  "retrievedAt": "2026-11-13T00:55:55.268654+00:00",
+  "credit": "NASA/JPL/MSSS \u00b7 NASA Trek",
+  "description": "Unmodified level-zero MOC tiles. Coarse visual fallback only; not suitable for terrain or route analysis.",
+  "tiles": [
+    {
+      "assetUrl": "/imagery/moc-overview-west.png",
+      "sourceUrl": "https://trek.nasa.gov/tiles/Mars/EQ/msss_atlas_simp_clon/1.0.0/default/default028mm/0/0/0.png",
+      "sha256": "014f5a30f4c40f8add4b23d71f2fa6833263138aa49c16f63d1e25f594e07915",
+      "bytes": 44128
+    },
+    {
+      "assetUrl": "/imagery/moc-overview-east.png",
+      "sourceUrl": "https://trek.nasa.gov/tiles/Mars/EQ/msss_atlas_simp_clon/1.0.0/default/default028mm/0/0/1.png",
+      "sha256": "30720afa92b7210f16f28789985b085c6d785dcd4e079fef8ee7511000ef72f2",
+      "bytes": 43911
+    }
+  ]
+}

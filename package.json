@@ -19,6 +19,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "playwright test",
+    "test:dev": "playwright test --config playwright.dev.config.ts",
     "test:live": "LIVE_IMAGERY=1 playwright test tests/live-imagery.spec.ts",
     "test:pages": "MARTIAN_MAP_BASE_PATH=/spaceappsproject/ npm run build && playwright test --config playwright.pages.config.ts"
   },

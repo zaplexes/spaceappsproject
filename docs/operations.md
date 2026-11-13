@@ -69,3 +69,7 @@ After rollback or recovery, repeat the public-site checks above and record the o
 ## Catalogue publication
 
 Pages runs `npm run refresh:catalog` before integrity checks/build. Failed downloads or invalid imports stop publication; the already published snapshot remains available. Use [catalogue refresh and reproduction](crater-catalogue.md) for the commands, retained export and known metadata inconsistencies. A failed catalogue request has its own retry and does not disable the original Jezero evidence. Refreshes are release snapshots, not live browser queries.
+
+## Global feature layers
+
+Verify global CTX, optional THEMIS infrared, global relief and geology at Gale, then a polar view to inspect partial/outside coverage. Check that Jezero local layers retain their names/extents and that returning to Jezero updates the slope gap. Global failures have layer-specific Retry controls; original stop evidence remains available. Refresh these curated products through the [feature-layer source workflow](feature-map-layers.md), independently of the automatic named-feature catalogue refresh. All new services use public endpoints without credentials.

@@ -8,7 +8,8 @@ export function SourceRegistry() {
         observations. Elevation and slope colours are derived from a DEM;
         geological units are mapped interpretations. Direct mineral measurements
         remain unavailable. The IAU/USGS feature catalogue provides names and
-        discovery centres; it does not supply verified observation sites.
+        discovery centres; it does not supply verified observation sites. Global
+        colour hillshade provides relief context without numeric heights.
       </p>
       <details>
         <summary>

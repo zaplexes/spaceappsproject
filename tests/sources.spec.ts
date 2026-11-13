@@ -5,8 +5,8 @@ import { sourceRecords } from '../src/data/sources';
 const tile = fileURLToPath(new URL('./fixtures/imagery.png', import.meta.url));
 
 test('source registry retains unknowns and separates observations from derived products', () => {
-  expect(sourceRecords).toHaveLength(10);
-  expect(new Set(sourceRecords.map((source) => source.id)).size).toBe(10);
+  expect(sourceRecords).toHaveLength(14);
+  expect(new Set(sourceRecords.map((source) => source.id)).size).toBe(14);
   expect(new Set(sourceRecords.map((source) => source.kind))).toEqual(
     new Set([
       'Orbital image',
@@ -15,6 +15,7 @@ test('source registry retains unknowns and separates observations from derived p
       'Derived slope',
       'Geological interpretation',
       'Feature catalogue',
+      'Shaded relief',
     ]),
   );
   expect(sourceRecords.every((source) => !source.analysisEligible)).toBe(true);
@@ -50,13 +51,13 @@ for (const mobileFallback of [false, true]) {
       route.fulfill({ path: tile, contentType: 'image/png' }),
     );
     await page.goto('/');
-    const summary = page.getByText('Review sources and limitations (10)', {
+    const summary = page.getByText('Review sources and limitations (14)', {
       exact: true,
     });
     await summary.focus();
     await page.keyboard.press('Enter');
     const records = page.locator('.source-records');
-    await expect(records.getByRole('article')).toHaveCount(10);
+    await expect(records.getByRole('article')).toHaveCount(14);
     for (const source of sourceRecords) {
       const article = records.getByRole('article').filter({
         has: page.getByRole('link', {

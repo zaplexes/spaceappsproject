@@ -24,6 +24,7 @@ class SourceChecks(unittest.TestCase):
             "data/manifests/geology-source-review.json",
             "data/manifests/surface-images.json",
             "data/manifests/nomenclature-review.json",
+            "data/manifests/world-layers-review.json",
             "src/data/generated/elevation.json",
             "src/data/generated/geology.json",
             "src/data/generated/slope.json",
@@ -42,7 +43,7 @@ class SourceChecks(unittest.TestCase):
         path.write_text(json.dumps(data))
 
     def test_retained_files_match_review(self):
-        self.assertEqual(len(CHECK.validate(self.root)), 51)
+        self.assertEqual(len(CHECK.validate(self.root)), 62)
 
     def test_changed_metadata_and_display_bytes_are_rejected(self):
         for relative in [
@@ -66,6 +67,28 @@ class SourceChecks(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "reproducible source import"):
             CHECK.validate(self.root)
+
+    def test_world_tile_contract_and_legend_cannot_be_changed_silently(self):
+        path = "data/manifests/world-layers-review.json"
+        self.mutate(path, lambda d: d["sources"][0].update(tileSize=256))
+        with self.assertRaisesRegex(ValueError, "tile grid"):
+            CHECK.validate(self.root)
+        self.copy(path)
+        self.mutate(path, lambda d: d["geologyLegend"][0].update(label="Invented unit"))
+        with self.assertRaisesRegex(ValueError, "legend differs"):
+            CHECK.validate(self.root)
+
+    def test_global_ctx_earth_sphere_is_rejected(self):
+        world = CHECK.read_json(self.root, "data/manifests/world-layers-review.json")
+        source = world["sources"][0]
+        snapshots = {
+            s["kind"]: (self.root / s["path"]).read_bytes() for s in source["snapshots"]
+        }
+        snapshots["ctx-service"] = snapshots["ctx-service"].replace(
+            b"3396190.0", b"6378137.0"
+        )
+        with self.assertRaisesRegex(ValueError, "Mars sphere"):
+            CHECK.check_world_layer(source, snapshots)
 
     def test_missing_snapshot_is_rejected(self):
         (self.root / "data/manifests/imagery-moc-catalog.json").unlink()
