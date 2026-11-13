@@ -11,7 +11,17 @@ test('first visit can skip, remembers dismissal and can reopen from the beginnin
   page,
 }) => {
   await page.goto('/');
-  const guide = page.getByRole('region', { name: 'How to use Martian Map' });
+  await expect(page).toHaveTitle('Marsway · Jezero Marswalk');
+  const logo = page.locator('.brand-logo');
+  await expect(logo).toBeVisible();
+  expect(
+    await logo.evaluate((image: HTMLImageElement) => image.naturalWidth),
+  ).toBeGreaterThan(0);
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
+    'href',
+    '/branding/marsway-logo.png',
+  );
+  const guide = page.getByRole('region', { name: 'How to use Marsway' });
   await expect(guide).toBeVisible();
   await expect(
     guide.getByRole('button', { name: 'Back', exact: true }),
@@ -39,7 +49,7 @@ test('mobile guide supports back, completion and keyboard navigation without ove
 }) => {
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto('/');
-  const guide = page.getByRole('region', { name: 'How to use Martian Map' });
+  const guide = page.getByRole('region', { name: 'How to use Marsway' });
   await expect(page.locator('.map-toolbar')).toBeVisible();
   await expect(page.locator('.guide-spotlight')).toHaveAttribute(
     'data-target',
@@ -99,7 +109,7 @@ test('blocked storage does not prevent skipping or reopening the guide', async (
     });
   });
   await page.goto('/');
-  const guide = page.getByRole('region', { name: 'How to use Martian Map' });
+  const guide = page.getByRole('region', { name: 'How to use Marsway' });
   await expect(guide).toBeVisible();
   await expect(page.locator('.map-toolbar')).toBeVisible();
   await expect

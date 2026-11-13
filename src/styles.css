@@ -164,13 +164,12 @@ small {
   font-size: 19px;
   letter-spacing: 1px;
 }
-.brand-orbit {
-  font-size: 36px;
-  color: var(--rust);
-  line-height: 1;
-}
-.brand-light {
-  font-weight: 400;
+.brand-logo {
+  display: block;
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 .brand small {
   font-size: 7px;

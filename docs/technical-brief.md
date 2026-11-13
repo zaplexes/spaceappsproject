@@ -1,4 +1,4 @@
-# Martian Map — Technical Architecture Brief
+# Marsway — Technical Architecture Brief
 
 Status: proposed full architecture for team review. A local React + TypeScript + CesiumJS frontend preview, source-linked NASA surface references/PDS position review, and local elevation-colour/regional-geology pipelines are now implemented, along with controlled HiRISE imagery and an exploratory estimated-slope display; see `implementation-checklist.md` for verified scope. Mars-wide named-feature discovery, filters and session-only candidate additions are implemented through a retained IAU/USGS export, refreshed during the static Pages build. No backend, cloud resources, scoring formula or verified deployment has been implemented. The ancient-water investigation is selected; walking, crewed-vehicle and robotic ground-rover modes are implemented with unconfigured capabilities.
 

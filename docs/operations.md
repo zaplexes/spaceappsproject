@@ -1,4 +1,4 @@
-# Martian Map operations and recovery
+# Marsway operations and recovery
 
 Scope: the current static frontend and local scientific processing. GitHub Pages serves a compiled `dist/` artifact; NASA Trek supplies remote orbital tiles. No application API, database, accounts, background workers or private server are currently implemented. Maintenance ownership remains an open [team decision](team-decisions.md).
 

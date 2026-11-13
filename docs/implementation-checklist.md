@@ -1,4 +1,4 @@
-# Martian Map — Implementation Checklist
+# Marsway — Implementation Checklist
 
 ## How the agent must use this checklist
 

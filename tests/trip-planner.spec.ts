@@ -164,7 +164,7 @@ test('trip ordering, time budgets, local backup, import and field checks survive
   await expect(planner.getByRole('status')).toContainText('Draft saved');
   const download = page.waitForEvent('download');
   await planner.getByRole('button', { name: 'Export plan JSON' }).click();
-  expect((await download).suggestedFilename()).toBe('martian-map-trip.json');
+  expect((await download).suggestedFilename()).toBe('marsway-trip.json');
   await planner.screenshot({ path: 'docs/trip-planner-desktop.png' });
   await page.reload();
   await expect(planner.locator('.trip-stops > li')).toHaveCount(0);

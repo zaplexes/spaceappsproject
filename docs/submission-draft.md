@@ -1,10 +1,10 @@
-# Martian Map — submission and demonstration draft
+# Marsway — submission and demonstration draft
 
 This is an editable handoff for the user, who will complete the submission. It is not an official form, a submitted entry or proof of eligibility. Project work began before the official event; retain that disclosure and confirm permitted use with the organizer. No organizer message has been sent.
 
 ## Project description draft
 
-Martian Map brings Mars imagery, published science records and exploration planning into one visual workspace. Users explore the planet, search named features, set a simulated base and compare destinations using explainable study-interest and distance preferences. The Jezero example links Skinner Ridge, Wildcat Ridge and Amalik to Perseverance sample records, surface images and position evidence.
+Marsway brings Mars imagery, published science records and exploration planning into one visual workspace. Users explore the planet, search named features, set a simulated base and compare destinations using explainable study-interest and distance preferences. The Jezero example links Skinner Ridge, Wildcat Ridge and Amalik to Perseverance sample records, surface images and position evidence.
 
 The evidence inspector distinguishes documented observations, mapped interpretations and missing data. Orbital context includes Mars Global Surveyor MOC, Mars Reconnaissance Orbiter CTX/HiRISE, Mars Odyssey THEMIS, MOLA/HRSC relief and USGS geology. Local elevation and exploratory gradients retain source provenance. Historical MEDA reports are explicitly dated and local to the rover.
 

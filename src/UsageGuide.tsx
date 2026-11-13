@@ -204,7 +204,7 @@ export function UsageGuide() {
               ref={card}
               id="usage-guide-content"
               className="guide-card"
-              aria-label="How to use Martian Map"
+              aria-label="How to use Marsway"
             >
               <div className="guide-topline">
                 <p className="eyebrow">QUICK START · {steps.length} STEPS</p>

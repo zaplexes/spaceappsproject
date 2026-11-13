@@ -1,4 +1,4 @@
-name: Deploy Martian Map to GitHub Pages
+name: Deploy Marsway to GitHub Pages
 
 on:
   push:

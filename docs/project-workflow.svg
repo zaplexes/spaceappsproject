@@ -2,7 +2,7 @@
 <rect x="0" y="0" width="1600" height="1600" rx="0" fill="#0b111b" stroke="none"/>
 <rect x="64" y="55" width="210" height="34" rx="17" fill="#273035" stroke="none"/>
 <text x="82" y="78" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#b5d9cc" font-weight="700">CONCEPT / TEAM BRIEF</text>
-<text x="64" y="150" font-family="DejaVu Sans,sans-serif" font-size="56" fill="#ffffff" font-weight="700">MARTIAN MAP</text>
+<text x="64" y="150" font-family="DejaVu Sans,sans-serif" font-size="56" fill="#ffffff" font-weight="700">MARSWAY</text>
 <text x="66" y="191" font-family="DejaVu Sans,sans-serif" font-size="23" fill="#aab9c9" font-weight="400">Discover Mars. Plan a science-focused Marswalk in Jezero.</text>
 <text x="66" y="228" font-family="DejaVu Sans,sans-serif" font-size="17" fill="#efb598" font-weight="400">Proposed user workflow • Scientific goal pending team discussion</text>
 <text x="64" y="285" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#91a4b8" font-weight="700">USER JOURNEY</text>
@@ -50,7 +50,7 @@
 <text x="985" y="285" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#91a4b8" font-weight="700">SCREEN CONCEPT</text>
 <rect x="983" y="311" width="552" height="650" rx="14" fill="#111d2b" stroke="#2b3a4c"/>
 <rect x="999" y="327" width="520" height="43" rx="8" fill="#1c2b3c" stroke="none"/>
-<text x="1015" y="355" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#fff" font-weight="700">MARTIAN MAP</text>
+<text x="1015" y="355" font-family="DejaVu Sans,sans-serif" font-size="15" fill="#fff" font-weight="700">MARSWAY</text>
 <text x="1328" y="355" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#aac0d2" font-weight="400">Explore  /  Plan</text>
 <rect x="1000" y="385" width="518" height="271" rx="8" fill="#0b121c" stroke="none"/>
 <circle cx="1210" cy="480" r="130" fill="url(#mars)" transform="translate(38 40)"/>

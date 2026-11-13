@@ -34,6 +34,7 @@ import {
 import { candidateLocations } from './data/candidate-locations';
 import { investigations } from './data/investigations';
 import type { Extent } from './data/coverage';
+import { localAssetUrl } from './data/asset-url';
 import { HistoricalEnvironment } from './HistoricalEnvironment';
 export default function App() {
   const [base, setBase] = useState<BasePosition | null>(null);
@@ -192,11 +193,15 @@ export default function App() {
       </a>
       <header className="site-header">
         <a className="brand" href="#">
-          <span className="brand-orbit" aria-hidden="true">
-            ◉
-          </span>
+          <img
+            className="brand-logo"
+            src={localAssetUrl('/branding/marsway-logo.png')}
+            alt=""
+            width={52}
+            height={52}
+          />
           <span>
-            MARTIAN<span className="brand-light"> MAP</span>
+            MARSWAY
             <small>EXPLORATION STARTS WITH EVIDENCE</small>
           </span>
         </a>
@@ -862,7 +867,7 @@ export default function App() {
           </div>
           <SourceRegistry />
           <p className="footer-bottom">
-            MARTIAN MAP / LOCAL PREVIEW{' '}
+            MARSWAY / LOCAL PREVIEW{' '}
             <span>
               Ancient water investigation · {mobilityProfile(mobility).label} ·
               {base ? 'Simulated base set' : 'Base unset'} · Distance estimates

@@ -68,7 +68,7 @@ export function TripPlanner({
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'martian-map-trip.json';
+      a.download = 'marsway-trip.json';
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       setNotice('Plan exported. Keep this file as a backup.');

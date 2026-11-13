@@ -1,4 +1,4 @@
-# Martian Map — Team decisions still needed
+# Marsway — Team decisions still needed
 
 Updated: November 12, 2026.
 

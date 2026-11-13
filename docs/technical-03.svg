@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#eab18d" stroke-width="1.5"/></marker></defs>
 <rect x="0" y="0" width="1600" height="1800" rx="0" fill="#0b111b" stroke="none"/>
-<text x="64" y="72" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#b2c8be">MARTIAN MAP  /  TECHNICAL BRIEF</text>
+<text x="64" y="72" font-family="DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#b2c8be">MARSWAY  /  TECHNICAL BRIEF</text>
 <text x="64" y="143" font-family="DejaVu Sans,sans-serif" font-size="48" font-weight="700" fill="#fff">Scientific data pipeline</text>
 <text x="64" y="188" font-family="DejaVu Sans,sans-serif" font-size="21" font-weight="400" fill="#9eb0c3">Discover → snapshot → validate → normalize → derive → review → publish.</text>
 <rect x="64" y="218" width="1472" height="52" rx="9" fill="#282326" stroke="none"/>

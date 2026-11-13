@@ -13,7 +13,7 @@ The new workflow compiles and uploads **only `dist/`**. Vite's base and `CESIUM_
 1. Open the repository's **Settings → Pages**.
 2. Set **Build and deployment → Source → GitHub Actions**. Do not configure the suggested Jekyll or Static HTML templates; this repository includes its own Vite workflow.
 3. Leave **Custom domain** empty for the default GitHub URL. A bare project name such as `martianmapdynamix` is not a custom domain. A custom domain would need a separately owned domain and DNS setup, which is outside this milestone.
-4. Open **Actions → Deploy Martian Map to GitHub Pages** and wait for both build and deploy to succeed. If needed, choose **Run workflow** on `master`.
+4. Open **Actions → Deploy Marsway to GitHub Pages** and wait for both build and deploy to succeed. If needed, choose **Run workflow** on `master`.
 5. Open the target URL and refresh. The screen must show the app, not raw source or a blank page.
 
 The workflow runs on source pushes to `master` and can be dispatched manually. Documentation-only changes under `docs/` or `README.md` do not redeploy. It pins the official GitHub actions to reviewed commits, uses the Node version from `.nvmrc`, installs with `npm ci`, refreshes the official Mars named-feature export, verifies its import constraints and retained scientific data, runs lint/format checks, builds for the URL returned by `configure-pages`, runs a browser hosting smoke check, uploads `dist/` with one-day artifact retention, and deploys after the build succeeds. Only the deploy job receives Pages write and OIDC permissions; build has contents/Pages read. It uses standard Ubuntu runners and no application secrets or personal token.

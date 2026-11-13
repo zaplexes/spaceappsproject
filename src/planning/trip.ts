@@ -156,7 +156,7 @@ export function validateDraft(value: unknown): TripDraft {
     )
   )
     throw new Error(
-      'Unsupported or invalid plan. Use a Martian Map round-trip-v1 export.',
+      'Unsupported or invalid plan. Use a Marsway round-trip-v1 export.',
     );
   const base = draft.base === null ? null : record(draft.base);
   if (base && !validPosition(base as unknown as BasePosition))

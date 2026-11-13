@@ -1,6 +1,6 @@
-# Martian Map
+# Marsway
 
-A local Jezero Marswalk preview with HiRISE/CTX orbital imagery and optional elevation, estimated-slope and regional geology overlays, built with React, TypeScript and CesiumJS. Walking astronauts, astronauts in a crew vehicle and robotic ground rovers share an ancient-water investigation; global imagery and feature-dependent layer controls provide context. This is pre-event work begun at the user's direction on November 11, 2026. The organizer's [timing clarification](https://github.com/nasa/spaceapps/discussions/1827) requires project work to begin at the official hackathon start; adding features during the event does not resolve use of pre-event work. Competition eligibility is not established.
+A Mars exploration app with a local Jezero Marswalk preview with HiRISE/CTX orbital imagery and optional elevation, estimated-slope and regional geology overlays, built with React, TypeScript and CesiumJS. Walking astronauts, astronauts in a crew vehicle and robotic ground rovers share an ancient-water investigation; global imagery and feature-dependent layer controls provide context. This is pre-event work begun at the user's direction on November 11, 2026. The organizer's [timing clarification](https://github.com/nasa/spaceapps/discussions/1827) requires project work to begin at the official hackathon start; adding features during the event does not resolve use of pre-event work. Competition eligibility is not established.
 
 ## Local preview
 
@@ -139,3 +139,12 @@ centre or assign them to unrelated features. Images are already retained in
 Verify image crops, fallback, feature switching and Jezero gallery attribution
 with `npm test -- tests/feature-imagery.spec.ts tests/stop-evidence.spec.ts` after
 `npm run build`.
+
+## Branding
+
+The app is named **Marsway**. Its orange and purple emblem, based on the Dynamix
+team palette, is in `assets/branding/marsway-logo.png` and appears in the header
+and browser favicon. See `assets/branding/logo-prompt.md` for provenance.
+Existing local-storage keys and the `MARTIAN_MAP_BASE_PATH` setting retain their
+original identifiers for compatibility with saved plans and hosting settings.
+Downloaded plans use the filename `marsway-trip.json`.

@@ -1,4 +1,4 @@
-# Martian Map — Agreed Project Direction
+# Marsway — Agreed Project Direction
 
 ## Purpose
 
