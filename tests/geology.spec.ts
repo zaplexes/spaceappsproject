@@ -58,10 +58,9 @@ test('geology exposes the source units, offset warning, opacity and extent witho
   await expect(
     page.getByText('Location not yet verified', { exact: true }),
   ).toBeVisible();
-  await expect(page.getByLabel('Scientific goal')).toHaveValue('ancient-water');
-  await expect(
-    page.getByRole('button', { name: 'Compare stops' }),
-  ).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Compare stops' })).toHaveCount(
+    0,
+  );
   await page.getByLabel('Jezero elevation colours').check();
   await expect(toggle).not.toBeChecked();
   await expect(legend).toHaveCount(0);

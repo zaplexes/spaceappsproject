@@ -112,9 +112,9 @@ test('Gale receives global layers, clear local gaps, a service legend and mutual
   ).not.toBeChecked();
   await page.getByRole('button', { name: 'Jezero view', exact: false }).click();
   await expect(page.locator('.layer-gap')).toHaveCount(0);
-  await expect(
-    page.getByRole('button', { name: 'Compare stops' }),
-  ).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Compare stops' })).toHaveCount(
+    0,
+  );
   await page
     .getByRole('checkbox', { name: /^Global elevation context/ })
     .uncheck();
@@ -298,8 +298,12 @@ for (const width of [1440, 390]) {
       page.getByText('Global MOC imagery: loaded', { exact: true }),
     ).toBeVisible();
     const discovery = page.getByText('Discover Mars features', { exact: true });
-    await page.locator('.panel-heading').scrollIntoViewIfNeeded();
+    await discovery.scrollIntoViewIfNeeded();
     await expect(discovery).toBeInViewport();
+    await page
+      .getByRole('navigation', { name: 'Main navigation' })
+      .getByRole('link', { name: 'Layers', exact: true })
+      .click();
     await expect(
       page.getByText('Mars-wide context', { exact: true }).first(),
     ).toBeInViewport();

@@ -13,3 +13,5 @@ data/manifests/world-layers-*-catalog.json
 data/manifests/world-layers-ctx-service.json
 data/manifests/world-layers-geology-service.json
 data/manifests/world-layers-geology-legend.json
+# Generated compact numerical sample data; hash-covered by its manifest.
+assets/terrain-context.json

@@ -9,6 +9,8 @@ import {
 } from './catalog';
 import geology from '../data/generated/geology.json' with { type: 'json' };
 import { FeatureCalculator } from '../planning/FeatureCalculator';
+import type { Extent } from '../data/coverage';
+import { withinViewport } from './viewport';
 import type { BasePosition } from '../planning/BasePoint';
 
 const PAGE_SIZE = 8;
@@ -19,14 +21,17 @@ export function CatalogBrowser({
   selectionRevision,
   onOpenChange,
   base,
+  viewport = null,
 }: {
   onSelect: (feature: CatalogFeature) => void;
   selectedId: string | null;
   selectionRevision: number;
   onOpenChange: (open: boolean) => void;
   base: BasePosition | null;
+  viewport?: Extent | null;
 }) {
   const [open, setOpen] = useState(false);
+  const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [entries, setEntries] = useState<CatalogEntry[] | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed' | 'ready'>(
     'idle',
@@ -34,6 +39,7 @@ export function CatalogBrowser({
   const [attempt, setAttempt] = useState(0);
   const [query, setQuery] = useState('');
   const [region, setRegion] = useState('all');
+  const [visibleOnly, setVisibleOnly] = useState(false);
   const [type, setType] = useState('AA');
   const [page, setPage] = useState(0);
   const [pending, setPending] = useState<CatalogEntry | null>(null);
@@ -41,7 +47,7 @@ export function CatalogBrowser({
   const detailRequest = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    if (!open || entries) return;
+    if ((!open && !calculatorOpen) || entries) return;
     const abort = new AbortController();
     setStatus('loading');
     loadCatalogIndex(abort.signal)
@@ -55,7 +61,7 @@ export function CatalogBrowser({
         if (!abort.signal.aborted) setStatus('failed');
       });
     return () => abort.abort();
-  }, [open, entries, attempt]);
+  }, [open, calculatorOpen, entries, attempt]);
   useEffect(() => () => detailRequest.current?.abort(), []);
   useEffect(() => {
     detailRequest.current?.abort();
@@ -90,6 +96,7 @@ export function CatalogBrowser({
   const [west, south, east, north] = geology.bounds;
   const matches = (entries ?? []).filter(
     (entry) =>
+      (!visibleOnly || withinViewport(entry, viewport)) &&
       (!search ||
         normalizeSearch(`${entry.name} ${entry.searchName}`).includes(
           search,
@@ -103,12 +110,39 @@ export function CatalogBrowser({
             entry.latitude <= north
           : entry.regionId === region)),
   );
+  const currentPage = Math.min(
+    page,
+    Math.max(0, Math.ceil(matches.length / PAGE_SIZE) - 1),
+  );
   return (
     <section className="catalog-browser" aria-label="Mars feature catalogue">
+      <FeatureCalculator
+        entries={entries}
+        base={base}
+        loading={status === 'idle' || status === 'loading'}
+        failed={status === 'failed'}
+        onRetry={() => setAttempt((value) => value + 1)}
+        onOpenChange={(next) => {
+          setCalculatorOpen(next);
+          onOpenChange(next || open);
+        }}
+        onSelect={(entry) => void select(entry)}
+      />
+      {pending && <p role="status">Loading {pending.name} details…</p>}
+      {detailError && (
+        <div role="alert">
+          <p>Could not load {detailError.name}. Select it again or retry.</p>
+          <button onClick={() => void select(detailError)}>
+            Retry feature details
+          </button>
+        </div>
+      )}
       <details
+        className="catalog-discovery"
         onToggle={(event) => {
+          if (event.target !== event.currentTarget) return;
           setOpen(event.currentTarget.open);
-          onOpenChange(event.currentTarget.open);
+          onOpenChange(event.currentTarget.open || calculatorOpen);
           if (!event.currentTarget.open) cancelDetail();
         }}
       >
@@ -139,11 +173,23 @@ export function CatalogBrowser({
         )}
         {entries && (
           <>
-            <FeatureCalculator
-              entries={entries}
-              base={base}
-              onSelect={(entry) => void select(entry)}
-            />
+            <label>
+              <input
+                type="checkbox"
+                checked={visibleOnly}
+                disabled={!viewport}
+                onChange={(e) => {
+                  setVisibleOnly(e.target.checked);
+                  setPage(0);
+                }}
+              />
+              Only features in current map view
+            </label>
+            {!viewport && (
+              <p className="quiet">
+                Visible-area search needs an available map viewport.
+              </p>
+            )}
             <label>
               Search features
               <input
@@ -203,7 +249,7 @@ export function CatalogBrowser({
             </p>
             <ul className="catalog-results">
               {matches
-                .slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+                .slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE)
                 .map((entry) => (
                   <li key={entry.id}>
                     <button
@@ -230,39 +276,28 @@ export function CatalogBrowser({
             )}
             <div className="catalog-pagination">
               <button
-                disabled={page === 0}
+                disabled={currentPage === 0}
                 onClick={() => {
-                  setPage((n) => n - 1);
+                  setPage(Math.max(0, currentPage - 1));
                   cancelDetail();
                 }}
               >
                 Previous
               </button>
               <span>
-                {matches.length ? page + 1 : 0} /{' '}
+                {matches.length ? currentPage + 1 : 0} /{' '}
                 {Math.ceil(matches.length / PAGE_SIZE)}
               </span>
               <button
-                disabled={(page + 1) * PAGE_SIZE >= matches.length}
+                disabled={(currentPage + 1) * PAGE_SIZE >= matches.length}
                 onClick={() => {
-                  setPage((n) => n + 1);
+                  setPage(currentPage + 1);
                   cancelDetail();
                 }}
               >
                 Next
               </button>
             </div>
-            {pending && <p role="status">Loading {pending.name} details…</p>}
-            {detailError && (
-              <div role="alert">
-                <p>
-                  Could not load {detailError.name}. Select it again or retry.
-                </p>
-                <button onClick={() => void select(detailError)}>
-                  Retry feature details
-                </button>
-              </div>
-            )}
           </>
         )}
         <a

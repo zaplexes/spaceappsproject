@@ -10,6 +10,16 @@
 - The ancient-water investigation is the agreed scientific goal. Scoring weights, exact base coordinates, and equipment capabilities remain undecided. Do not choose them silently.
 - Mark optional items explicitly deferred with the user's agreement; do not mark deferred work complete.
 
+## Current release status — November 12, 2026
+
+The user authorized a full-checklist pass with default estimates and optional user-defined mission inputs. The user explicitly chose local saving/exports and deferred accounts/backend, requested reviewed historical MEDA observations, and will finish the official submission. See [release scope](release-scope.md), [trip planning](trip-planning.md) and the [submission draft](submission-draft.md).
+
+- **Implemented:** discovery/calculator, evidence workspace, spotlight tutorial, ordered distance-only round trips with a return leg, optional mission assumptions, field/task view, local drafts, JSON restore/export, printing, sparse numerical terrain context, viewport discovery filters and historical MEDA reports.
+- **Scientific blockers:** exact drill sites, independent dataset registration, physical terrain validation, complete upstream metadata, areoid-to-radius conversion/3D relief, obstacle-aware cost grids and evidence-based terrain scoring remain unverified. Their checkboxes stay open.
+- **Deferred by agreement:** accounts, shared backend/database, server jobs and their conditional administration/security/backup requirements. Browser drafts plus validated export/import are the release persistence model.
+- **User handoff:** final competition submission, event/owner details and organizer eligibility clarification. A draft description/demo/references is prepared; no official form is submitted.
+- **Release:** local build and hosting checks do not prove the public site contains this work. Remote release verification remains open.
+
 ## 0. Readiness and essential decisions
 
 - [x] Read `AGENTS.md`, `Space Apps.docx`, `docs/project-scope.md`, and `docs/technical-brief.md`.
@@ -23,8 +33,8 @@
 
 - [x] Scaffold the frontend with reproducible dependencies and a lockfile.
 - [x] Render an interactive Mars globe with the correct planetary geometry and a Jezero initial view.
-- [x] Provide responsive map, layer controls, science-stop list, information panel, and mission settings.
-- [x] Display the explicitly agreed scientific goal and keep ranking unavailable while required mission assumptions and evidence remain undefined.
+- [x] Provide responsive map, layer controls, science-stop list and information panel. Mission settings were removed at the user’s request; planning uses the destination calculator.
+- [x] Preserve the agreed scientific investigation and distinguish provisional calculator suggestions from unavailable terrain-aware excursion analysis.
 - [x] Add source-linked records for Skinner Ridge, Wildcat Ridge, and Amalik from verified sources.
 - [ ] Verify exact stop coordinates before placing definitive geographic markers; keep approximate display references visibly unverified.
 - [x] Highlight the selected stop at its published candidate position with the user-approved approximate/unverified warning and source link; keep verified coordinates separate.
@@ -39,7 +49,7 @@
 
 - [x] Identify specific products from multiple NASA missions and record their scientific contribution.
 - [ ] Record product IDs, URLs, citations, rights, dates, versions, checksums, footprints, and resolution.
-- [x] Add a shared registry for the fourteen current map/reference products, retain reviewed imagery service metadata, expose metadata unknowns, and verify retained files locally and in the Pages build.
+- [x] Add a shared registry for the fifteen current map/reference products, retain reviewed imagery service metadata, expose metadata unknowns, and verify retained files locally and in the Pages build.
 - [ ] Normalize Mars coordinate systems, longitude conventions, latitude definitions, units, and height datums.
 - [ ] Obtain and align appropriate imagery, elevation, and geological/mineralogical evidence.
 - [ ] Check nodata, spatial alignment, coverage, and resolution before combining datasets.
@@ -59,8 +69,8 @@
 - [x] Attach evidence and appropriate surface reference imagery to each stop.
 - [ ] Agree walking-crew assumptions, carried equipment, work time, travel limits, and return reserve.
 - [ ] Define optional crew-vehicle and robotic support profiles separately with explicit assumptions.
-- [x] Provide separate selectable walking, crewed-vehicle and robotic ground-rover modes, with mode-specific proposed tasks and unconfigured capabilities.
-- [ ] Keep historical rover paths visually and semantically separate from hypothetical crew excursions.
+Selectable exploration modes were implemented previously and removed with Mission settings at the user’s request. Default walking investigations remain in the evidence workspace; the calculator is the planning interface.
+- [x] Label hypothetical trip segments separately from rover history; no historical rover track is rendered or inferred.
 
 ## 4. Explainable comparison and ranking
 
@@ -68,26 +78,28 @@
 - [ ] Filter candidate local stops by mission constraints and required evidence coverage.
 - [ ] Calculate scientific value, travel cost, and terrain difficulty as separate components.
 - [ ] Display data confidence separately; never present it as a probability of safety.
-- [ ] Treat missing evidence as unknown, never as low risk or a favorable score.
-- [ ] Show explanations, source references, exclusions, and model/data versions for each result.
+- [x] Treat missing evidence as unknown, never as low risk or a favorable score. Calculator terrain remains null; trip feasibility remains unknown.
+- [x] Show provisional calculator explanations, source references, filter/exclusion context and model/catalogue versions. Evidence-based terrain comparisons remain blocked separately.
 - [ ] Recalculate appropriately when the base, goal, profile, budget, or data version changes.
 - [ ] Test known cases, missing data, budget boundaries, reproducibility, and sensitivity to assumptions.
 
 ## 5. Round-trip Marswalk and field view
 
-- [ ] Show a base-to-stops-to-base excursion with ordered stops and planned scientific tasks.
-- [ ] Distinguish preliminary distance-only estimates from terrain-aware route analysis.
-- [ ] Include return travel, work time, reserves, elevation information, and terrain concerns.
+- [x] Show a base-to-stops-to-base preliminary trip with ordered display references and proposed scientific tasks; no terrain-access claim.
+- [x] Distinguish preliminary distance-only estimates from terrain-aware route analysis.
+- [x] Include return travel, optional user work time/reserves, sampled elevation context and explicit terrain concerns; missing inputs remain unknown.
 - [ ] For terrain-aware routing, define and validate a bounded local cost grid and mode-specific limits.
 - [ ] Prevent routes outside supported coverage or through excluded terrain; explain failure cases.
-- [ ] Show route segments, stop references, limitations, and assumptions without claiming certified safety.
-- [ ] Provide a field-use view with numbered stops, a science checklist, and reference images.
-- [ ] Label any simulated position and provide a review/export option for the excursion.
+- [x] Show hypothetical distance-only segments, stop references, limitations and user assumptions without claiming certified safety.
+- [x] Provide a field-use review with numbered stops, proposed science checklists and retained Jezero reference images.
+- [x] Label simulated display references and provide local drafts, validated JSON export/import and a printable field plan.
 - [ ] Test route endpoints, return feasibility, blocked paths, data gaps, and user interaction.
 
 ## 6. Backend, storage, and processing — when justified
 
-- [ ] Confirm which tasks need a server rather than local/static data before adding infrastructure.
+**Scope decision:** user-approved deferral of accounts/backend. Local drafts, validated JSON export/import and print are implemented. The server-specific items below are conditional future work, not release prerequisites. No infrastructure is provisioned. See [release scope](release-scope.md).
+
+- [x] Evaluate server need: local/static processing and browser drafts/exports meet this release; accounts/backend deferred explicitly by the user.
 - [ ] Implement bounded catalog, stop, layer, and analysis API contracts with structured validation errors.
 - [ ] Define provenance-aware records for regions, craters, stops, datasets, observations, excursions, and analysis runs.
 - [ ] Add database migrations and spatial indexes using explicit Mars reference systems.
@@ -100,12 +112,12 @@
 ## 7. Global discovery and optional extensions
 
 - [x] Add catalog-wide named-crater discovery with a clearly stated named-feature completeness limit.
-- [ ] Support search, viewport queries, marker clustering or tiling, and on-demand details. Search, source-region/type filters, pagination and regional details are implemented; viewport queries/clustering remain open.
+- [x] Support search, viewport-centre filtering (including longitude seam), region/type filters, bounded pagination and on-demand details. The map renders one selected discovery highlight rather than all catalogue markers; marker clustering is outside this bounded rendering design.
 - [x] Distinguish globally browsable catalog records from regions eligible for detailed analysis.
 - [x] Provide feature-aware controls for reviewed global imagery, relief and geology with viewport extent/gap labels, while retaining local Jezero detail and an explicit global slope gap.
 - [ ] Verify camera navigation, longitude-seam behavior, and rendering performance with larger datasets.
-- [ ] Evaluate saved accounts, shared plans, or environmental layers only if requested; otherwise document deferral.
-- [ ] If environmental observations are added, show location and observation time without implying live global conditions.
+- [x] Evaluate persistence and environmental scope: user chose local saves/exports, deferred accounts/backend and requested historical MEDA reports.
+- [x] Show separate dated MEDA report windows at Perseverance in Jezero, with unverified sensor coordinates and no live/global forecast or eligibility use.
 
 ## 8. Security, release, and server management
 
@@ -132,7 +144,7 @@
 - [ ] Prepare the required project description and demonstration in the official format and language.
 - [ ] Confirm judges can access required project links and supporting evidence.
 - [ ] Document what works, what is simulated, what is unverified, and what is deferred.
-- [ ] Provide setup instructions, configuration requirements, and a final checklist status for the team.
+- [x] Provide setup/configuration instructions and a release checklist status with completed, deferred and blocked work identified.
 
 ## Progress log
 
@@ -362,3 +374,41 @@ Initial state: no implementation was verified before the work recorded below. Ex
 - Added map-click and coordinate base placement, a labelled base marker, a radius/type-filtered calculator sharing the validated catalogue, editable weights and type interests, deterministic ranking, criterion breakdowns, source/detail links and session reset. Higher study interest can outweigh proximity. Missing terrain remains null and unresolved rather than earning favorable points. Suggestions are provisional; overlap warnings identify when terrain evidence could change the winner.
 - Discovery scores do not change source analysis eligibility, verify sample/observation locations, configure mobility capabilities or provide route feasibility. The evidence-based mission comparison checklist above remains open. See [calculator model and limits](destination-calculator.md).
 - Validation: build, ESLint and Prettier passed. Calculator/catalogue/mission suite: **13 passed**; final scrollable-results layout: **6 calculator checks passed**. Screenshots retained for desktop and mobile without WebGL. Existing Cesium bundle-size warning remains. No new dependency, commit, push or deployment.
+
+### 2026-11-12 — App-wide usability improvements
+
+- User selected an app-wide UI pass. Added direct Map/Layers/Plan/Mission/Sources navigation and a three-step guide from base selection to destination comparison and evidence review. Wider desktop panels, larger controls, clearer card styling and mobile layouts improve readability.
+- Base placement has a primary map action, expandable coordinate entry, a compact set-base state, and map-side guidance with cancellation. Placement scrolls the map into view on mobile. Preserved enough mobile map height to keep sample markers and source warnings separate.
+- Calculator opens independently of catalogue browsing; both share lazy index loading and validated detail selection. Compact top-ten cards expose score ranges, distance, visual criterion contributions and expandable explanations/source links. Advanced type preferences and technical methodology expand separately. Unknown terrain remains visible; scoring rules and evidence eligibility are unchanged.
+- Mission settings distinguish destination suggestions from unavailable full-excursion planning. Source records, geology/elevation/slope limitations, stop evidence, mode choices and native keyboard interaction remain available.
+- Validation: build, ESLint, Prettier and `git diff --check` passed. Full browser suite: **65 passed, 1 intentionally skipped live-imagery check**. Added keyboard-guided planning, independent-calculator outage recovery, mobile placement cancellation and overflow checks at 360/390/768/1366 pixels. Existing map, catalogue, terrain, mission and source checks pass. [Desktop overview](ui-overview-desktop.png) and [mobile results](ui-results-mobile.png) use mocked imagery for deterministic UI review. Existing Cesium bundle-size warning remains. No dependency, scientific data, commit, push or deployment change.
+
+### 2026-11-12 — Step 3: inspect the evidence
+
+- User confirmed “part 3” means the guide's **Inspect the evidence** step. Added a full-width selected-destination evidence workspace, linked from the guide and selected-destination panel, with an empty-selection state and navigation between observations, imagery/maps and data gaps.
+- Separate source-linked catalogue/sample facts from missing site evidence and reviewed context products. Group retained sources as imagery, terrain, geological interpretations, linked rover observations and catalogue metadata. Product reviews expose scale, dates, citation, coordinate context and limitations; map actions activate the corresponding existing layer and return to the selected display reference.
+- Envelope checks concern the selected reference degrees, independently of viewport, with explicit inside/outside/unknown states, edge and longitude-seam handling. They do not establish pixels, alignment, geological unit, measured height/slope, access or source eligibility. Outside products have no map action. Rover references join by exact stop ID; catalogue features inherit none by proximity.
+- Moved the existing Jezero proposed investigations, single surface photograph/retry, acquisition/sealing context and PDS position reviews into the evidence workspace. Mode changes and target changes preserve their existing semantics. No new scientific data, verified site coordinates, mineral measurements or favorable terrain scores were introduced.
+- Verification: build, ESLint, Prettier and `git diff --check` passed. Full browser suite: **69 passed, 1 intentionally skipped live-imagery check**. New checks cover coverage boundaries/seams/unknowns, source immutability and exact rover associations, target changes, source/map actions, overlay exclusivity and mobile/WebGL fallback. Existing image failure/retry, stale selection, mission, terrain and hosting checks pass. [Desktop evidence](evidence-inspector-desktop.png), [mobile evidence](evidence-inspector-mobile.png), and [workflow/limits](evidence-inspector.md). Existing Cesium bundle-size warning remains. No dependency, commit, push or deployment change.
+
+
+### 2026-11-12 — Spotlight tutorial and planning interface simplification
+
+- Added a skippable first-visit tutorial with browser-local dismissal and a How to use button to reopen it. Replaced its initial inline presentation with a floating overlay that dims the page, highlights the explained control and tracks scroll/resize. Five steps cover map navigation, base placement, the calculator, layers and evidence.
+- At the user’s request, removed Mission settings, its navigation link and the disabled Full excursion planning / Compare stops block because planning is handled by the calculator. Removed the obsolete tutorial step. Default walking science investigations remain available; this removal does not implement full routes or resolve scientific verification gaps.
+- Updated the current checklist wording, README, historical mission-context note and affected tests. Verification: production build, ESLint and formatting passed. Final targeted tutorial, mission-removal, preview, evidence and geology suite: **23 passed**. The three existing UI-workflow tests also passed during removal verification. Hosting and live NASA checks were updated for the removed controls but were not rerun in this milestone. No deployment performed.
+
+
+### 2026-11-12 — Full-checklist implementation pass
+
+- User authorized the entire checklist, default estimates and optional user-defined mission settings. User explicitly chose local saving/exports and deferred accounts/backend, requested reviewed historical MEDA observations, and retained responsibility for final competition submission. No additional service, paid account or organizer communication was authorized or created.
+- Implemented ordered trips with up to twelve distinct display references, shortest-arc segment rendering, mandatory return leg, optional mode/speed/work-time/budget/reserve/crew/equipment inputs, budget-overrun explanations and unknown terrain feasibility. A budget fit is never a safe/feasible route claim. Added field task-review checklists and credited Jezero photographs, explicit local draft save/load/delete, bounded validated JSON import/export and printing.
+- Added sparse numerical CTX terrain context from the already checksum-pinned raw DEM: 37,611 samples at 160 m projection spacing; nearest stored heights/exploratory gradients on sparse arc points. Runtime verifies asset SHA-256 and reports unknown samples. No corridor clearance, ascent total, physical slope validation or scoring eligibility was inferred.
+- Added catalogue viewport-centre filtering, seam-aware containment and bounded pagination after camera changes. Retained a single selected catalogue highlight and twelve-stop route bound; no unbounded entity rendering or invented global-crater completeness.
+- Added historical MEDA summaries from the NASA/JPL report dated April 6, 2021. First-session and sols 43–44 readings stay separate; exact sensor coordinates and calibrated time-series uncertainty remain unknown. Direct upstream HTML retention returned HTTP 403; its missing checksum is explicit. The curated local observation manifest has a separate integrity hash. Shared registry now contains fifteen products; historical weather is never associated with another selected feature.
+- Prepared release-scope/infrastructure decision, trip calculation/privacy/recovery guide and editable submission/demo/reference/AI-disclosure handoff. Organizer discussion #1839 says the official guide is scheduled November 13; current required format is not marked verified. User completes the final submission. Web-tool attempts to inspect public site/Actions and official resources failed. A subsequent direct HTTPS check returned HTTP 200 for the public site; the downloaded deployed bundle still contains the old standalone Mission settings and lacks the new planner. This workspace is not published; no push/deployment performed.
+- Scientific blockers remain: exact drill points, coordinate and vertical-datum alignment, independent registration, physical terrain validation, 3D relief, complete upstream metadata, obstacle-aware cost-grid routing and evidence-based terrain scoring. Conditional backend/server checklist items remain explicitly deferred, not falsely marked complete.
+
+- Verification: production build, ESLint, repository Prettier and `git diff --check` passed. Full deterministic browser suite: **77 passed, 1 intentionally skipped live check**. Final targeted planner suite after adding mode-reset, viewport, storage-blocked, corrupted-terrain and printable-PDF checks: **7 passed**. Development server/worker checks: **2 passed**. Repository-prefix Pages smoke check including numerical terrain and historical MEDA: **1 passed**. Terrain Python suite: **11 passed**; catalogue/data-gate Python suite: **15 passed**; Ruff checks/format passed. The retained-data gate verifies **64 files**. Sandbox port binding initially prevented dev/Pages servers; approved reruns outside the sandbox passed. Restored the root build after the Pages test. Existing Cesium bundle-size warning remains.
+
+- Final live verification: the existing smoke test initially waited for regional layers that are off at startup. Updated it to explicitly choose Jezero and enable CTX/HiRISE through the shared controls helper; rerun against real NASA/global services: **1 passed (22.9 s)**. This verifies current remote image delivery, not scientific alignment or analysis suitability. No dependency, commit, push or deployment was added.

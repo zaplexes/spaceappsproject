@@ -4,6 +4,8 @@ import {
   Cartesian3,
   ConstantPositionProperty,
   Color,
+  ArcType,
+  PolylineDashMaterialProperty,
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
   Cartesian2,
@@ -57,6 +59,7 @@ export function createMarsViewer(
   onLayerCoverage?: (coverage: LayerCoverage) => void,
   onCameraHeightChange?: (height: number) => void,
   onSurfaceClick?: (position: BasePosition) => void,
+  onViewportChange?: (extent: Extent | null) => void,
 ) {
   const mars = marsReferenceEllipsoid;
   Ellipsoid.default = mars;
@@ -151,6 +154,7 @@ export function createMarsViewer(
           CesiumMath.toDegrees,
         ) as [number, number, number, number])
       : null;
+    onViewportChange?.(view);
     const hirise = tileSources.find((source) => source.id === 'hirise');
     if (hirise) onHiRISECoverage?.(classifyCoverage(view, hirise.extent));
     onLayerCoverage?.(layerCoverage(view));
@@ -341,7 +345,35 @@ export function createMarsViewer(
   for (const source of tileSources) {
     if (initialLayerVisibility[source.id]) install(source.id);
   }
+  const tripLines: ReturnType<typeof viewer.entities.add>[] = [];
   return {
+    setTripPath(path: readonly BasePosition[]) {
+      for (const line of tripLines) viewer.entities.remove(line);
+      tripLines.length = 0;
+      for (let i = 1; i < path.length; i++) {
+        // Per-leg geometry avoids joining through the globe or across a seam.
+        tripLines.push(
+          viewer.entities.add({
+            name: 'Hypothetical distance-only segment; not a rover track or validated route',
+            polyline: {
+              positions: Cartesian3.fromDegreesArray(
+                [
+                  path[i - 1].longitude,
+                  path[i - 1].latitude,
+                  path[i].longitude,
+                  path[i].latitude,
+                ],
+                mars,
+              ),
+              width: 3,
+              arcType: ArcType.GEODESIC,
+              material: new PolylineDashMaterialProperty({ color: Color.CYAN }),
+            },
+          }),
+        );
+      }
+      viewer.scene.requestRender();
+    },
     setBase(base: BasePosition | null) {
       baseMarker.show = base !== null;
       if (base)

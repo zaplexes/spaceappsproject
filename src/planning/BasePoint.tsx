@@ -21,14 +21,20 @@ export function BasePoint({
     base ? String(base.longitude) : '',
   );
   return (
-    <section className="base-point" aria-label="Simulated astronaut base">
-      <h3>Set your base</h3>
-      <p className="quiet">
-        Choose a simulated starting point on Mars, or enter planetocentric
-        coordinates.
-      </p>
+    <section
+      id="expedition-base"
+      className="base-point"
+      aria-label="Simulated astronaut base"
+    >
+      <div className="planner-heading">
+        <span className="step-number">1</span>
+        <h3>Set your base</h3>
+        {base && <span className="status-pill">Base set</span>}
+      </div>
+      <p className="quiet">Where will your exploration begin?</p>
       <button
         type="button"
+        className="primary-action"
         aria-pressed={placing}
         onClick={() => onPlacingChange(!placing)}
       >
@@ -40,42 +46,50 @@ export function BasePoint({
           coordinates below.
         </p>
       )}
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          onChange({
-            latitude: Number(latitude),
-            longitude: Number(longitude),
-          });
-          onPlacingChange(false);
-        }}
-      >
-        <label>
-          Base latitude (° N)
-          <input
-            type="number"
-            min="-90"
-            max="90"
-            step="any"
-            required
-            value={latitude}
-            onChange={(event) => setLatitude(event.target.value)}
-          />
-        </label>
-        <label>
-          Base longitude (° E, −180 to 180)
-          <input
-            type="number"
-            min="-180"
-            max="180"
-            step="any"
-            required
-            value={longitude}
-            onChange={(event) => setLongitude(event.target.value)}
-          />
-        </label>
-        <button type="submit">Set base coordinates</button>
-      </form>
+      <details className="coordinate-entry">
+        <summary>
+          {base ? 'Edit base coordinates' : 'Enter coordinates instead'}
+        </summary>
+        <p className="quiet">
+          Planetocentric latitude and east-positive longitude.
+        </p>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            onChange({
+              latitude: Number(latitude),
+              longitude: Number(longitude),
+            });
+            onPlacingChange(false);
+          }}
+        >
+          <label>
+            Base latitude (° N)
+            <input
+              type="number"
+              min="-90"
+              max="90"
+              step="any"
+              required
+              value={latitude}
+              onChange={(event) => setLatitude(event.target.value)}
+            />
+          </label>
+          <label>
+            Base longitude (° E, −180 to 180)
+            <input
+              type="number"
+              min="-180"
+              max="180"
+              step="any"
+              required
+              value={longitude}
+              onChange={(event) => setLongitude(event.target.value)}
+            />
+          </label>
+          <button type="submit">Set base coordinates</button>
+        </form>
+      </details>
       <p role="status">
         {base
           ? `Simulated base: ${base.latitude.toFixed(5)}° N, ${base.longitude.toFixed(5)}° E`
@@ -92,10 +106,14 @@ export function BasePoint({
           Clear base
         </button>
       )}
-      <p className="quiet">
-        Session only. A selected base does not establish landing suitability or
-        terrain access.
-      </p>
+      <p className="quiet">Simulated base · saved for this session.</p>
+      <details className="base-limitations">
+        <summary>About base placement</summary>
+        <p className="quiet">
+          A selected base does not establish landing suitability or terrain
+          access.
+        </p>
+      </details>
     </section>
   );
 }

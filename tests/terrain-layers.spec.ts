@@ -145,9 +145,9 @@ test('estimated slope has a physical scale, source, opacity, coverage and separa
   await expect(page.getByTestId('slope-coverage')).toContainText(
     'Within slope grid extent',
   );
-  await expect(
-    page.getByRole('button', { name: 'Compare stops' }),
-  ).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Compare stops' })).toHaveCount(
+    0,
+  );
   await opacity.press('End');
   await page.screenshot({ path: 'docs/slope-desktop.png', fullPage: true });
   await page.getByLabel('Jezero regional geology', { exact: false }).check();

@@ -1,3 +1,4 @@
+import meda from '../../data/manifests/meda-history.json' with { type: 'json' };
 import imageryReview from '../../data/manifests/imagery-review.json' with { type: 'json' };
 import surfaceImages from '../../data/manifests/surface-images.json' with { type: 'json' };
 import elevation from './generated/elevation.json' with { type: 'json' };
@@ -14,7 +15,8 @@ export type EvidenceKind =
   | 'Derived slope'
   | 'Geological interpretation'
   | 'Feature catalogue'
-  | 'Shaded relief';
+  | 'Shaded relief'
+  | 'Historical environment';
 
 export interface SourceRecord {
   id: string;
@@ -245,4 +247,33 @@ export const sourceRecords: readonly SourceRecord[] = [
       'No geographic footprint, distance, mineral abundance or human approach suitability is inferred from the photograph.',
     ],
   })),
+  {
+    id: 'meda-history',
+    title: 'Historical MEDA reports',
+    kind: 'Historical environment',
+    mission: meda.mission,
+    productId: meda.productId,
+    sourceUrl: meda.sourceUrl,
+    citation: meda.citation,
+    rights: meda.rights,
+    reviewedDate: meda.reviewDate,
+    publicationDate: meda.publicationDate,
+    observationDate: null,
+    dateNote:
+      'Separate report windows: February 19, 2021 and April 3–4, 2021. See the historical environment panel; these are not current conditions.',
+    version: null,
+    resolution: 'Published report summary, not a calibrated time series',
+    bounds: null,
+    coordinateNote: meda.location,
+    verticalDatum: null,
+    checksums: [
+      {
+        scope: 'Metadata snapshot',
+        sha256:
+          'cdba954a846163a48e7dd7fe8d7d575a6f4637e67d017065fce38e49f962b46b',
+      },
+    ],
+    analysisEligible: false,
+    limitations: [...meda.limitations, meda.snapshotNote],
+  },
 ];

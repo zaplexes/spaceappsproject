@@ -34,9 +34,7 @@ test('science constraints: confirmed goal, unknown positions and no assumed base
   ).toBe(619);
 });
 
-test('stop selection, confirmed goal, exploration mode and layer controls', async ({
-  page,
-}) => {
+test('stop selection, science records and layer controls', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
@@ -59,14 +57,7 @@ test('stop selection, confirmed goal, exploration mode and layer controls', asyn
       page.getByText('Location not yet verified', { exact: true }),
     ).toBeVisible();
   }
-  await expect(page.getByLabel('Scientific goal')).toHaveValue('ancient-water');
-  await expect(
-    page.getByRole('button', { name: 'Compare stops' }),
-  ).toBeDisabled();
-  await page.getByLabel('Exploration mode').selectOption('crewed-vehicle');
-  await expect(page.getByTestId('active-mobility')).toHaveText(
-    'Astronauts in a crew vehicle',
-  );
+  await expect(page.locator('#mission-settings')).toHaveCount(0);
   await page.getByLabel('Global CTX imagery', { exact: false }).uncheck();
   await page.getByLabel('Global MOC imagery').uncheck();
   await page.getByLabel('Jezero CTX imagery').uncheck();
@@ -109,7 +100,7 @@ test('keyboard navigation and viewport changes', async ({ page }) => {
   ).toBe(true);
 });
 
-test('narrow layout preserves access to stops, mission settings and sources', async ({
+test('narrow layout preserves access to stops, calculator and sources', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -118,10 +109,7 @@ test('narrow layout preserves access to stops, mission settings and sources', as
   await expect(
     page.getByRole('heading', { name: 'Wildcat Ridge', exact: true }),
   ).toBeVisible();
-  await page.getByLabel('Exploration mode').selectOption('robotic-rover');
-  await expect(page.getByLabel('Exploration mode')).toHaveValue(
-    'robotic-rover',
-  );
+  await expect(page.locator('#destination-calculator > summary')).toBeVisible();
   await expect(
     page.getByRole('link', { name: 'NASA media usage guidelines' }),
   ).toBeVisible();

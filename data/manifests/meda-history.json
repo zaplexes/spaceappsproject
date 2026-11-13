@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "mission": "Mars 2020 Perseverance",
+  "instrument": "MEDA",
+  "sourceUrl": "https://www.jpl.nasa.gov/news/nasas-first-weather-report-from-jezero-crater-on-mars/",
+  "sourceTitle": "NASA’s First Weather Report From Jezero Crater on Mars",
+  "publicationDate": "2021-04-06",
+  "reviewDate": "2026-11-12",
+  "citation": "NASA/JPL-Caltech, April 6, 2021, published MEDA report",
+  "productId": "JPL-news-2021-073",
+  "rights": "NASA/JPL factual report; cite the source. No source photography is redistributed here.",
+  "sourceSnapshotSha256": null,
+  "snapshotNote": "Reviewed through the published JPL page. Direct archive download returned HTTP 403; no retained source bytes or invented checksum.",
+  "location": "At Perseverance in Jezero crater during each observation period; exact sensor coordinates are not established by the report.",
+  "coordinates": null,
+  "analysisEligible": false,
+  "observations": [
+    {
+      "id": "first-report",
+      "dateLabel": "February 19, 2021 · first 30-minute observing session",
+      "sol": null,
+      "pressurePa": 718,
+      "temperatureStartC": -20,
+      "temperatureStartQualifier": "just below",
+      "temperatureEndC": -25.6,
+      "durationMinutes": 30,
+      "temperatureLowC": null,
+      "temperatureHighC": null,
+      "gustMetresPerSecond": null
+    },
+    {
+      "id": "sols-43-44",
+      "dateLabel": "April 3–4, 2021 · sols 43–44 as reported by JPL",
+      "sol": "43–44",
+      "pressurePa": null,
+      "temperatureStartC": null,
+      "temperatureStartQualifier": null,
+      "temperatureEndC": null,
+      "durationMinutes": null,
+      "temperatureLowC": -83,
+      "temperatureHighC": -22,
+      "gustMetresPerSecond": 10
+    }
+  ],
+  "limitations": [
+    "Historical local observations, not a live forecast or planet-wide measurement.",
+    "Published summary rather than calibrated PDS time-series analysis; sensor height, exact timestamps and uncertainty are not supplied here.",
+    "The two observation windows are separate; do not combine them into one weather state or apply them to trip eligibility.",
+    "Pressure is reported only for the first session; wind is approximate and reported only for sols 43–44."
+  ]
+}

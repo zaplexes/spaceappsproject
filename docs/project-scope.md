@@ -48,3 +48,12 @@ See [mission science and exploration modes](mission-science.md) for the agreed g
 Mars-wide named-feature discovery with source region/type filters and session-only candidate additions is implemented from a retained IAU/USGS export, refreshed during Pages publication. Catalogue centres remain separate from verified observation sites. See [catalogue scope and limits](crater-catalogue.md).
 
 The layer controls now apply to every browsed feature using reviewed global CTX, THEMIS, MOLA/HRSC relief and global geological context, with viewport coverage/gap labels and retained Jezero detail. A global slope grid, numeric global heights and highest-resolution archive-wide image discovery remain unavailable. See [feature layers](feature-map-layers.md).
+
+The guide's third step opens a selected-destination evidence workspace with documented facts, explicit data gaps, existing context-product reviews and map actions. Jezero investigations, surface references and position evidence are integrated there. Coverage checks concern the selected display reference, not a verified site or the complete feature. No additional scientific measurements, source alignment, eligibility or global rover associations are inferred. See [evidence workspace](evidence-inspector.md).
+
+
+## Current release decisions — November 12, 2026
+
+The user authorized addressing the full checklist with distance estimates by default and optional user-defined mission settings. A working round-trip planner now handles base → ordered display references → base, user assumptions, task review, field photographs, explicit local draft storage, validated JSON export/import and printing. The calculator remains provisional; source alignment, exact sample coordinates, 3D relief and terrain-aware eligibility remain unresolved.
+
+The user chose local saves and exports and explicitly deferred accounts/backend. Historical MEDA observations are included as dated local report summaries, with no forecast or route-eligibility use. The user will finish the official submission. See [release scope](release-scope.md), [trip planning](trip-planning.md) and [submission draft](submission-draft.md).

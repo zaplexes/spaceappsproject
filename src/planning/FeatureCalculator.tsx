@@ -15,10 +15,18 @@ export function FeatureCalculator({
   entries,
   base,
   onSelect,
+  loading,
+  failed,
+  onRetry,
+  onOpenChange,
 }: {
-  entries: readonly CatalogEntry[];
+  entries: readonly CatalogEntry[] | null;
   base: BasePosition | null;
   onSelect: (entry: CatalogEntry) => void;
+  loading: boolean;
+  failed: boolean;
+  onRetry: () => void;
+  onOpenChange: (open: boolean) => void;
 }) {
   const [radius, setRadius] = useState('100');
   const [weights, setWeights] = useState({
@@ -42,7 +50,9 @@ export function FeatureCalculator({
         );
       return {
         results: rankFeatures(
-          entries.filter((entry) => type === 'all' || entry.typeCode === type),
+          (entries ?? []).filter(
+            (entry) => type === 'all' || entry.typeCode === type,
+          ),
           base,
           Number(radius),
           {
@@ -75,46 +85,57 @@ export function FeatureCalculator({
       .some((item) => item.maximumPoints > first.minimumPoints);
   return (
     <details
+      id="destination-calculator"
       className="feature-calculator"
-      onToggle={(event) => setOpen(event.currentTarget.open)}
+      onToggle={(event) => {
+        if (event.target !== event.currentTarget) return;
+        setOpen(event.currentTarget.open);
+        onOpenChange(event.currentTarget.open);
+      }}
     >
-      <summary>Calculate best destinations · Top 10</summary>
+      <summary>
+        <span className="step-number">2</span> Calculate best destinations · Top
+        10
+      </summary>
       {open && (
         <>
-          <p>
-            Rank named feature centres from your simulated base by study
-            interest, distance and terrain. The highest earned score comes
-            first.
-          </p>
+          <p>Find places worth investigating from your base.</p>
           <p className="quiet">
-            Goal: investigate ancient water. Study interest is an editable
-            feature-type heuristic; it does not establish water, minerals or
-            scientific findings at a destination.
+            Ancient-water study · type-based study preferences · terrain unknown
           </p>
-          <label>
-            Search radius from base (km)
-            <input
-              type="number"
-              min="0.001"
-              step="any"
-              value={radius}
-              onChange={(event) => setRadius(event.target.value)}
-            />
-          </label>
-          <label>
-            Rank feature types
-            <select
-              value={type}
-              onChange={(event) => setType(event.target.value)}
-            >
-              <option value="all">All named feature types</option>
-              {catalogReview.types.map((item) => (
-                <option key={item.code} value={item.code}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          {loading && <p role="status">Loading destinations…</p>}
+          {failed && (
+            <div role="alert">
+              <p>Destinations could not load.</p>
+              <button onClick={onRetry}>Retry destinations</button>
+            </div>
+          )}
+          <div className="destination-filters">
+            <label>
+              Search radius from base (km)
+              <input
+                type="number"
+                min="0.001"
+                step="any"
+                value={radius}
+                onChange={(event) => setRadius(event.target.value)}
+              />
+            </label>
+            <label>
+              Rank feature types
+              <select
+                value={type}
+                onChange={(event) => setType(event.target.value)}
+              >
+                <option value="all">All named feature types</option>
+                {catalogReview.types.map((item) => (
+                  <option key={item.code} value={item.code}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <details>
             <summary>Scoring rules & preferences</summary>
             <p>
@@ -156,29 +177,32 @@ export function FeatureCalculator({
               60; all others 40. They are model choices, not scientific
               measurements.
             </p>
-            {catalogReview.types.map((item) => (
-              <label key={item.code}>
-                {item.name} study interest (%)
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="1"
-                  value={
-                    interest[item.code] ??
-                    String(
-                      initialStudyInterest[item.code] ?? defaultStudyInterest,
-                    )
-                  }
-                  onChange={(event) =>
-                    setInterest((previous) => ({
-                      ...previous,
-                      [item.code]: event.target.value,
-                    }))
-                  }
-                />
-              </label>
-            ))}
+            <details className="type-preferences">
+              <summary>Study interest by feature type</summary>
+              {catalogReview.types.map((item) => (
+                <label key={item.code}>
+                  {item.name} study interest (%)
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={
+                      interest[item.code] ??
+                      String(
+                        initialStudyInterest[item.code] ?? defaultStudyInterest,
+                      )
+                    }
+                    onChange={(event) =>
+                      setInterest((previous) => ({
+                        ...previous,
+                        [item.code]: event.target.value,
+                      }))
+                    }
+                  />
+                </label>
+              ))}
+            </details>
             <button
               onClick={() => {
                 setWeights(
@@ -199,7 +223,7 @@ export function FeatureCalculator({
             <p role="status">Set your base to calculate recommendations.</p>
           )}
           {calculation.error && <p role="alert">{calculation.error}</p>}
-          {base && !calculation.error && (
+          {base && entries && !calculation.error && (
             <>
               <p role="status">
                 {calculation.results.length} destinations within radius ·
@@ -234,11 +258,19 @@ export function FeatureCalculator({
                 tabIndex={0}
                 aria-label="Top destinations with criterion scores"
               >
-                {top.map((result) => (
-                  <li key={result.entry.id}>
-                    <button onClick={() => onSelect(result.entry)}>
-                      <strong>{result.entry.name}</strong> ↗
-                    </button>
+                {top.map((result, index) => (
+                  <li
+                    key={result.entry.id}
+                    className={
+                      index === 0 ? 'recommended-destination' : undefined
+                    }
+                  >
+                    <div className="destination-card-heading">
+                      <span className="destination-rank">{index + 1}</span>
+                      <button onClick={() => onSelect(result.entry)}>
+                        <strong>{result.entry.name}</strong> ↗
+                      </button>
+                    </div>
                     <p className="quiet">
                       {
                         catalogReview.types.find(
@@ -251,58 +283,97 @@ export function FeatureCalculator({
                       {points(result.minimumPoints)}–
                       {points(result.maximumPoints)} / 100 points
                     </strong>
-                    <dl>
-                      <div>
-                        <dt>Study potential</dt>
-                        <dd>
-                          {points(result.studyPoints)} / {weights.study} · type
-                          interest {result.studyInterest}%
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>Distance</dt>
-                        <dd>
-                          {points(result.distancePoints)} / {weights.distance} ·{' '}
-                          {points(result.distanceKm)} km one way
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>Terrain</dt>
-                        <dd>Unknown · 0–{weights.terrain} points unresolved</dd>
-                      </div>
-                    </dl>
-                    <p className="quiet">
-                      {points(result.distanceKm * 2)} km out-and-back
-                      surface-distance lower bound; actual route and access
-                      unknown.
-                    </p>
-                    <a
-                      className="text-link"
-                      href={`https://planetarynames.wr.usgs.gov/Feature/${result.entry.id.slice(4)}`}
-                      target="_blank"
-                      rel="noreferrer"
+                    <div
+                      className="score-bar"
+                      role="img"
+                      aria-label={`${points(result.studyPoints)} study points, ${points(result.distancePoints)} distance points; terrain unknown`}
                     >
-                      Feature data & source ↗
-                    </a>
+                      <span
+                        className="study-score"
+                        style={{ width: `${result.studyPoints}%` }}
+                      />
+                      <span
+                        className="distance-score"
+                        style={{ width: `${result.distancePoints}%` }}
+                      />
+                      <span
+                        className="unknown-score"
+                        style={{ width: `${Number(weights.terrain)}%` }}
+                      />
+                    </div>
+                    <p className="destination-distance">
+                      {points(result.distanceKm)} km from base{' '}
+                      <span>· Terrain unknown</span>
+                    </p>
+                    <details className="score-explanation">
+                      <summary>Why this score?</summary>
+                      <dl>
+                        <div>
+                          <dt>Study potential</dt>
+                          <dd>
+                            {points(result.studyPoints)} / {weights.study} ·
+                            type interest {result.studyInterest}%
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Distance</dt>
+                          <dd>
+                            {points(result.distancePoints)} / {weights.distance}{' '}
+                            · {points(result.distanceKm)} km one way
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Terrain</dt>
+                          <dd>
+                            Unknown · 0–{weights.terrain} points unresolved
+                          </dd>
+                        </div>
+                      </dl>
+                      <p className="quiet">
+                        {points(result.distanceKm * 2)} km out-and-back
+                        surface-distance lower bound; actual route and access
+                        unknown.
+                      </p>
+                      <a
+                        className="text-link"
+                        href={`https://planetarynames.wr.usgs.gov/Feature/${result.entry.id.slice(4)}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Feature data & source ↗
+                      </a>
+                    </details>
                   </li>
                 ))}
               </ol>
             </>
           )}
-          <p className="quiet">
-            Distances use a 3,396.19 km Mars sphere and catalogue centres, not
-            observation sites or traversable paths. Search radius is a discovery
-            filter, not vehicle range. No travel time, safety or excursion
-            feasibility is inferred.
-          </p>
-          <p className="quiet">
-            Model {MODEL_VERSION} · catalogue{' '}
-            {catalogReview.sourceSha256.slice(0, 12)} ·{' '}
-            <a href={catalogReview.sourcePage} target="_blank" rel="noreferrer">
-              IAU/USGS source
-            </a>
-            . Base and preferences last for this page session.
-          </p>
+          <details className="calculator-method">
+            <summary>How suggestions work & data sources</summary>
+            <p className="quiet">
+              Study potential uses an editable feature-type heuristic. It does
+              not establish water, minerals or scientific findings at a
+              destination. Terrain is unknown and contributes no earned points.
+            </p>
+            <p className="quiet">
+              Distances use a 3,396.19 km Mars sphere and catalogue centres, not
+              observation sites or traversable paths. Search radius is a
+              discovery filter, not vehicle range. No travel time, safety or
+              excursion feasibility is inferred.
+            </p>
+            <p className="quiet">
+              Model {MODEL_VERSION} · catalogue{' '}
+              {catalogReview.sourceSha256.slice(0, 12)} ·{' '}
+              <a
+                href={catalogReview.sourcePage}
+                target="_blank"
+                rel="noreferrer"
+              >
+                IAU/USGS source
+              </a>
+              . Base and preferences last for this page session.
+            </p>
+          </details>
         </>
       )}
     </details>

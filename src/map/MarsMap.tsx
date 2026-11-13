@@ -9,6 +9,7 @@ import {
   candidateLocations,
   type CandidateLocation,
 } from '../data/candidate-locations';
+import type { Extent } from '../data/coverage';
 import type { Coverage } from '../data/coverage';
 import type { BasePosition } from '../planning/BasePoint';
 import type {
@@ -19,9 +20,12 @@ import type {
 } from './create-mars-viewer';
 export function MarsMap({
   base = null,
+  tripPath = [],
+  onViewportChange,
   placingBase = false,
   onBaseChange,
   onBasePlaced,
+  onCancelBasePlacement,
   focusRequest = 0,
   selectedStopId = null,
   catalogCandidate = null,
@@ -37,9 +41,12 @@ export function MarsMap({
   slopeOpacity = 0.65,
 }: {
   base?: BasePosition | null;
+  tripPath?: readonly BasePosition[];
+  onViewportChange?: (extent: Extent | null) => void;
   placingBase?: boolean;
   onBaseChange?: (base: BasePosition) => void;
   onBasePlaced?: () => void;
+  onCancelBasePlacement?: () => void;
   focusRequest?: number;
   selectedStopId?: string | null;
   catalogCandidate?: CandidateLocation | null;
@@ -54,6 +61,8 @@ export function MarsMap({
   slopeEnabled?: boolean;
   slopeOpacity?: number;
 }) {
+  const viewportCallback = useRef(onViewportChange);
+  viewportCallback.current = onViewportChange;
   const baseInteraction = useRef({ placingBase, onBaseChange, onBasePlaced });
   baseInteraction.current = { placingBase, onBaseChange, onBasePlaced };
   const cameraHeightCallback = useRef(onCameraHeightChange);
@@ -166,6 +175,9 @@ export function MarsMap({
                 baseInteraction.current.onBasePlaced?.();
               }
             },
+            (extent) => {
+              if (!disposed) viewportCallback.current?.(extent);
+            },
           );
           controller.current = active;
           active.setElevationOpacity(elevationRef.current.opacity);
@@ -192,6 +204,9 @@ export function MarsMap({
       controller.current = null;
     };
   }, [attempt]);
+  useEffect(() => {
+    if (mapState === 'ready') controller.current?.setTripPath(tripPath);
+  }, [tripPath, mapState]);
   useEffect(() => {
     if (mapState === 'ready') controller.current?.setBase(base);
   }, [base, mapState]);
@@ -227,7 +242,22 @@ export function MarsMap({
       className={`map-section${placingBase ? ' placing-base' : ''}`}
       aria-label={selectedStopId ? 'Jezero map' : 'Mars discovery map'}
     >
+      {tripPath.length > 0 && (
+        <p className="map-trip-label">
+          Cyan dashed lines: hypothetical shortest-distance trip · not a
+          validated route or historical rover track
+        </p>
+      )}
       <div ref={host} className="map-host" data-testid="map-host" />
+      {placingBase && (
+        <div className="base-placement-banner" role="status">
+          <div>
+            <strong>Choose your starting point</strong>
+            <p>Click the Mars surface to place your simulated base.</p>
+          </div>
+          <button onClick={onCancelBasePlacement}>Cancel placement</button>
+        </div>
+      )}
       <div className="candidate-overlay" hidden={mapState !== 'ready'}>
         <div
           ref={highlightElement}

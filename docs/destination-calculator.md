@@ -4,9 +4,9 @@ Accepted November 12, 2026: the user requested a selectable astronaut base, the 
 
 ## Use
 
-Set a simulated base by clicking **Place base on map**, then the Mars surface, or enter planetocentric latitude and east-positive longitude in the range −180 to 180. Map clicks outside placement mode leave the base unchanged; sky clicks do nothing. A cyan marker identifies the simulated base. Coordinate entry and ranking also work without WebGL.
+Set a simulated base by clicking **Place base on map**, then the Mars surface, or expand **Enter coordinates instead** to enter planetocentric latitude and east-positive longitude in the range −180 to 180. Map clicks outside placement mode leave the base unchanged; sky clicks do nothing. A cyan marker identifies the simulated base. Coordinate entry and ranking also work without WebGL.
 
-Open **Discover Mars features → Calculate best destinations · Top 10**. The calculator uses the version-checked IAU/USGS catalogue already loaded by discovery. Its radius and feature-type filters operate independently of the alphabetical browser filters. The initial 100 km radius is an editable discovery setting, not a travel capability. Results recalculate when base, radius, types, weights or interests change. Selecting a result loads its validated details and map highlight using the existing abortable catalogue workflow. Source links are available directly in the results.
+Open **Calculate best destinations · Top 10** directly in the explorer panel, or choose **Compare destinations** in the three-step guide. The calculator and **Discover Mars features** share one version-checked IAU/USGS index, loaded only when either control is opened. Its radius and feature-type filters operate independently of the alphabetical browser filters. The initial 100 km radius is an editable discovery setting, not a travel capability. Results recalculate when base, radius, types, weights or interests change. Selecting a result loads its validated details and map highlight using the existing abortable catalogue workflow. Compact result cards show score ranges and distance. Expand **Why this score?** for criterion points and source links; expand **Scoring rules & preferences → Study interest by feature type** to adjust type interests. Methodology and version details remain available under **How suggestions work & data sources**.
 
 ## Model `feature-value-v1`
 
@@ -18,7 +18,7 @@ All scores express simulation preferences. Weights must be nonnegative and total
 
 Sort by earned study + distance points, then shorter distance and catalogue ID for reproducible ties. Show up to ten candidates, including fewer or zero when appropriate. Display the earned-to-possible score range for each. A result with the highest earned score is a **provisional recommendation**; warn when another candidate's range could exceed its earned score. The catalogue checksum and model version identify the inputs. Base and preference changes last for the page session; reloading resets them.
 
-The calculator expands global discovery with heuristic suggestions. It does not change any dataset's analysis eligibility or verify Jezero sample locations. Mission equipment, duration, work times, return reserves and actual range remain unconfigured. Selection cannot prove route feasibility, safe access or a scientifically best destination. Terrain-aware mission comparison remains gated separately in Mission settings.
+The calculator expands global discovery with heuristic suggestions. It does not change any dataset's analysis eligibility or verify Jezero sample locations. Mission equipment, duration, work times, return reserves and actual range remain unconfigured. Selection cannot prove route feasibility, safe access or a scientifically best destination. The round-trip planner accepts optional user-defined mission assumptions separately; no terrain-aware eligibility is inferred. See [trip planning](trip-planning.md).
 
 ## Implementation and validation
 

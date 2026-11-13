@@ -122,3 +122,15 @@ When a decision is made, replace its answer, record who agreed and the date, and
 - [x] Import the official IAU/USGS export and refresh during publication using existing GitHub Pages hosting. No separately hosted live API.
 
 Added catalogue candidates still need individual scientific questions, precise observation sites and mission/access review. Their existence does not expand the approved Jezero goal or choose an expedition base. See [catalogue workflow](crater-catalogue.md).
+
+
+## Full-checklist pass — November 12, 2026
+
+These decisions supersede earlier descriptions of undecided persistence and the removed standalone Mission settings screen:
+
+- The user requested the entire checklist be addressed, using distance estimates by default and allowing users to define mission settings. The planner accepts mode, speed, work time, available duration, reserve, distance limit, slope preference, crew size and equipment notes. Blank values remain unknown; no fixed mission capabilities are selected.
+- The user chose local draft saving and exports and explicitly deferred accounts/backend. A database, API or cloud job service is not required for this release.
+- The user requested reviewed historical MEDA observations. Two report windows are included with source links; they do not represent current conditions or alter eligibility.
+- The user will finish the competition submission. Event-specific details, ownership and final submission fields belong to that handoff; no form was submitted or organizer contacted.
+- A user-selectable simulated base is implemented for discovery and distance estimates. A validated analysis boundary and exact drill-point coordinates remain scientific blockers, not silently selected defaults.
+- Terrain-aware routing, scientific registration/height conversion and exact site verification remain incomplete. Saving a preference or calculating time does not resolve them.

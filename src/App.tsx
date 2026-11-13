@@ -6,20 +6,15 @@ import {
   globalCtxMaximumAutoHeight,
   isWorldColour,
   worldSources,
+  tileSources,
   type LayerId,
 } from './data/layers';
 import { coverageLabel, type LayerCoverage } from './map/layer-coverage';
 import { WorldLayerLegend } from './WorldLayerLegend';
 import { stops } from './data/stops';
-import {
-  initialMission,
-  mobilityProfile,
-  type MobilityMode,
-} from './data/mission';
-import { MissionSettings } from './MissionSettings';
-import { StopInvestigation } from './StopInvestigation';
+import { mobilityProfile } from './data/mission';
 import { MarsMap } from './map/MarsMap';
-import { StopEvidence } from './stops/StopEvidence';
+import { EvidenceInspector } from './evidence/EvidenceInspector';
 import { GeologyLegend } from './GeologyLegend';
 import { SourceRegistry } from './SourceRegistry';
 import { SlopeLegend } from './SlopeLegend';
@@ -27,6 +22,19 @@ import { CatalogBrowser } from './catalog/CatalogBrowser';
 import { CatalogFeatureDetails } from './catalog/CatalogFeatureDetails';
 import { catalogLocation, type CatalogFeature } from './catalog/catalog';
 import { BasePoint, type BasePosition } from './planning/BasePoint';
+import { UsageGuide } from './UsageGuide';
+import { TripPlanner } from './planning/TripPlanner';
+import {
+  emptyMission,
+  MAX_STOPS,
+  TRIP_VERSION,
+  type TripStop,
+  type TripDraft,
+} from './planning/trip';
+import { candidateLocations } from './data/candidate-locations';
+import { investigations } from './data/investigations';
+import type { Extent } from './data/coverage';
+import { HistoricalEnvironment } from './HistoricalEnvironment';
 export default function App() {
   const [base, setBase] = useState<BasePosition | null>(null);
   const [placingBase, setPlacingBase] = useState(false);
@@ -76,9 +84,67 @@ export default function App() {
       'geology-global': false,
     }));
   }
-  const [mobility, setMobility] = useState<MobilityMode>(
-    initialMission.mobility,
+  const [tripStops, setTripStops] = useState<TripStop[]>([]);
+  const [mission, setMission] = useState({ ...emptyMission });
+  const [tripNotice, setTripNotice] = useState('');
+  const [viewport, setViewport] = useState<Extent | null>(null);
+  const mobility = mission.mode;
+  const tripPath = useMemo(
+    () => (base && tripStops.length ? [base, ...tripStops, base] : []),
+    [base, tripStops],
   );
+  const onViewportChange = useCallback(
+    (extent: Extent | null) =>
+      setViewport((previous) =>
+        JSON.stringify(previous) === JSON.stringify(extent) ? previous : extent,
+      ),
+    [],
+  );
+  const draft: TripDraft = {
+    schemaVersion: 1,
+    modelVersion: TRIP_VERSION,
+    base,
+    stops: tripStops,
+    mission,
+  };
+  function changeDraft(next: TripDraft) {
+    setBase(next.base);
+    setTripStops(next.stops);
+    setMission(next.mission);
+    setPlacingBase(false);
+  }
+  function addToTrip(items: TripStop[]) {
+    const distinct = items.filter(
+      (item) => !tripStops.some((s) => s.id === item.id),
+    );
+    if (tripStops.length + distinct.length > MAX_STOPS) {
+      setTripNotice('A trip supports up to 12 stops.');
+      return;
+    }
+    setTripStops((previous) => [...previous, ...distinct]);
+    setTripNotice(
+      distinct.length
+        ? 'Added to your round trip. Review the order and mission settings below.'
+        : 'Already in your trip.',
+    );
+  }
+  function sampleTripStop(id: string): TripStop | null {
+    const candidate = candidateLocations.find((c) => c.stopId === id);
+    const investigation = investigations.find((i) => i.stopId === id);
+    if (!candidate || !investigation) return null;
+    const tasks = [...investigation.tasks[mobility]];
+    return {
+      id,
+      name: candidate.name,
+      latitude: candidate.displayLatitude,
+      longitude: candidate.displayLongitude,
+      reference: 'approximate-sample',
+      sourceUrl: candidate.sourceUrl,
+      tasks,
+      completed: tasks.map(() => false),
+      workMinutes: '',
+    };
+  }
   const [elevationEnabled, setElevationEnabled] = useState(false);
   const [geologyEnabled, setGeologyEnabled] = useState(false);
   const [slopeEnabled, setSlopeEnabled] = useState(false);
@@ -86,6 +152,39 @@ export default function App() {
   const [geologyOpacity, setGeologyOpacity] = useState(0.5);
   const [elevationOpacity, setElevationOpacity] = useState(0.65);
   const selected = stops.find((stop) => stop.id === selectedId);
+  function viewEvidenceLayer(id: string) {
+    setElevationEnabled(id === 'elevation');
+    setGeologyEnabled(id === 'geology');
+    setSlopeEnabled(id === 'slope');
+    const layer = tileSources.find((source) => source.id === id);
+    if (layer) {
+      if (isWorldColour(layer.id)) {
+        setVisible((previous) => ({
+          ...previous,
+          'relief-global': false,
+          'geology-global': false,
+          [layer.id]: true,
+        }));
+        if (worldOpacity === 0) setWorldOpacity(0.65);
+      } else {
+        setCtxOverride(layer.id === 'ctx-global');
+        setVisible({
+          global: true,
+          'ctx-global': false,
+          jezero: false,
+          hirise: false,
+          themis: false,
+          'relief-global': false,
+          'geology-global': false,
+          [layer.id]: true,
+        });
+      }
+    } else clearWorldColours();
+    setFocusRequest((request) => request + 1);
+    document
+      .getElementById('exploration-map')
+      ?.scrollIntoView({ block: 'start' });
+  }
   return (
     <>
       <a className="skip-link" href="#science-stops">
@@ -105,18 +204,24 @@ export default function App() {
           <span className="live-dot" /> MARS EXPLORATION{' '}
           <span className="separator">/</span> LOCAL PREVIEW
         </div>
-        <a className="source-nav" href="#sources">
-          Data & sources ↗
-        </a>
+        <nav className="main-nav" aria-label="Main navigation">
+          <a href="#exploration-map">Map</a>
+          <a href="#map-layers">Layers</a>
+          <a href="#expedition-base">Plan</a>
+          <a href="#trip-planner">Trip</a>
+          <a className="source-nav" href="#sources">
+            Data & sources ↗
+          </a>
+        </nav>
       </header>
       <main>
         <div className="intro">
           <div>
             <p className="eyebrow">HUMAN EXPLORATION / MARS</p>
-            <h1>A world to explore.</h1>
+            <h1>Where will you explore next?</h1>
             <p>
-              Discover named features across Mars, explore global imagery and
-              geology, and investigate the evidence at Jezero’s western delta.
+              Set a base, compare destinations and explore the evidence behind
+              your next discovery on Mars.
             </p>
           </div>
           <span className="preview-tag">
@@ -125,12 +230,49 @@ export default function App() {
               : 'SIMULATED CREW EXPLORATION'}
           </span>
         </div>
+        <UsageGuide />
+        <nav className="planning-guide" aria-label="Exploration steps">
+          <a href="#expedition-base">
+            <span className="step-number">1</span>
+            <span>
+              <strong>Choose your base</strong>
+              <small>Pick a starting point on Mars</small>
+            </span>
+          </a>
+          <a
+            href="#destination-calculator"
+            onClick={(event) => {
+              event.preventDefault();
+              const planner = document.getElementById(
+                'destination-calculator',
+              ) as HTMLDetailsElement | null;
+              if (planner) {
+                planner.open = true;
+                planner.scrollIntoView({ block: 'start' });
+                planner.querySelector('summary')?.focus();
+              }
+            }}
+          >
+            <span className="step-number">2</span>
+            <span>
+              <strong>Compare destinations</strong>
+              <small>See your top 10 and their scores</small>
+            </span>
+          </a>
+          <a href="#evidence-inspector">
+            <span className="step-number">3</span>
+            <span>
+              <strong>Inspect the evidence</strong>
+              <small>Explore features, images and sources</small>
+            </span>
+          </a>
+        </nav>
         <div
           className={`workspace${catalogOpen || catalogFeature ? ' catalogue-workspace' : ''}`}
         >
           <aside className="explorer-panel">
             <div className="panel-heading">
-              <span className="eyebrow">01 / EXPLORE</span>
+              <span className="eyebrow">YOUR EXPLORATION WORKSPACE</span>
               <h2>
                 {catalogFeature
                   ? `${catalogFeature.name} exploration`
@@ -138,26 +280,34 @@ export default function App() {
                     ? 'Jezero exploration'
                     : 'Mars exploration'}
               </h2>
-              <p>
-                Explore across Mars or select a Jezero science stop for a closer
-                look.
-              </p>
+              <p>Plan a visit or browse Mars at your own pace.</p>
             </div>
             <BasePoint
               key={base ? `${base.latitude},${base.longitude}` : 'unset'}
               base={base}
               placing={placingBase}
-              onPlacingChange={setPlacingBase}
+              onPlacingChange={(placing) => {
+                setPlacingBase(placing);
+                if (placing)
+                  document
+                    .getElementById('exploration-map')
+                    ?.scrollIntoView({ block: 'start' });
+              }}
               onChange={setBase}
             />
             <CatalogBrowser
               base={base}
+              viewport={viewport}
               onSelect={selectFeature}
               selectedId={catalogFeature?.id ?? null}
               selectionRevision={focusRequest}
               onOpenChange={setCatalogOpen}
             />
-            <section className="layer-panel" aria-labelledby="layers-heading">
+            <section
+              id="map-layers"
+              className="layer-panel"
+              aria-labelledby="layers-heading"
+            >
               <h3 id="layers-heading">
                 Map layers{catalogFeature ? ` · ${catalogFeature.name}` : ''}
               </h3>
@@ -459,12 +609,15 @@ export default function App() {
               science evidence.
             </p>
           </aside>
-          <div className="map-column">
+          <div id="exploration-map" className="map-column">
             <MarsMap
               base={base}
+              tripPath={tripPath}
+              onViewportChange={onViewportChange}
               placingBase={placingBase}
               onBaseChange={setBase}
               onBasePlaced={() => setPlacingBase(false)}
+              onCancelBasePlacement={() => setPlacingBase(false)}
               focusRequest={focusRequest}
               selectedStopId={selectedId}
               catalogCandidate={catalogCandidate}
@@ -493,8 +646,17 @@ export default function App() {
               <span className="data-badge">SOURCE-LINKED</span>
             </div>
           </div>
-          <aside className="details-panel" aria-label="Science information">
+          <aside
+            id="science-information"
+            className="details-panel"
+            aria-label="Science information"
+          >
             <span className="eyebrow">02 / UNDERSTAND</span>
+            {(catalogFeature || selected) && (
+              <a className="inspect-evidence-link" href="#evidence-inspector">
+                Inspect this destination’s evidence ↓
+              </a>
+            )}
             {catalogFeature ? (
               <CatalogFeatureDetails
                 feature={catalogFeature}
@@ -548,12 +710,10 @@ export default function App() {
                     </dd>
                   </div>
                 </dl>
-                <StopInvestigation
-                  key={selected.id}
-                  stop={selected}
-                  mode={mobility}
-                />
-                <StopEvidence key={selected.id} stop={selected} />
+                <p className="quiet">
+                  The evidence workspace below contains the proposed
+                  investigation, surface photograph and position review.
+                </p>
                 <a
                   className="text-link"
                   href={selected.source}
@@ -574,8 +734,7 @@ export default function App() {
                 )}
                 <p className="quiet">
                   Orbital imagery and rover observations are separate evidence
-                  sources. Access for the selected exploration mode remains
-                  unverified.
+                  sources. Access for simulated exploration remains unverified.
                 </p>
               </section>
             ) : (
@@ -599,7 +758,96 @@ export default function App() {
             )}
           </aside>
         </div>
-        <MissionSettings mode={mobility} onModeChange={setMobility} />
+        <div className="trip-add-actions">
+          <button
+            type="button"
+            disabled={!selected && !catalogFeature}
+            onClick={() => {
+              if (catalogFeature) {
+                const tasks = [
+                  'Define a scientific question and exact observation site.',
+                  'Review imagery, terrain gaps, instruments and access before fieldwork.',
+                ];
+                addToTrip([
+                  {
+                    id: catalogFeature.id,
+                    name: catalogFeature.name,
+                    latitude: catalogFeature.latitude,
+                    longitude: catalogFeature.longitude,
+                    reference: 'catalogue-centre',
+                    sourceUrl: catalogFeature.sourceUrl,
+                    tasks,
+                    completed: tasks.map(() => false),
+                    workMinutes: '',
+                  },
+                ]);
+              } else if (selected) {
+                const stop = sampleTripStop(selected.id);
+                if (stop) addToTrip([stop]);
+              }
+            }}
+          >
+            Add selected destination to trip
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              addToTrip(
+                stops.flatMap((s) => {
+                  const item = sampleTripStop(s.id);
+                  return item ? [item] : [];
+                }),
+              )
+            }
+          >
+            Add three Jezero references to trip
+          </button>
+          <p role="status">{tripNotice}</p>
+        </div>
+        <TripPlanner
+          draft={draft}
+          onChange={changeDraft}
+          onInspect={(stop) => {
+            if (
+              stop.reference === 'approximate-sample' &&
+              stops.some((s) => s.id === stop.id)
+            ) {
+              setCatalogFeature(null);
+              setSelectedId(stop.id);
+              setFocusRequest((n) => n + 1);
+              document
+                .getElementById('evidence-inspector')
+                ?.scrollIntoView({ block: 'start' });
+            } else {
+              const feature =
+                addedFeatures.find((f) => f.id === stop.id) ??
+                (catalogFeature?.id === stop.id ? catalogFeature : null);
+              if (feature) {
+                selectFeature(feature);
+                document
+                  .getElementById('evidence-inspector')
+                  ?.scrollIntoView({ block: 'start' });
+              } else {
+                setTripNotice(
+                  'Use the stop’s reference link or find it in Discover Mars features to review its official details.',
+                );
+              }
+            }
+          }}
+        />
+        <EvidenceInspector
+          key={catalogFeature?.id ?? selected?.id ?? 'no-evidence-target'}
+          target={
+            catalogFeature
+              ? { kind: 'catalogue', feature: catalogFeature }
+              : selected
+                ? { kind: 'sample', stop: selected }
+                : null
+          }
+          mode={mobility}
+          onViewLayer={viewEvidenceLayer}
+        />
+        <HistoricalEnvironment />
         <footer id="sources">
           <div>
             <span className="eyebrow">DATA & PROVENANCE</span>
@@ -617,7 +865,8 @@ export default function App() {
             MARTIAN MAP / LOCAL PREVIEW{' '}
             <span>
               Ancient water investigation · {mobilityProfile(mobility).label} ·
-              {base ? 'Simulated base set' : 'Base unset'} · Routes unavailable
+              {base ? 'Simulated base set' : 'Base unset'} · Distance estimates
+              only
             </span>
           </p>
         </footer>

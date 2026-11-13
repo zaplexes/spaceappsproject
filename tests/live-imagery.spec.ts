@@ -1,3 +1,4 @@
+import { openJezeroControls } from './jezero-controls';
 import { expect, test } from '@playwright/test';
 import { worldSources, tileUrl } from '../src/data/layers';
 test('live NASA imagery renders, navigates and produces review screenshots', async ({
@@ -47,6 +48,7 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
   await expect(
     page.getByRole('button', { name: 'Zoom in', exact: true }),
   ).toBeVisible();
+  await openJezeroControls(page, true);
   await expect(page.getByText('Jezero CTX imagery: loaded')).toBeVisible({
     timeout: 60000,
   });
@@ -130,22 +132,6 @@ test('live NASA imagery renders, navigates and produces review screenshots', asy
     ),
   ).toBe(true);
   expect(errors).toEqual([]);
-  await expect(page.getByLabel('Scientific goal')).toHaveValue('ancient-water');
-  await page.getByLabel('Exploration mode').selectOption('crewed-vehicle');
-  await expect(page.getByTestId('active-mobility')).toHaveText(
-    'Astronauts in a crew vehicle',
-  );
-  await page
-    .locator('.mission-panel')
-    .screenshot({ path: 'docs/mission-vehicle.png' });
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.getByLabel('Exploration mode').selectOption('robotic-rover');
-  await expect(page.getByTestId('active-mobility')).toHaveText(
-    'Robotic ground rover',
-  );
-  await page
-    .locator('.mission-panel')
-    .screenshot({ path: 'docs/mission-rover.png' });
   await page.getByLabel('Jezero estimated slope', { exact: false }).uncheck();
   const catalogue = page.getByRole('region', {
     name: 'Mars feature catalogue',

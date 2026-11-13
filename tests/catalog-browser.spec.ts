@@ -116,9 +116,9 @@ test('real catalogue supports bounded browsing, region/type filters and candidat
   await details
     .getByRole('button', { name: 'Add candidate science stop' })
     .click();
-  await expect(
-    page.getByRole('button', { name: 'Compare stops' }),
-  ).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Compare stops' })).toHaveCount(
+    0,
+  );
   await details
     .getByText('Catalogue provenance & limitations', { exact: true })
     .click();

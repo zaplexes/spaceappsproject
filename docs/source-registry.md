@@ -61,3 +61,10 @@ Bulk rasters and PDS tables remain outside Git. The small Mars nomenclature KMZ 
 The [Mars feature catalogue](crater-catalogue.md) adds a retained exact export, a hash-named search index and 31 regional files. The integrity gate rebuilds these from the export and compares their bytes and manifest. It also verifies named-feature filtering, duplicate handling and coordinate consistency through the catalogue tests. Pages refreshes the export before validation/build, and each published release serves its own source export for provenance.
 
 Four [feature map layers](feature-map-layers.md) add eleven exact metadata snapshots and viewport coverage states. The integrity gate checks JPEG/PNG endpoints, 256/512-pixel geographic grids, product identities, envelopes, CTX Mars WKT and the retained 44-unit global geology legend.
+
+
+## Added historical environment and sparse terrain context
+
+The registry now has fifteen products, including the published NASA/JPL MEDA report. Its observation windows are reviewed separately; no selected catalogue feature inherits historical rover weather. The report is identified as a historical summary with exact sensor coordinates and upstream snapshot checksum unavailable. The curated local manifest is hashed independently; it is not represented as the upstream article bytes.
+
+The retained-data gate additionally checks the curated MEDA manifest and numerical terrain-context asset: **64 retained metadata/display files**. Numeric context comes from the same pinned CTX DEM; its separate manifest retains sparse sampling/rounding, source SHA-256 and analysis-ineligible status. It does not replace the original elevation/slope products or resolve their scientific limitations. See [trip planning](trip-planning.md).

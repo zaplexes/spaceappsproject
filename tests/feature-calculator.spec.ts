@@ -113,9 +113,7 @@ test.beforeEach(async ({ page }) => {
 
 async function openCalculator(page: import('@playwright/test').Page) {
   await page.getByText('Discover Mars features', { exact: true }).click();
-  await page
-    .getByText('Calculate best destinations · Top 10', { exact: true })
-    .click();
+  await page.locator('.feature-calculator > summary').click();
   return page.locator('.feature-calculator');
 }
 
@@ -129,6 +127,7 @@ test('base, top ten, explanations, weight validation, detail selection and sessi
   await expect(calc).toContainText(
     'Set your base to calculate recommendations.',
   );
+  await page.getByText('Enter coordinates instead', { exact: true }).click();
   await page.getByLabel('Base latitude').fill('18.4446');
   await page.getByLabel('Base longitude').fill('77.4509');
   await page.getByRole('button', { name: 'Set base coordinates' }).click();
@@ -139,6 +138,7 @@ test('base, top ten, explanations, weight validation, detail selection and sessi
     'Terrain evidence could change the recommendation.',
   );
   const first = calc.locator('.destination-results > li').first();
+  await first.getByText('Why this score?', { exact: true }).click();
   await expect(first).toContainText('Unknown · 0–20 points unresolved');
   await expect(
     first.getByRole('link', { name: 'Feature data & source' }),
@@ -154,6 +154,9 @@ test('base, top ten, explanations, weight validation, detail selection and sessi
   await calc.getByRole('button', { name: 'Reset scoring preferences' }).click();
   await expect(calc.locator('.destination-results > li')).toHaveCount(10);
   await calc.getByLabel('Rank feature types').selectOption('AA');
+  await calc
+    .getByText('Study interest by feature type', { exact: true })
+    .click();
   await calc
     .getByLabel('Crater, craters study interest (%)', { exact: true })
     .fill('100');
@@ -217,6 +220,7 @@ test('mobile coordinate entry works without WebGL and keeps ranking within the v
     } as typeof original;
   });
   await page.goto('/');
+  await page.getByText('Enter coordinates instead', { exact: true }).click();
   await page.getByLabel('Base latitude').fill('18.4446');
   await page.getByLabel('Base longitude').fill('77.4509');
   await page.getByRole('button', { name: 'Set base coordinates' }).click();

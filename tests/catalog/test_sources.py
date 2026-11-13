@@ -28,6 +28,7 @@ class SourceChecks(unittest.TestCase):
             "src/data/generated/elevation.json",
             "src/data/generated/geology.json",
             "src/data/generated/slope.json",
+            "src/data/generated/terrain-context.json",
         ]:
             self.copy(path)
 
@@ -43,7 +44,7 @@ class SourceChecks(unittest.TestCase):
         path.write_text(json.dumps(data))
 
     def test_retained_files_match_review(self):
-        self.assertEqual(len(CHECK.validate(self.root)), 62)
+        self.assertEqual(len(CHECK.validate(self.root)), 64)
 
     def test_changed_metadata_and_display_bytes_are_rejected(self):
         for relative in [

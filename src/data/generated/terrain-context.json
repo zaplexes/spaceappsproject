@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sourceProductId": "JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0",
+  "sourceSha256": "16a1aa66c3f48c1bca252795827db7b417876217aff0f5e1aff18027fab2327b",
+  "assetUrl": "/terrain-context.json",
+  "assetSha256": "a1c90d84166a3d640d23943a21124bbebd0d6ccf49db0afde6c6ce0b3045ff79",
+  "sampleSpacingMetresInProjection": 160.0,
+  "sourcePixelSizeMetres": 20.0,
+  "sampleCount": 37611,
+  "bounds": [
+    77.16046545922367, 18.211027390963398, 77.69897516629472, 18.721194481872804
+  ],
+  "verticalDatum": "Mars areoid (DeltaGeoid); not radius above renderer sphere",
+  "analysisEligible": false,
+  "method": "Every eighth source pixel from row/column 4; nearest stored centre, no interpolation. Heights rounded to 0.1 m; exploratory Horn gradients rounded to 0.01 degree. Route samples are sparse context, not corridor checks."
+}

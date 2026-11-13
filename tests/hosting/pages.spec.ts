@@ -62,14 +62,28 @@ test('static hosting loads the globe, all stop photos and both overlays inside i
   await page.getByLabel('Jezero estimated slope', { exact: false }).check();
   await expect(page.getByTestId('slope-status')).toContainText('loaded');
   await expect(page.getByTestId('candidate-highlight')).toBeVisible();
-  await expect(page.getByLabel('Scientific goal')).toHaveValue('ancient-water');
-  await page.getByLabel('Exploration mode').selectOption('robotic-rover');
-  await expect(page.getByTestId('active-mobility')).toHaveText(
-    'Robotic ground rover',
-  );
   const plan = page.getByRole('region', { name: 'Amalik science plan' });
   await plan.getByText('Proposed science tasks', { exact: true }).click();
-  await expect(plan).toContainText('selected rover payload');
+  await expect(plan).toContainText('Proposed tasks · Walking astronauts');
+  await page.getByText('Enter coordinates instead', { exact: true }).click();
+  await page.getByLabel('Base latitude').fill('18.4446');
+  await page.getByLabel('Base longitude').fill('77.4509');
+  await page.getByRole('button', { name: 'Set base coordinates' }).click();
+  await page
+    .getByRole('button', { name: 'Add three Jezero references to trip' })
+    .click();
+  const trip = page.getByRole('region', { name: 'Round-trip planner' });
+  await trip
+    .getByText('Sampled terrain context · exploratory', { exact: true })
+    .click();
+  await expect(trip).toContainText('arc samples have local elevation context');
+  const contextResponse = await request.get(
+    new URL('terrain-context.json', location).href,
+  );
+  expect(contextResponse.ok()).toBe(true);
+  await expect(
+    page.getByRole('region', { name: 'Historical MEDA observations' }),
+  ).toContainText('718 Pa');
   const catalogue = page.getByRole('region', {
     name: 'Mars feature catalogue',
   });

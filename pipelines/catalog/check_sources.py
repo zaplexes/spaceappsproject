@@ -299,6 +299,27 @@ def validate(root: Path):
         raise ValueError("Catalogue manifest differs from reproducible source import")
     for relative, expected in expected_files.items():
         verify(relative, hashlib.sha256(expected).hexdigest(), len(expected))
+    context = read_json(root, "src/data/generated/terrain-context.json")
+    if (
+        context["analysisEligible"] is not False
+        or context["sourceSha256"]
+        != read_json(root, "src/data/generated/elevation.json")["sourceSha256"]
+    ):
+        raise ValueError("Terrain context eligibility/source changed without review")
+    raw_context = verify("assets" + context["assetUrl"], context["assetSha256"])
+    grid = json.loads(raw_context)
+    if (
+        len(grid["samples"]) != context["sampleCount"]
+        or grid["width"] * grid["height"] != context["sampleCount"]
+    ):
+        raise ValueError("Invalid numerical terrain sample count")
+    meda = read_json(root, "data/manifests/meda-history.json")
+    if (
+        meda["analysisEligible"] is not False
+        or meda["coordinates"] is not None
+        or len(meda["observations"]) != 2
+    ):
+        raise ValueError("Historical MEDA scope changed without review")
     return sorted(verified)
 
 

@@ -7,6 +7,16 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:4173',
     browserName: 'chromium',
+    // Feature tests start after onboarding; usage-guide.spec.ts tests first visits.
+    storageState: {
+      cookies: [],
+      origins: [4173, 4175, 5176].map((port) => ({
+        origin: `http://127.0.0.1:${port}`,
+        localStorage: [
+          { name: 'martian-map-guide-dismissed-v1', value: 'true' },
+        ],
+      })),
+    },
     launchOptions: {
       args: [
         '--use-gl=angle',

@@ -1,5 +1,7 @@
 # Ancient-water investigation and exploration modes
 
+The old standalone Mission settings and disabled comparison panel were removed. The current round-trip planner has optional mission settings and updates mode-specific proposed tasks. It defaults to distance-only estimates; all capability inputs remain blank until the user supplies them. See [trip planning](trip-planning.md).
+
 Accepted November 12, 2026: the user approved the proposed science mission and requested options for astronauts in vehicles and robotic ground rovers. “Hovers” was clarified as **robotic ground rovers**. The available modes are walking astronauts, astronauts in a crew vehicle and a robotic ground rover; walking is the initial selection.
 
 ## Scientific goal
@@ -24,7 +26,7 @@ Direct mineral measurements remain unavailable in the map. Orbital images, surfa
 
 ## Exploration modes
 
-Choose **Exploration mode** in Mission settings. The selection updates the exploration description, profile requirements and the selected stop's **Proposed science tasks**. It lasts for the current page session. The agreed science goal remains active when changing modes and after reload.
+Choose **Exploration mode** under **Define mission settings (optional)** in the round-trip planner. The selection updates the exploration description, profile requirements and the selected stop's **Proposed science tasks**. It lasts for the current page session. The agreed science goal remains active when changing modes and after reload.
 
 | Mode | Proposed activity pattern | Inputs still needed |
 | --- | --- | --- |
@@ -36,11 +38,11 @@ Profiles have separate unconfigured capability records. No speed, range, slope l
 
 ## Analysis gates and implementation
 
-The goal is selected, but comparison and routing remain unavailable. They still require a base, verified stop locations, evidence eligibility, actual equipment/mobility assumptions, budgets, scoring features/weights and validation. Approximate selection highlights remain display-only; exact stop coordinates remain null. Changing modes does not create a route or compute feasibility.
+The goal is selected and distance-only trip estimates are available. Terrain-aware comparison and routing remain unavailable. They still require a base, verified stop locations, evidence eligibility, actual equipment/mobility assumptions, budgets, scoring features/weights and validation. Approximate selection highlights remain display-only; exact stop coordinates remain null. Changing modes does not establish terrain access or physical feasibility.
 
 - `src/data/mission.ts`: agreed goal, initial state and separate mobility profiles.
 - `src/data/investigations.ts`: per-stop questions, proposed evidence review and mode-specific tasks with dossier links.
-- `src/MissionSettings.tsx`: selected goal, exploration-mode control, profile requirements and remaining comparison gates.
+- `src/planning/TripPlanner.tsx`: optional mode/budget assumptions, preliminary return-trip estimates and field plans.
 - `src/StopInvestigation.tsx`: selected stop's proposed investigation, clearly separated from its historical sample record.
 
 Automated checks cover mode switching, task/source consistency, selection persistence, independent unconfigured capabilities, goal state, remaining analysis gates, mobile keyboard interaction, WebGL fallback and session reset. See [team decisions](team-decisions.md) for unresolved numerical and operational assumptions.

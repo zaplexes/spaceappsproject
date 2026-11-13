@@ -89,7 +89,7 @@ for (const mobile of [false, true]) {
     ).toBe(true);
     await expect(
       page.getByRole('button', { name: 'Compare stops' }),
-    ).toBeDisabled();
+    ).toHaveCount(0);
     await page
       .getByRole('region', { name: 'Jezero map', exact: true })
       .screenshot({

@@ -28,7 +28,7 @@ For the public site, inspect the browser console and network panel and exercise 
 3. Toggle HiRISE and CTX; inspect service-extent and loading/failure messages.
 4. Enable elevation, geology and estimated slope in turn; check their distinct legends and source limitations.
 5. Open Discover Mars features, search for Gale, select it and add/remove a candidate. Check the catalogue-centre label and source; verify the snapshot retrieval time.
-6. Check a narrow viewport and keyboard selection. Confirm that the ancient-water goal is selected, all three exploration modes are available and comparison remains unavailable while operational inputs are undecided.
+6. Check a narrow viewport and keyboard selection. Confirm that the ancient-water goal is selected, optional trip assumptions remain blank initially and the calculator is provisional. Add a trip, check the return leg, enter assumptions, export/import a plan and verify that terrain feasibility stays unknown.
 
 Record the deployed source commit, Actions result, checked URL, verification date and remaining limitations in the implementation checklist. A local passing build alone does not complete public-release verification.
 
@@ -62,7 +62,7 @@ Run the relevant pipeline tests, local integrity gate, build and affected browse
 
 Identify the failed release's source commit and the last verified release through Git history and Actions. Reproduce the earlier source state in a separate checkout, install from its lockfile, run its data/build/hosting checks and compare its manifests. For an agreed rollback, create a focused revert through the normal version-control workflow, review it and deploy it through Pages. Retain the current source history; avoid resetting a shared branch or hand-editing a published bundle.
 
-Code, local assets and their scientific manifests must be recovered as one compatible release. The workflow's short-lived uploaded artifact is not a durable backup. Bulk scientific inputs remain outside Git and can be recovered from reviewed URLs only if the same bytes remain available; checksums detect changes but do not restore lost upstream data. A versioned bulk-data backup, retention policy and restore exercise are still pending team/infrastructure decisions. There is currently no database or saved user-plan state to restore.
+Code, local assets and their scientific manifests must be recovered as one compatible release. The workflow's short-lived uploaded artifact is not a durable backup. Bulk scientific inputs remain outside Git and can be recovered from reviewed URLs only if the same bytes remain available; checksums detect changes but do not restore lost upstream data. A versioned bulk-data backup, retention policy and restore exercise are still pending team/infrastructure decisions. There is no database. Browser drafts can be lost with browser data; export JSON and use validated import to restore a plan. Automated tests cover that round trip; do not treat browser storage as a durable archive.
 
 After rollback or recovery, repeat the public-site checks above and record the outcome and limitations. Backup and production recovery checklist items remain incomplete until the team defines and tests the required guarantees.
 
@@ -73,3 +73,10 @@ Pages runs `npm run refresh:catalog` before integrity checks/build. Failed downl
 ## Global feature layers
 
 Verify global CTX, optional THEMIS infrared, global relief and geology at Gale, then a polar view to inspect partial/outside coverage. Check that Jezero local layers retain their names/extents and that returning to Jezero updates the slope gap. Global failures have layer-specific Retry controls; original stop evidence remains available. Refresh these curated products through the [feature-layer source workflow](feature-map-layers.md), independently of the automatic named-feature catalogue refresh. All new services use public endpoints without credentials.
+
+
+## Round-trip and historical-observation release checks
+
+Exercise twelve-stop limits, duplicate prevention, ordering, removal, return distance, empty work-time handling, mode-specific proposed tasks, invalid mission inputs and budget overruns. Verify that a budget fit never reports safe/feasible terrain. Save/reload a local draft, export/import JSON, reject malformed/oversized/unsupported imports without changing the current trip, and print a field plan including assumptions, sources and limitations. Test storage-blocked and WebGL-disabled operation. A deleted saved draft does not erase the displayed plan.
+
+The numerical context grid is integrity-checked and sparse; a failure must offer retry without disabling distance estimates. MEDA period changes must keep first-session pressure separate from later temperature/wind reports. Source snapshots and numerical samples are checked by `npm run check:data`. See [trip planning](trip-planning.md) and [release scope](release-scope.md).

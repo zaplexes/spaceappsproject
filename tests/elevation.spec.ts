@@ -69,9 +69,9 @@ test('elevation overlay has a source-based datum legend, opacity and limited cov
   );
   await toggle.uncheck();
   await expect(page.getByTestId('elevation-status')).toHaveCount(0);
-  await expect(
-    page.getByRole('button', { name: 'Compare stops' }),
-  ).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Compare stops' })).toHaveCount(
+    0,
+  );
   expect(errors).toEqual([]);
 });
 
