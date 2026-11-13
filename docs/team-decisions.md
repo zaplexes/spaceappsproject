@@ -59,6 +59,8 @@ Needed before: round-trip feasibility and terrain-aware routing. These are simul
 
 ## 5. Comparison and ranking
 
+November 12, 2026: user approved a separate global discovery calculator with a user-selected simulated base, top ten feature suggestions and adjustable study/distance/terrain weights of 50/30/20. Study potential uses explicitly labeled editable feature-type heuristics; missing terrain stays unknown with score ranges. This does not resolve the evidence-based mission scoring choices below. See [destination calculator](destination-calculator.md).
+
 Decide after the scientific goal and excursion assumptions are agreed.
 
 - [ ] **Science features:** Which evidence should contribute to scientific value?

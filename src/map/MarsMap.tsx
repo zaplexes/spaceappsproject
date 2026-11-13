@@ -10,6 +10,7 @@ import {
   type CandidateLocation,
 } from '../data/candidate-locations';
 import type { Coverage } from '../data/coverage';
+import type { BasePosition } from '../planning/BasePoint';
 import type {
   createMarsViewer,
   LayerStatus,
@@ -17,6 +18,10 @@ import type {
   RasterOverlayState,
 } from './create-mars-viewer';
 export function MarsMap({
+  base = null,
+  placingBase = false,
+  onBaseChange,
+  onBasePlaced,
   focusRequest = 0,
   selectedStopId = null,
   catalogCandidate = null,
@@ -31,6 +36,10 @@ export function MarsMap({
   slopeEnabled = false,
   slopeOpacity = 0.65,
 }: {
+  base?: BasePosition | null;
+  placingBase?: boolean;
+  onBaseChange?: (base: BasePosition) => void;
+  onBasePlaced?: () => void;
   focusRequest?: number;
   selectedStopId?: string | null;
   catalogCandidate?: CandidateLocation | null;
@@ -45,6 +54,8 @@ export function MarsMap({
   slopeEnabled?: boolean;
   slopeOpacity?: number;
 }) {
+  const baseInteraction = useRef({ placingBase, onBaseChange, onBasePlaced });
+  baseInteraction.current = { placingBase, onBaseChange, onBasePlaced };
   const cameraHeightCallback = useRef(onCameraHeightChange);
   cameraHeightCallback.current = onCameraHeightChange;
   const host = useRef<HTMLDivElement>(null);
@@ -149,6 +160,12 @@ export function MarsMap({
             (height) => {
               if (!disposed) cameraHeightCallback.current?.(height);
             },
+            (position) => {
+              if (!disposed && baseInteraction.current.placingBase) {
+                baseInteraction.current.onBaseChange?.(position);
+                baseInteraction.current.onBasePlaced?.();
+              }
+            },
           );
           controller.current = active;
           active.setElevationOpacity(elevationRef.current.opacity);
@@ -175,6 +192,9 @@ export function MarsMap({
       controller.current = null;
     };
   }, [attempt]);
+  useEffect(() => {
+    if (mapState === 'ready') controller.current?.setBase(base);
+  }, [base, mapState]);
   useEffect(() => {
     for (const source of tileSources)
       controller.current?.toggle(source.id, visible[source.id]);
@@ -204,7 +224,7 @@ export function MarsMap({
   }, [slopeEnabled, slopeOpacity]);
   return (
     <section
-      className="map-section"
+      className={`map-section${placingBase ? ' placing-base' : ''}`}
       aria-label={selectedStopId ? 'Jezero map' : 'Mars discovery map'}
     >
       <div ref={host} className="map-host" data-testid="map-host" />

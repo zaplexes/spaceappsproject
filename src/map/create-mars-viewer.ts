@@ -2,7 +2,11 @@ import { addImageryFallback } from './imagery-fallback';
 import { localAssetUrl } from '../data/asset-url';
 import {
   Cartesian3,
+  ConstantPositionProperty,
   Color,
+  ScreenSpaceEventHandler,
+  ScreenSpaceEventType,
+  Cartesian2,
   Ellipsoid,
   EllipsoidTerrainProvider,
   GeographicProjection,
@@ -31,6 +35,7 @@ import { createRasterOverlay } from './create-raster-overlay';
 import slope from '../data/generated/slope.json' with { type: 'json' };
 import { layerCoverage, type LayerCoverage } from './layer-coverage';
 import { isWorldColour } from '../data/layers';
+import type { BasePosition } from '../planning/BasePoint';
 export interface RasterOverlayState {
   status: LayerStatus;
   coverage: Coverage;
@@ -51,6 +56,7 @@ export function createMarsViewer(
   onSlopeChange?: (state: RasterOverlayState) => void,
   onLayerCoverage?: (coverage: LayerCoverage) => void,
   onCameraHeightChange?: (height: number) => void,
+  onSurfaceClick?: (position: BasePosition) => void,
 ) {
   const mars = marsReferenceEllipsoid;
   Ellipsoid.default = mars;
@@ -86,6 +92,33 @@ export function createMarsViewer(
   viewer.scene.screenSpaceCameraController.maximumZoomDistance = 16000000;
   viewer.scene.screenSpaceCameraController.enableTilt = false;
   const canvas = viewer.canvas;
+  const baseMarker = viewer.entities.add({
+    name: 'Simulated astronaut base',
+    show: false,
+    point: {
+      pixelSize: 14,
+      color: Color.CYAN,
+      outlineColor: Color.BLACK,
+      outlineWidth: 2,
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    },
+    label: {
+      text: 'Simulated base',
+      font: '14px sans-serif',
+      pixelOffset: new Cartesian2(0, -24),
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    },
+  });
+  const surfaceClicks = new ScreenSpaceEventHandler(canvas);
+  surfaceClicks.setInputAction((event: { position: Cartesian2 }) => {
+    const point = viewer.camera.pickEllipsoid(event.position, mars);
+    if (!point) return;
+    const coordinates = mars.cartesianToCartographic(point);
+    onSurfaceClick?.({
+      latitude: CesiumMath.toDegrees(coordinates.latitude),
+      longitude: CesiumMath.toDegrees(coordinates.longitude),
+    });
+  }, ScreenSpaceEventType.LEFT_CLICK);
   canvas.tabIndex = 0;
   canvas.setAttribute(
     'aria-label',
@@ -309,6 +342,14 @@ export function createMarsViewer(
     if (initialLayerVisibility[source.id]) install(source.id);
   }
   return {
+    setBase(base: BasePosition | null) {
+      baseMarker.show = base !== null;
+      if (base)
+        baseMarker.position = new ConstantPositionProperty(
+          Cartesian3.fromDegrees(base.longitude, base.latitude, 0, mars),
+        );
+      viewer.scene.requestRender();
+    },
     command,
     highlightCandidate: candidateHighlight?.select,
     setGeology: geologyOverlay.setEnabled,
@@ -365,6 +406,7 @@ export function createMarsViewer(
       install(id);
     },
     destroy() {
+      surfaceClicks.destroy();
       alive = false;
       elevationRequest++;
       removeCameraChanged();

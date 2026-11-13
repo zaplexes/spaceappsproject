@@ -26,7 +26,10 @@ import { SlopeLegend } from './SlopeLegend';
 import { CatalogBrowser } from './catalog/CatalogBrowser';
 import { CatalogFeatureDetails } from './catalog/CatalogFeatureDetails';
 import { catalogLocation, type CatalogFeature } from './catalog/catalog';
+import { BasePoint, type BasePosition } from './planning/BasePoint';
 export default function App() {
+  const [base, setBase] = useState<BasePosition | null>(null);
+  const [placingBase, setPlacingBase] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusRequest, setFocusRequest] = useState(0);
   const [catalogOpen, setCatalogOpen] = useState(false);
@@ -140,7 +143,15 @@ export default function App() {
                 look.
               </p>
             </div>
+            <BasePoint
+              key={base ? `${base.latitude},${base.longitude}` : 'unset'}
+              base={base}
+              placing={placingBase}
+              onPlacingChange={setPlacingBase}
+              onChange={setBase}
+            />
             <CatalogBrowser
+              base={base}
               onSelect={selectFeature}
               selectedId={catalogFeature?.id ?? null}
               selectionRevision={focusRequest}
@@ -450,6 +461,10 @@ export default function App() {
           </aside>
           <div className="map-column">
             <MarsMap
+              base={base}
+              placingBase={placingBase}
+              onBaseChange={setBase}
+              onBasePlaced={() => setPlacingBase(false)}
               focusRequest={focusRequest}
               selectedStopId={selectedId}
               catalogCandidate={catalogCandidate}
@@ -592,7 +607,9 @@ export default function App() {
             <p>
               Public imagery via NASA Trek and Caltech/Esri, global relief and
               geological context, plus local Jezero elevation and estimated
-              slope. No 3D relief, ranking or route analysis.
+              slope. Feature-value suggestions use editable simulation
+              preferences; terrain-aware routing and 3D relief remain
+              unavailable.
             </p>
           </div>
           <SourceRegistry />
@@ -600,7 +617,7 @@ export default function App() {
             MARTIAN MAP / LOCAL PREVIEW{' '}
             <span>
               Ancient water investigation · {mobilityProfile(mobility).label} ·
-              Base unset · Routes unavailable
+              {base ? 'Simulated base set' : 'Base unset'} · Routes unavailable
             </span>
           </p>
         </footer>

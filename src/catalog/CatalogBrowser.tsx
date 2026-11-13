@@ -8,6 +8,8 @@ import {
   type CatalogFeature,
 } from './catalog';
 import geology from '../data/generated/geology.json' with { type: 'json' };
+import { FeatureCalculator } from '../planning/FeatureCalculator';
+import type { BasePosition } from '../planning/BasePoint';
 
 const PAGE_SIZE = 8;
 
@@ -16,11 +18,13 @@ export function CatalogBrowser({
   selectedId,
   selectionRevision,
   onOpenChange,
+  base,
 }: {
   onSelect: (feature: CatalogFeature) => void;
   selectedId: string | null;
   selectionRevision: number;
   onOpenChange: (open: boolean) => void;
+  base: BasePosition | null;
 }) {
   const [open, setOpen] = useState(false);
   const [entries, setEntries] = useState<CatalogEntry[] | null>(null);
@@ -135,6 +139,11 @@ export function CatalogBrowser({
         )}
         {entries && (
           <>
+            <FeatureCalculator
+              entries={entries}
+              base={base}
+              onSelect={(entry) => void select(entry)}
+            />
             <label>
               Search features
               <input

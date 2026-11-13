@@ -27,6 +27,8 @@ Walking astronauts are the initial exploration mode. Crewed vehicles and robotic
 
 ## Decisions still open
 
+A global feature-value discovery calculator is now authorized separately: selectable simulated base, top ten, editable 50/30/20 study/distance/terrain weights, explicit study heuristics and unknown-terrain score ranges. See [destination calculator](destination-calculator.md). This is separate from terrain-aware excursion analysis.
+
 Scoring features and weights; equipment and mobility assumptions; simulated base and supported analysis area. See [team decisions](team-decisions.md) for the current decision list. Exact stop locations remain a scientific verification task. Static GitHub Pages hosting and visibly unverified approximate selection highlights are approved.
 
 ## Scope boundaries
