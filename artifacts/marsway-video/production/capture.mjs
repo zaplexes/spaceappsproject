@@ -25,7 +25,10 @@ async function scene(name, action) {
   await action();
   const end = (performance.now() - anchor) / 1000;
   scenes.push({ name, start, duration: end - start });
-  await writeFile(`${root}/raw/scenes.json`, JSON.stringify(scenes, null, 2));
+  await writeFile(
+    `${root}/raw/scenes.json`,
+    `${JSON.stringify(scenes, null, 2)}\n`,
+  );
   console.log(name, start, end);
 }
 try {

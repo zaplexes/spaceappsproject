@@ -1,5 +1,10 @@
 # Marsway — Implementation Checklist
 
+### 2026-11-14 — Scene metadata formatting correction
+
+- Added the missing final newline to the video scene metadata and updated the capture script to write it on future recordings. Parsed JSON values remain identical.
+- Pinned Prettier 3.10.0 checks passed for both changed video files. Node syntax validation and `git diff --check` passed. No commit, push or deployment performed.
+
 ### 2026-11-14 — Video capture lint correction
 
 - Removed the unused `mkdir` import and explicitly imported Node's console and performance APIs in the video capture script, addressing the five ESLint errors shown in the failed Pages build.
