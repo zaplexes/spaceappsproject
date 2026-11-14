@@ -1,5 +1,10 @@
 # Marsway — Implementation Checklist
 
+### 2026-11-14 — Video capture lint correction
+
+- Removed the unused `mkdir` import and explicitly imported Node's console and performance APIs in the video capture script, addressing the five ESLint errors shown in the failed Pages build.
+- Formatted the capture script with the pinned Prettier 3.10.0. Node syntax validation and `git diff --check` passed. Full lint/build could not run because npm and installed project dependencies are unavailable locally. Repository formatting check reports 100 other files; these were left unchanged. No commit, push or deployment performed.
+
 **Current direction — November 13, 2026:** Help astronauts choose the next destination on Mars. Feature types start with equal 50% study interest and user-adjustable priorities. Jezero investigations are optional examples. This supersedes earlier ancient-water mission and Jezero-only scope decisions below; see [current scope](project-scope.md).
 
 
